@@ -1,12 +1,27 @@
 const { fetchSubreddit } = require("fetch-subreddit");
+const axios = require("axios");
 
-exports.smug = async msg => {
+const grabInitialSmugs = async () => {
+  const imgurData = await axios.get(
+    `https://api.imgur.com/3/album/KXSvb/authorize?client_id=${
+      process.env.IMGUR_ID
+    }`
+  );
+  const megaCollectionOfSmugs = imgurData.data.data.images.map(i => {
+    return i.link;
+  });
+  return megaCollectionOfSmugs;
+};
+
+exports.smug = msg => {
   if (msg.content === "!smugs") {
     fetchSubreddit("Smugs")
-      .then(urls => {
+      .then(async urls => {
+        const initalSmugs = await grabInitialSmugs();
         const arrayOfURLS = urls[0].urls.slice(1);
+        const totalSmugs = [...arrayOfURLS, ...initalSmugs];
         const randomSmug =
-          arrayOfURLS[Math.floor(Math.random() * arrayOfURLS.length)];
+          totalSmugs[Math.floor(Math.random() * totalSmugs.length)];
         return msg.reply(randomSmug);
       })
       .catch(err => {
