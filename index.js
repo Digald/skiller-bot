@@ -1,7 +1,6 @@
 require("dotenv").config();
 const Disocrd = require("discord.js");
 const client = new Disocrd.Client();
-const textchannel = new Disocrd.TextChannel(client);
 const token = process.env.BOT_TOKEN;
 const rollDice = require("./scripts/roll-dice").rollDice;
 const commands = require("./scripts/commands").commands;
