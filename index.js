@@ -1,7 +1,9 @@
+// Discord dependencies 
 require("dotenv").config();
 const Disocrd = require("discord.js");
-const client = new Disocrd.Client();
 const token = process.env.BOT_TOKEN;
+const client = new Disocrd.Client();
+// Bot functions
 const rollDice = require("./scripts/roll-dice").rollDice;
 const commands = require("./scripts/commands").commands;
 const smug = require("./scripts/smug-waifu").smug;

@@ -1,7 +1,9 @@
 const Table = require("easy-table");
+const logger = require("../logger.js").logger;
 
 exports.commands = msg => {
   if (msg.content === "!help") {
+    logger(msg);
     const data = [
       {
         command: "!d <n>",
@@ -30,7 +32,6 @@ exports.commands = msg => {
       t.newRow();
       t.newRow();
     });
-    console.log(t.toString());
     const reply = `https://i.ytimg.com/vi/_vboPFgBUzI/maxresdefault.jpg \n\n ${t.toString()}`;
     return msg.reply(reply);
   }
