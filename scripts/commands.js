@@ -7,18 +7,24 @@ exports.commands = msg => {
     const data = [
       {
         command: "!d <n>",
-        name: "Roll Dice --->",
+        name: "Dice Roll --->",
         desc: "Get a random number between 1 & n."
       },
       {
         command: "!smugs",
-        name: "Smug Waifu Picture --->",
-        desc: "Posts a random picture of about 20 of a smug faced waifu."
+        name: "Random Smug Waifu Picture --->",
+        desc: "Posts a random smug faced waifu from imgur and reddit."
       },
       {
         command: "!myavatar",
         name: "Your Discord Avatar --->",
         desc: "Posts your discord avatar as an image."
+      },
+      {
+        command: "!reddit <subreddit>",
+        name: "Random Post --->",
+        desc:
+          "OFFICER ONLY. Posts a random title and url from requested subreddit page."
       },
       { command: "More to come..." }
     ];

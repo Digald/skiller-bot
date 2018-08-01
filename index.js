@@ -9,6 +9,7 @@ const commands = require("./scripts/commands").commands;
 const smug = require("./scripts/smug-waifu").smug;
 const lewds = require("./scripts/lewds").lewds;
 const myAvatar = require('./scripts/my-avatar').myAvatar;
+const randomSubPost = require('./scripts/random-subreddit-post').randomSubPost;
 
 client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`);
@@ -23,6 +24,7 @@ client.on("message", msg => {
   smug(msg);
   myAvatar(msg);
   lewds(msg);
+  randomSubPost(msg);
 });
 
 client.on("guildMemberAdd", member => {
