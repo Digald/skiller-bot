@@ -19,6 +19,9 @@ exports.randomSubPost = async msg => {
       //   .catch(err => {
       //     console.error(err);
       //   });
+      if (desiredSubreddit.toLowerCase() === 'the_donald' || desiredSubreddit.toLowerCase() === 'greatawakening') {
+        return;
+      }
       fetchPosts(`/r/${desiredSubreddit}`).then(data => {
         const randomPost =
           data.posts[Math.floor(Math.random() * data.posts.length)];
