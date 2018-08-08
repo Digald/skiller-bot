@@ -9,7 +9,7 @@ exports.rollDice = msg => {
 
   switch (msg.content) {
     case `!d ${msg.content.split(" ")[1]}`:
-      // logger(msg);
+      logger(msg);
       const dieNumber = msg.content.split(" ")[1];
       const dieArray = [];
       for (let i = 1; i <= parseInt(dieNumber); i++) {

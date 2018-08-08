@@ -21,6 +21,12 @@ exports.commands = msg => {
         desc: "Posts your discord avatar as an image."
       },
       {
+        command: "!lewds",
+        name: "Lewd pic --->",
+        desc:
+          "OFFICER ONLY. Self explanatory."
+      },
+      {
         command: "!reddit <subreddit>",
         name: "Random Post --->",
         desc:
