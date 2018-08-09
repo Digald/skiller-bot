@@ -36,4 +36,6 @@ client.on("guildMemberAdd", member => {
   channel.send(`Welcome to the server, ${member}`);
 });
 
+const port = process.env.PORT || 3000;
+
 client.login(token);
