@@ -11,13 +11,13 @@ const lewds = require("./scripts/lewds").lewds;
 const myAvatar = require('./scripts/my-avatar').myAvatar;
 const randomSubPost = require('./scripts/random-subreddit-post').randomSubPost;
 
-client.on("ready", () => {
+client.on("ready", (msg) => {
   console.log(`Logged in as ${client.user.tag}!`);
 });
 
 client.on("message", msg => {
-  if (msg.content === "ping") {
-    msg.reply("pong");
+  if (msg.content.toLowerCase() === "skiller-bot") {
+    msg.reply("Sup?");
   }
   commands(msg);
   rollDice(msg);
