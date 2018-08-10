@@ -55,9 +55,7 @@ Getting deployed is a work in progress.
 
 ## Built With
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+* [Discord.js](https://discord.js.org/#/docs/main/stable/general/welcome) - Library for connecting and using Discord with your bot
 
 ## Authors
 
