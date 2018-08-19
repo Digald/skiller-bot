@@ -21,6 +21,11 @@ exports.commands = msg => {
         desc: "Posts your discord avatar as an image."
       },
       {
+        command: "!pax",
+        name: "PAX Badge availability for 2019 --->",
+        desc: "Checks website to see if badges are still available in real time."
+      },
+      {
         command: "!lewds",
         name: "Lewd pic --->",
         desc:
