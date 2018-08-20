@@ -11,7 +11,9 @@ exports.pax = msg => {
         const friday = $("#badges .friday").text().trim();
         const saturday = $("#badges .saturday").text().trim();
         const sunday = $("#badges .sunday").text().trim();
-        const displayAvailability = `${threeday}\n${friday}\n${saturday}\n${sunday}`
+        const countdown = $("#countdown span").text().trim();
+        const countdownParsed = countdown.replace("Days", "Days, ").replace("Hrs", "Hrs, ").replace("Mins", "Mins, ");
+        const displayAvailability = `\nAvailable Badges:\n${threeday}\n${friday}\n${saturday}\n${sunday}\n\nCountdown to PAX: ${countdownParsed}\nhttps://www.showclix.com/event/ml2z850b05`
         msg.reply(displayAvailability);
         return;
       })
