@@ -2,7 +2,7 @@ const { fetchPosts } = require("fetch-reddit");
 const logger = require("../logger.js").logger;
 
 exports.randomSubPost = async msg => {
-  if (msg.content === `!reddit ${msg.content.split(" ")[1]}`) {
+  if (msg.content.toLowerCase() === `!reddit ${msg.content.split(" ")[1]}`) {
 
     if (msg.channel.name === "officer_lounge" || msg.channel.type === "dm") {
 

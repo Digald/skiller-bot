@@ -14,6 +14,9 @@ const pax = require('./scripts/pax-ticket-checker').pax;
 
 client.on("ready", msg => {
   console.log(`Logged in as ${client.user.tag}!`);
+  const responses = ["Sup Bitches", "Howdy-do"];
+  const randomRes = responses[Math.floor(Math.random() * responses.length)];
+  client.channels.get('203026827567038467').send(randomRes);
 });
 
 client.on("message", msg => {
@@ -35,6 +38,5 @@ client.on("guildMemberAdd", member => {
   channel.send(`Welcome to the server, ${member}`);
 });
 
-const port = process.env.PORT || 3000;
 
 client.login(token);

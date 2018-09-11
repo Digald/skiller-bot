@@ -2,7 +2,7 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 
 exports.pax = msg => {
-  if (msg.content === "!pax") {
+  if (msg.content.toLowerCase() === "!pax") {
     axios
       .get("http://south.paxsite.com/registration")
       .then(res => {

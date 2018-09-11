@@ -2,7 +2,7 @@ const Table = require("easy-table");
 const logger = require("../logger.js").logger;
 
 exports.commands = msg => {
-  if (msg.content === "!help") {
+  if (msg.content.toLowerCase() === "!help") {
     logger(msg);
     const data = [
       {

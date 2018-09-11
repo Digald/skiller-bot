@@ -2,7 +2,7 @@ const { fetchSubreddit } = require("fetch-subreddit");
 const logger = require("../logger.js").logger;
 
 exports.lewds = async msg => {
-  if (msg.content === "!lewds") {
+  if (msg.content.toLowerCase() === "!lewds") {
     logger(msg);
     if (msg.channel.name === "officer_lounge" || msg.channel.type === "dm") {
       const subreddits = ["ecchi", "Rule34LoL", "ZettaiRyouiki"];

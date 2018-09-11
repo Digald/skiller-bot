@@ -15,7 +15,7 @@ const grabInitialSmugs = async () => {
 };
 
 exports.smug = msg => {
-  if (msg.content === "!smugs") {
+  if (msg.content.toLowerCase() === "!smugs") {
     logger(msg);
     fetchSubreddit("Smugs")
       .then(async urls => {
