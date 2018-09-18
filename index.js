@@ -10,13 +10,19 @@ const smug = require("./scripts/smug-waifu").smug;
 const lewds = require("./scripts/lewds").lewds;
 const myAvatar = require("./scripts/my-avatar").myAvatar;
 const randomSubPost = require("./scripts/random-subreddit-post").randomSubPost;
-const pax = require('./scripts/pax-ticket-checker').pax;
+const pax = require("./scripts/pax-ticket-checker").pax;
 
 client.on("ready", msg => {
   console.log(`Logged in as ${client.user.tag}!`);
-  const responses = ["Sup Bitches", "Howdy-do"];
+  const responses = [
+    "Sup Bitches",
+    "Howdy-do",
+    "",
+    "01001011 01101001 01101100 01101100 00100000 01100001 01101100 01101100 00100000 01101000 01110101 01101101 01100001 01101110 01110011",
+    "I'm going to ban someone at random everytime I come online. Good luck everybody else!"
+  ];
   const randomRes = responses[Math.floor(Math.random() * responses.length)];
-  client.channels.get('203026827567038467').send(randomRes);
+  client.channels.get("203026827567038467").send(randomRes);
 });
 
 client.on("message", msg => {
@@ -37,6 +43,5 @@ client.on("guildMemberAdd", member => {
   // Send the message, mentioning the member
   channel.send(`Welcome to the server, ${member}`);
 });
-
 
 client.login(token);
