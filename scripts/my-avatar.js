@@ -5,6 +5,9 @@ exports.myAvatar = msg => {
   if (msg.content.toLowerCase() === "!myavatar") {
     logger(msg);
     // Send the user's avatar URL
+    if (!msg.author.avatarURL) {
+      msg.reply("You don't have an anime profile pic");
+    }
     msg.reply(msg.author.avatarURL);
   }
 };

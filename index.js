@@ -11,6 +11,9 @@ const lewds = require("./scripts/lewds").lewds;
 const myAvatar = require("./scripts/my-avatar").myAvatar;
 const randomSubPost = require("./scripts/random-subreddit-post").randomSubPost;
 const pax = require("./scripts/pax-ticket-checker").pax;
+const warcraftlogs = require('./scripts/warcraftlogs').warcraftlogs;
+
+// warcraftlogs();
 
 client.on("ready", msg => {
   console.log(`Logged in as ${client.user.tag}!`);
@@ -22,7 +25,8 @@ client.on("ready", msg => {
     "I'm going to ban someone at random everytime I come online. Good luck everybody else!"
   ];
   const randomRes = responses[Math.floor(Math.random() * responses.length)];
-  client.channels.get("203026827567038467").send(randomRes);
+  // Sends random message in array to discord
+  // client.channels.get("203026827567038467").send(randomRes);
 });
 
 client.on("message", msg => {
@@ -33,6 +37,7 @@ client.on("message", msg => {
   lewds(msg);
   randomSubPost(msg);
   pax(msg);
+  warcraftlogs(msg);
 });
 
 client.on("guildMemberAdd", member => {
