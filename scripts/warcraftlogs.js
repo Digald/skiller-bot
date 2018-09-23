@@ -54,19 +54,40 @@ exports.warcraftlogs = async msg => {
       }
     });
 
+    /**
+     * @return {array} Array of characters and all fight data associated with them
+     **/
     const mapCharacterInfo = listOfCharacters.map(async character => {
       try {
         const characterInfo = await axios({
           method: 'GET',
-          url: `https://www.warcraftlogs.com/v1/parses/character/${character.name}/${character.server}/${character.region}?api_key=${process.env.WARCRAFT_LOGS}`,
-          headers: {'Content-type': 'application/json; charset=utf-8', 'Accept': 'application/json; charset=utf-8'}
+          url: `https://www.warcraftlogs.com/v1/parses/character/${character.name}/${character.server}/${character.region}?api_key=${process.env.WARCRAFT_LOGS}`
         });
-        return {name: character.name, info: characterInfo.data};
+        if (characterInfo.data) {
+          return {name: character.name, info: characterInfo.data};
+        }
       } catch (err) {
         console.log(err);
       }
     });
-    const mydata = await Promise.all(getCharacterInfo);
-    console.log(mydata);
+    const nameAndInfo = await Promise.all(mapCharacterInfo);
+
+    /**
+     * @return {array} Array of characters and their average percentile
+     **/
+    const nameAndPercentage = nameAndInfo.map(character => {
+      console.log(character);
+      const parses = [];
+      character.info.map(fight => {
+        const timeDiff = currentDate - fight.startTime;
+        if (timeDiff <= weeks ) {
+          parses.push(fight.percentile)
+        }
+      }); // end fight map
+      return {name: character.name, averagePercentile: parses.reduce((p,c) => p + c, 0) / parses.length}
+    }); // end nameAndInfo map
+
+    console.log(nameAndPercentage);
+
   } // end command if statment
 }; // end warcraflogs function
