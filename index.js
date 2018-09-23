@@ -11,11 +11,9 @@ const lewds = require("./scripts/lewds").lewds;
 const myAvatar = require("./scripts/my-avatar").myAvatar;
 const randomSubPost = require("./scripts/random-subreddit-post").randomSubPost;
 const pax = require("./scripts/pax-ticket-checker").pax;
-const warcraftlogs = require('./scripts/warcraftlogs').warcraftlogs;
+const warcraftlogs = require("./scripts/warcraftlogs").warcraftlogs;
 
-// warcraftlogs();
-
-client.on("ready", msg => {
+client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`);
   const responses = [
     "Sup Bitches",
@@ -38,6 +36,9 @@ client.on("message", msg => {
   randomSubPost(msg);
   pax(msg);
   warcraftlogs(msg);
+  if (msg.content === '<@414591805707780107>') {
+    msg.reply('Sup?')
+  }
 });
 
 client.on("guildMemberAdd", member => {
