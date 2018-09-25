@@ -20,7 +20,8 @@ client.on("ready", () => {
     "Howdy-do",
     "",
     "01001011 01101001 01101100 01101100 00100000 01100001 01101100 01101100 00100000 01101000 01110101 01101101 01100001 01101110 01110011",
-    "I'm going to ban someone at random everytime I come online. Good luck everybody else!"
+    "I'm going to ban someone at random everytime I come online. Good luck everybody else!",
+    "Banned"
   ];
   const randomRes = responses[Math.floor(Math.random() * responses.length)];
   // Sends random message in array to discord

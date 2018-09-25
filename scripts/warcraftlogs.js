@@ -1,13 +1,20 @@
-const warcraft = require("weasel.js");
+const logger = require("../logger.js").logger;
 const axios = require("axios");
 
 exports.warcraftlogs = async msg => {
-  if (msg.content.toLowerCase() === `!logs ${msg.content.split(" ")[1]}`) {
+  if (
+    msg.content.toLowerCase() ===
+    `!logs ${msg.content.toLowerCase().split(" ")[1]} ${
+      msg.content.toLowerCase().split(" ")[2]
+    }`
+  ) {
+    logger(msg);
     const currentDate = Date.now();
-    const weeks = 1814400000;
-    const guild = msg.content.split(" ")[1];
+    const weeks = 1209600000;
+    const guild = msg.content.toLowerCase().split(" ")[1];
+    const server = msg.content.toLowerCase().split(" ")[2];
     const getLogs = await axios.get(
-      `https://www.warcraftlogs.com:443/v1/reports/guild/genesis/ysondre/US?api_key=${
+      `https://www.warcraftlogs.com:443/v1/reports/guild/${guild}/${server}/US?api_key=${
         process.env.WARCRAFT_LOGS
       }`
     );
@@ -45,7 +52,6 @@ exports.warcraftlogs = async msg => {
             return i.name;
           });
           if (arrOfNames.indexOf(character.name) < 0) {
-            const modifiedCharacter = character;
             character.server = character.server.replace(/\s+/g, "-");
             character.server = character.server.replace("'", "");
             listOfCharacters.push(character);
@@ -59,13 +65,14 @@ exports.warcraftlogs = async msg => {
      **/
     const mapCharacterInfo = listOfCharacters.map(async character => {
       try {
+        const myurl = `https://www.warcraftlogs.com/v1/parses/character/${
+          character.name
+        }/${character.server}/${character.region}?api_key=${
+          process.env.WARCRAFT_LOGS
+        }`;
         const characterInfo = await axios({
           method: "GET",
-          url: `https://www.warcraftlogs.com/v1/parses/character/${
-            character.name
-          }/${character.server}/${character.region}?api_key=${
-            process.env.WARCRAFT_LOGS
-          }`
+          url: encodeURI(myurl)
         });
         if (characterInfo.data) {
           return { name: character.name, info: characterInfo.data };
@@ -79,21 +86,39 @@ exports.warcraftlogs = async msg => {
     /**
      * @return {array} Array of characters and their average percentile
      **/
-    const mapNameAndInfo = nameAndInfo.map(async character => {
-      const parses = [];
-      character.info.map(fight => {
-        const timeDiff = currentDate - fight.startTime;
-        if (timeDiff <= weeks) {
-          parses.push(fight.percentile);
-        }
-      }); // end fight map
-      const average = parses.reduce((p, c) => p + c) / parses.length;
-      return {
-        name: character.name,
-        average
-      };
+    const nameAndAverage = [];
+    nameAndInfo.map(async character => {
+      if (character) {
+        const parses = [];
+        character.info.map(fight => {
+          const timeDiff = currentDate - fight.startTime;
+          if (timeDiff <= weeks) {
+            parses.push(fight.percentile);
+          }
+        }); // end fight map
+        const average = parses.reduce((p, c) => p + c) / parses.length;
+        nameAndAverage.push({
+          name: character.name,
+          average
+        });
+      }
     }); // end nameAndInfo map
-    const nameAndAverage = await Promise.all(mapNameAndInfo);
-    console.log(nameAndAverage);
+
+    const sortedArrayOfRankings = nameAndAverage.sort(
+      (a, b) => b.average - a.average
+    );
+
+    /**
+     * @return {array} An array of the strings to display highest to lowest ranking characters
+     **/
+    const sortedStringOfRankings = sortedArrayOfRankings.map((character, i) => {
+      return `Place ${i + 1}, ${
+        character.name
+      } with a calculated average of ${character.average.toFixed(1)}`;
+    });
+    const reply = `Best guild perfomers are as follows: \n${sortedStringOfRankings.join(
+      "\n"
+    )} \n__***Note, These rankings are based off of all existing logs within the past 21 days. There may be missing or extra data based on the warcraftlogs API and may skew the accuracy of these rankings. ***__`;
+    msg.reply(reply);
   } // end command if statment
 }; // end warcraflogs function
