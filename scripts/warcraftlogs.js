@@ -111,14 +111,15 @@ exports.warcraftlogs = async msg => {
     /**
      * @return {array} An array of the strings to display highest to lowest ranking characters
      **/
+    const scoreDifference = 100 - sortedArrayOfRankings[0].average;
     const sortedStringOfRankings = sortedArrayOfRankings.map((character, i) => {
       return `Place ${i + 1}, ${
         character.name
-      } with a calculated average of ${character.average.toFixed(1)}`;
+      } with a calculated score of ${(character.average + scoreDifference).toFixed(1)}`;
     });
     const reply = `Best guild perfomers are as follows: \n${sortedStringOfRankings.join(
       "\n"
-    )} \n__***Note, These rankings are based off of all existing logs within the past 21 days. There may be missing or extra data based on the warcraftlogs API and may skew the accuracy of these rankings. ***__`;
+    )} \n__***Note, These rankings are based off of all existing logs within the past 14 days. There may be missing or extra data based on the warcraftlogs API and may skew the accuracy of these rankings. ***__`;
     msg.reply(reply);
   } // end command if statment
 }; // end warcraflogs function
