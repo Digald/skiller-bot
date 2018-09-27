@@ -115,7 +115,7 @@ exports.warcraftlogs = async msg => {
     const sortedStringOfRankings = sortedArrayOfRankings.map((character, i) => {
       return `Place ${i + 1}, ${
         character.name
-      } with a calculated score of ${(character.average + scoreDifference).toFixed(1)}`;
+      } with a relative score of ${character.average.toFixed(1)}`;
     });
     const reply = `Best guild perfomers are as follows: \n${sortedStringOfRankings.join(
       "\n"

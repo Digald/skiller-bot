@@ -1,5 +1,7 @@
 const Table = require("easy-table");
 const logger = require("../logger.js").logger;
+// Additional Commands
+const commands2 = require("./commands2").commands2;
 
 exports.commands = msg => {
   if (msg.content.toLowerCase() === "!help") {
@@ -23,13 +25,13 @@ exports.commands = msg => {
       {
         command: "!pax",
         name: "PAX Badge availability for 2019 --->",
-        desc: "Checks website to see if badges are still available in real time."
+        desc:
+          "Checks website to see if badges are still available in real time."
       },
       {
         command: "!lewds",
         name: "Lewd pic --->",
-        desc:
-          "OFFICER ONLY. Self explanatory."
+        desc: "OFFICER ONLY. Self explanatory."
       },
       {
         command: "!reddit <subreddit>",
@@ -37,7 +39,11 @@ exports.commands = msg => {
         desc:
           "OFFICER ONLY. Posts a random title and url from requested subreddit page."
       },
-      { command: "More to come..." }
+      {
+        command: "-",
+        name: "-",
+        desc: "-"
+      }
     ];
 
     const t = new Table();
@@ -49,7 +55,9 @@ exports.commands = msg => {
       t.newRow();
       t.newRow();
     });
-    const reply = `https://i.ytimg.com/vi/_vboPFgBUzI/maxresdefault.jpg \n\n ${t.toString()}`;
-    return msg.reply(reply);
+    const reply = t.toString();
+    msg.reply(reply);
+
+    commands2(msg);
   }
 };
