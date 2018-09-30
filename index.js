@@ -19,13 +19,13 @@ client.on("ready", () => {
     "Sup Bitches",
     "Howdy-do",
     "",
-    "01001011 01101001 01101100 01101100 00100000 01100001 01101100 01101100 00100000 01101000 01110101 01101101 01100001 01101110 01110011",
+    "01001011 01101001 01101100 01101100 00100000 01101000 01110101 01101101 01100001 01101110 00100000 01101101 01111001 00100000 01100010 01110010 01101111 01110100 01101000 01100001",
     "I'm going to ban someone at random everytime I come online. Good luck everybody else!",
     "Banned"
   ];
   const randomRes = responses[Math.floor(Math.random() * responses.length)];
   // Sends random message in array to discord
-  // client.channels.get("203026827567038467").send(randomRes);
+  client.channels.get("203026827567038467").send(randomRes);
 });
 
 client.on("message", msg => {
@@ -37,8 +37,8 @@ client.on("message", msg => {
   randomSubPost(msg);
   pax(msg);
   warcraftlogs(msg);
-  if (msg.content === '<@414591805707780107>') {
-    msg.reply('Sup?')
+  if (msg.content === "<@414591805707780107>") {
+    msg.reply("Sup?");
   }
 });
 

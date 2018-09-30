@@ -99,6 +99,8 @@ exports.warcraftlogs = async msg => {
         const average = parses.reduce((p, c) => p + c) / parses.length;
         nameAndAverage.push({
           name: character.name,
+          class: character.info[0].class,
+          spec: character.info[0].spec,
           average
         });
       }
@@ -111,11 +113,11 @@ exports.warcraftlogs = async msg => {
     /**
      * @return {array} An array of the strings to display highest to lowest ranking characters
      **/
-    const scoreDifference = 100 - sortedArrayOfRankings[0].average;
+    // const scoreDifference = 100 - sortedArrayOfRankings[0].average;
     const sortedStringOfRankings = sortedArrayOfRankings.map((character, i) => {
       return `Place ${i + 1}, ${
         character.name
-      } with a relative score of ${character.average.toFixed(1)}`;
+      }(${character.spec} ${character.class}) with a relative score of ${character.average.toFixed(1)}`;
     });
     const reply = `Best guild perfomers are as follows: \n${sortedStringOfRankings.join(
       "\n"
