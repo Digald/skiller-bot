@@ -14,6 +14,7 @@ You will also need a few tokens to get this particular bot functioning. You will
 BOT_TOKEN=provided from discord developer portal
 IMGUR_ID=made by registering with Imgur developer
 IMGUR_SECRET=made by registering with Imgur developer
+WARCRAFT_LOGS=api key from https://www.warcraftlogs.com/
 ```
 
 ### Installing
