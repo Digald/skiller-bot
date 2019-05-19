@@ -5,12 +5,13 @@ const token = process.env.BOT_TOKEN;
 const client = new Disocrd.Client();
 // Bot functions
 const rollDice = require("./scripts/roll-dice").rollDice;
-const help = require("./scripts/help").commands;
+const help = require("./scripts/help").help;
 const smug = require("./scripts/smug-waifu").smug;
 const lewds = require("./scripts/lewds").lewds;
 const myAvatar = require("./scripts/my-avatar").myAvatar;
 const randomSubPost = require("./scripts/random-subreddit-post").randomSubPost;
 const warcraftlogs = require("./scripts/warcraftlogs").warcraftlogs;
+const steam = require('./scripts/compareStreamGames.js');
 
 client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`);
@@ -28,6 +29,7 @@ client.on("message", msg => {
   lewds(msg);
   randomSubPost(msg);
   warcraftlogs(msg);
+  // steam(msg);
   if (msg.content === "<@414591805707780107>") {
     msg.reply("Sup?");
   }

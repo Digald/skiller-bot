@@ -21,6 +21,7 @@ exports.randomSubPost = async msg => {
           data.posts[Math.floor(Math.random() * data.posts.length)];
         return msg.reply(`${randomPost.title}\n${randomPost.url}`)
       }).catch(err => {
+        return msg.reply('There was an error. Make sure the subreddit exists and you typed the name correctly');
         console.error(err);
       });
     }
