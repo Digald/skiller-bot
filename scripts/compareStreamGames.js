@@ -8,12 +8,12 @@ module.exports = async msg => {
 
     try {
       // Make sure you are comparing two or more players
-      // if (arrOfPlayers.length < 2) {
-      //   msg.reply(
-      //     "You need to compare two or more steam users for this to work"
-      //   );
-      //   return;
-      // }
+      if (arrOfPlayers.length < 2) {
+        msg.reply(
+          "You need to compare two or more steam users for this to work"
+        );
+        return;
+      }
 
       // Loop through each player and return an array of all their games.
       const eachPlayerListOfGames = arrOfPlayers.map(async steamId => {
@@ -42,21 +42,38 @@ module.exports = async msg => {
         });
       };
 
+      // Perform first intersection for two players
       let totalIntersection = returnPromise[0].intersection(returnPromise[1]);
 
       // Loop through all player arrays and get a single intersection array
       if (numOfPlayers > 2) {
         for (let i = 2; i < numOfPlayers; i++) {
-          totalIntersection = totalIntersection.intersection(
-            returnPromise[i]
-          );
+          totalIntersection = totalIntersection.intersection(returnPromise[i]);
         }
       }
-      console.log(totalIntersection);
+      // Translate all appids into game names
       const parsedGamesArr = totalIntersection.map(async id => {
-        const res = await axios.get(`http://api.steampowered.com/ISteamUserStats/GetSchemaForGame/v2/?key=${process.env.STEAM_KEY}&appid=218230`)
-        console.log(res.data);
+        const res = await axios.get(
+          `http://api.steampowered.com/ISteamUserStats/GetSchemaForGame/v2/?key=${
+            process.env.STEAM_KEY
+          }&appid=${id}`
+        );
+
+        const gameName = res.data.game.gameName;
+        if (gameName && gameName !== undefined && gameName !== "") {
+          return gameName;
+        }
+        return;
       });
+
+      // Wait for promise and sort out array for any blanks, undefineds, or undesired titles
+      const promise_prasedGamesArr = await Promise.all(parsedGamesArr);
+      const finalListOfGames = promise_prasedGamesArr.filter(game => {
+        return game !== undefined && !game.startsWith("ValveTestApp");
+      });
+      msg.reply(finalListOfGames.join(" --- "));
+
+      // If something went wrong with the whole process, catch error and return message
     } catch (err) {
       console.log(err);
       msg.reply(
