@@ -29,7 +29,7 @@ client.on("message", msg => {
   lewds(msg);
   randomSubPost(msg);
   warcraftlogs(msg);
-  // steam(msg);
+  steam(msg);
   if (msg.content === "<@414591805707780107>") {
     msg.reply("Sup?");
   }
