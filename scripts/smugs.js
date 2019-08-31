@@ -1,6 +1,6 @@
 const { fetchSubreddit } = require("fetch-subreddit");
 const axios = require("axios");
-const logger = require("../logger.js").logger;
+const logger = require("./logger.js");
 
 const grabInitialSmugs = async () => {
   const imgurData = await axios.get(
@@ -14,7 +14,7 @@ const grabInitialSmugs = async () => {
   return megaCollectionOfSmugs;
 };
 
-exports.smug = msg => {
+module.exports = msg => {
   if (msg.content.toLowerCase() === "!smugs") {
     logger(msg);
     fetchSubreddit("Smugs")

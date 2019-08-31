@@ -1,6 +1,6 @@
-const logger = require("../logger.js").logger;
+const logger = require("./logger.js");
 
-exports.rollDice = msg => {
+module.exports = msg => {
   const randomizer = array => {
     const roll = array[Math.floor(Math.random() * array.length)];
     msg.reply(roll);

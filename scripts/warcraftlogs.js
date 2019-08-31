@@ -1,7 +1,7 @@
-const logger = require("../logger.js").logger;
+const logger = require("./logger.js");
 const axios = require("axios");
 
-exports.warcraftlogs = async msg => {
+module.exports = async msg => {
   if (
     msg.content.toLowerCase() ===
     `!logs ${msg.content.toLowerCase().split(" ")[1]} ${

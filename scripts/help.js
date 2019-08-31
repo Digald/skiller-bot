@@ -1,6 +1,6 @@
-const logger = require("../logger.js").logger;
+const logger = require("./logger.js");
 
-exports.help = msg => {
+module.exports = msg => {
   // If the message is "what is my avatar"
   if (msg.content.toLowerCase() === "!help") {
     logger(msg);

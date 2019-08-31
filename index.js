@@ -4,27 +4,23 @@ const Disocrd = require("discord.js");
 const token = process.env.BOT_TOKEN;
 const client = new Disocrd.Client();
 // Bot functions
-const rollDice = require("./scripts/roll-dice").rollDice;
-const help = require("./scripts/help").help;
-const smug = require("./scripts/smug-waifu").smug;
-const lewds = require("./scripts/lewds").lewds;
-const myAvatar = require("./scripts/my-avatar").myAvatar;
-const randomSubPost = require("./scripts/random-subreddit-post").randomSubPost;
-const warcraftlogs = require("./scripts/warcraftlogs").warcraftlogs;
+const rollDice = require("./scripts/diceRoll");
+const help = require("./scripts/help");
+const smugs = require("./scripts/smugs");
+const lewds = require("./scripts/lewds");
+const myAvatar = require("./scripts/getUserAvatar");
+const randomSubPost = require("./scripts/getRedditPost");
+const warcraftlogs = require("./scripts/warcraftlogs");
 const steam = require('./scripts/compareStreamGames.js');
 
 client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`);
-  const responses = 'Type "!help" in chat for a list of commands.'
-  // const randomRes = responses[Math.floor(Math.random() * responses.length)];
-  // Sends random message in array to discord
-  // client.channels.get("203026827567038467").send(responses);
 });
 
 client.on("message", msg => {
   help(msg);
   rollDice(msg);
-  smug(msg);
+  smugs(msg);
   myAvatar(msg);
   lewds(msg);
   randomSubPost(msg);
@@ -37,7 +33,7 @@ client.on("message", msg => {
 
 client.on("guildMemberAdd", member => {
   // Send the message to a designated channel on a server:
-  const channel = member.guild.channels.find("name", "member-log");
+  const channel = member.guild.channels.find(ch => ch.name === 'member-log');
   // Do nothing if the channel wasn't found on this server
   if (!channel) return;
   // Send the message, mentioning the member

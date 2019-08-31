@@ -1,6 +1,6 @@
 const axios = require("axios");
 axios.defaults.timeout = 60000;
-const logger = require("../logger.js").logger;
+const logger = require("./logger.js");
 
 module.exports = async msg => {
   if (msg.content.split(" ")[0] === "!steam") {

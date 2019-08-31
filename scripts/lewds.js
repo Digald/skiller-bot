@@ -1,7 +1,7 @@
 const { fetchSubreddit } = require("fetch-subreddit");
-const logger = require("../logger.js").logger;
+const logger = require("./logger.js");
 
-exports.lewds = async msg => {
+module.exports = async msg => {
   if (msg.content.toLowerCase() === "!lewds") {
     logger(msg);
     if (msg.channel.name === "officer_lounge" || msg.channel.type === "dm") {
