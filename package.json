@@ -7,9 +7,12 @@
     "start": "cross-env NODE_ENV=production node server.js"
   },
   "dependencies": {
+    "axios": "^0.19.0",
     "discord.js": "^11.5.1",
     "dotenv": "^8.2.0",
     "express": "^4.14.0",
+    "fetch-reddit": "^0.1.0",
+    "fetch-subreddit": "^3.0.0",
     "next": "latest",
     "react": "^16.7.0",
     "react-dom": "^16.7.0"
