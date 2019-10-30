@@ -1,46 +1,65 @@
-# Custom Express Server example
+# skiller-bot
+A custom discord bot for my friend's personal discord server. The bot's functionality is simple at the moment but may have more uses in the future depending on our needs. As of right now, the bot is only used for fun and doesn't really have any admin permissions.
 
-## How to use
+## Getting Started
 
-### Using `create-next-app`
+### Prerequisites
 
-Execute [`create-next-app`](https://github.com/zeit/next.js/tree/canary/packages/create-next-app) with [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) or [npx](https://github.com/zkat/npx#readme) to bootstrap the example:
+You must make an account through the Discord developer portal and have a personal account for yourself to test the bot out in the client.
 
-```bash
-npx create-next-app --example custom-server-express custom-server-express-app
-# or
-yarn create next-app --example custom-server-express custom-server-express-app
+You will also need a few tokens to get this particular bot functioning. You will have to make a .env file or something similar to keep this information secret.
+
+/.env
+```
+BOT_TOKEN=provided from discord developer portal
+IMGUR_ID=made by registering with Imgur developer
+IMGUR_SECRET=made by registering with Imgur developer
+WARCRAFT_LOGS=api key from https://www.warcraftlogs.com/
 ```
 
-### Download manually
+### Installing
 
-Download the example:
+Install dependencies.
 
-```bash
-curl https://codeload.github.com/zeit/next.js/tar.gz/canary | tar -xz --strip=2 next.js-canary/examples/custom-server-express
-cd custom-server-express
 ```
-
-Install it and run:
-
-```bash
-npm install
-npm run dev
-# or
+npm i
+```
+or
+```
 yarn
+```
+Run start command.
+
+```
 yarn dev
 ```
+and that should be it! 
 
-Deploy it to the cloud with [now](https://zeit.co/now) ([download](https://zeit.co/download))
+![Command line when logged in](https://i.gyazo.com/25525ae7da65a9b1ca947d8affa856eb.png)
 
-```bash
-now
+![Showing my bot online](https://i.gyazo.com/9e248ae299f26f19311913740920e9bd.png)
+
+Start with typing a command to get started in your text channel or private message.
+
+```
+!help
 ```
 
-## The idea behind the example
+## Deployment
 
-Most of the times the default Next server will be enough but sometimes you want to run your own server to customize routes or other kind of the app behavior. Next provides a [Custom server and routing](https://github.com/zeit/next.js#custom-server-and-routing) so you can customize as much as you want.
+Getting deployed is a work in progress.
 
-Because the Next.js server is just a node.js module you can combine it with any other part of the node.js ecosystem. in this case we are using express to build a custom router on top of Next.
+## Built With
 
-The example shows a server that serves the component living in `pages/a.js` when the route `/b` is requested and `pages/b.js` when the route `/a` is accessed. This is obviously a non-standard routing strategy. You can see how this custom routing is being made inside `server.js`.
+* [Discord.js](https://discord.js.org/#/docs/main/stable/general/welcome) - Library for connecting and using Discord with your bot
+
+## Authors
+
+* **Mark Alaniz**
+
+## Acknowledgments
+
+* Thanks to my discord bros for some of the functionality ideas. I'm always open to more suggestions
+
+## Status
+Skiller-bot is still a work in progress but currently working on being deployed.
