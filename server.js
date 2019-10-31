@@ -8,18 +8,23 @@ const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
 const routes = require("./routes/routes");
 const handle = app.getRequestHandler();
+const mongoose = require("mongoose");
 // Discord Deps
 const Discord = require("discord.js");
 const token = process.env.BOT_TOKEN;
 const client = new Discord.Client();
-const scripts = require('./scripts');
+const scripts = require("./scripts");
+const startPokemon = require("./scripts/pokemon-spawn");
 
 app.prepare().then(() => {
   const server = express();
-
+  mongoose.connect("mongodb://localhost:27017/skillerbot", {
+    useNewUrlParser: true
+  });
   // Listen for Discord Bot
   client.on("ready", () => {
     console.log(`Logged in as ${client.user.tag}!`);
+    startPokemon(client);
   });
 
   // Discord Scripts here___________________________________________

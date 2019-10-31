@@ -3,10 +3,14 @@ const smugs = require("./smugs");
 const help = require("./help");
 const avatar = require("./userAvatar");
 const reddit = require("./redditPost");
+const testmon = require("./pokemon-test");
 
+// pokemon channel id 441820156197339136
 module.exports = msg => {
   if (msg.content.toLowerCase() === "!help") {
     help(msg);
+  } else if (msg.content.toLowerCase() === "!pokemon") {
+    testmon(msg);
   } else if (msg.content.split(" ")[0].toLowerCase() === "!roll") {
     roll(msg);
   } else if (
