@@ -29,7 +29,7 @@ app.prepare().then(() => {
 
   // Discord Scripts here___________________________________________
   client.on("message", msg => {
-    scripts(msg);
+    scripts(msg, client);
   });
   // End Discord Scripts__________________________________________
   client.login(token);

@@ -2,78 +2,10 @@ const axios = require("axios");
 const ColorThief = require("colorthief");
 const { RichEmbed } = require("discord.js");
 
-module.exports = async msg => {
+module.exports = (msg, client) => {
+  async function spawnPokemon() {
   // Exclude Mythical and Legendaries for now
-  const exclusionList = [
-    "151",
-    "251",
-    "385",
-    "386",
-    "490",
-    "489",
-    "491",
-    "492",
-    "493",
-    "494",
-    "647",
-    "648",
-    "649",
-    "719",
-    "720",
-    "721",
-    "801",
-    "802",
-    "807",
-    "145",
-    "144",
-    "146",
-    "150",
-    "244",
-    "245",
-    "243",
-    "249",
-    "250",
-    "377",
-    "378",
-    "379",
-    "380",
-    "381",
-    "382",
-    "383",
-    "384",
-    "480",
-    "481",
-    "482",
-    "483",
-    "484",
-    "485",
-    "487",
-    "488",
-    "486",
-    "638",
-    "639",
-    "640",
-    "641",
-    "642",
-    "645",
-    "643",
-    "644",
-    "646",
-    "716",
-    "717",
-    "718",
-    "772",
-    "773",
-    "785",
-    "786",
-    "787",
-    "788",
-    "789",
-    "790",
-    "791",
-    "792",
-    "800"
-  ];
+  const exclusionList = [ "151", "251", "385", "386", "490", "489", "491", "492", "493", "494", "647", "648", "649", "719", "720", "721", "801", "802", "807", "145", "144", "146", "150", "244", "245", "243", "249", "250", "377", "378", "379", "380", "381", "382", "383", "384", "480", "481", "482", "483", "484", "485", "487", "488", "486", "638", "639", "640", "641", "642", "645", "643", "644", "646", "716", "717", "718", "772", "773", "785", "786", "787", "788", "789", "790", "791", "792", "800" ];
   // Return random number
   const randomNum = () => Math.round(Math.random() * 807);
   // Finds basic pokemon form based on random choice
@@ -106,13 +38,13 @@ module.exports = async msg => {
 
   // Select Pokemon Color
   const { sprites } = data;
-  const shinyChance = Math.floor(Math.random() * 2);
+  const shinyChance = Math.floor(Math.random() * 10);
   let sprite;
   let thumb;
   console.log(shinyChance);
   if (shinyChance === 0) {
     sprite = sprites.front_shiny;
-    thumb = ''
+    thumb = 'https://i.ibb.co/8j61Qpb/shining.png'
   } else {
     sprite = sprites.front_default;
     thumb = ''
@@ -126,7 +58,11 @@ module.exports = async msg => {
     .setImage(sprite)
     .setFooter("!catch to add to your collection")
     .setColor(pokeColor);
-  msg.reply(embed);
+  // msg.reply(embed);
   // https://www.serebii.net/pokemongo/pokemon/719.png for more detailed sprites
   //client.channels.get("<ID of the channel you want to send to>").send("<your message content here>")
+  client.channels.get('468570185847013379').send(embed);
+
+  }
+  setInterval(spawnPokemon, (43200 * 1000));
 };
