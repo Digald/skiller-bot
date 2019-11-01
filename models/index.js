@@ -1,4 +1,4 @@
 module.exports = {
-    Book: require("./User"),
-    Library: require("./Spawn")
+    User: require("./User"),
+    Spawn: require("./Spawn")
   };
