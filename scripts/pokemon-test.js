@@ -4,7 +4,7 @@ const { RichEmbed } = require("discord.js");
 const db = require("../models");
 
 // https://www.serebii.net/pokemongo/pokemon/719.png for more detailed sprites
-module.exports = (msg, client) => {
+module.exports = (client) => {
 
   async function spawnPokemon() {
     

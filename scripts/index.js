@@ -3,24 +3,42 @@ const smugs = require("./smugs");
 const help = require("./help");
 const avatar = require("./userAvatar");
 const reddit = require("./redditPost");
-const testmon = require("./pokemon-test");
+const test_pokemon_spawn = require("./pokemon-test");
+const pokemonCatch = require("./pokemon-catch");
 
-module.exports = (msg,client) => {
-  if (msg.content.toLowerCase() === "!help") {
-    help(msg);
-  } else if (msg.content.toLowerCase() === "!pokemon") {
-    testmon(msg, client);
-  } else if (msg.content.split(" ")[0].toLowerCase() === "!roll") {
-    roll(msg);
-  } else if (
-    msg.content.toLowerCase() === `!reddit ${msg.content.split(" ")[1]}`
-  ) {
-    reddit(msg);
-  } else if (msg.content.toLowerCase() === "!smugs") {
-    smugs(msg);
-  } else if (msg.content.toLowerCase() === "!myavatar") {
-    avatar(msg);
-  } else if (msg.content === "<@414591805707780107>") {
-    msg.reply("Sup?");
+module.exports = (msg, client) => {
+  const userMsg = msg.content.toLowerCase();
+  switch (userMsg) {
+    case "!help":
+      help(msg);
+      break;
+    case "!pokemon":
+      test_pokemon_spawn(client);
+      break;
+    case "!catch":
+      pokemonCatch(msg);
+      break;
+    case "!smugs":
+      smugs(msg);
+      break;
+    case "!myavatar":
+      smugs(msg);
+      break;
+    case "<@414591805707780107>":
+      msg.reply("Sup?");
+      break;
+  }
+
+  switch (userMsg.split(" ")[0]) {
+    case "!roll":
+      if (userMsg.split(" ")[1]) {
+        roll(msg);
+      }
+      break;
+    case "!reddit":
+      if (userMsg.split(" ")[1]) {
+        reddit(msg);
+      }
+      break;
   }
 };
