@@ -7,38 +7,52 @@ const userSchema = new Schema(
     pokemon: [
       {
         name: String,
-        types: [{ name: String, url: String }],
-        doubleDamageTo: [{ name: String }],
-        halfDamageTo: [{ name: String }],
-        noDamageTo: [{ name: String }],
+        pokeId: String,
+        evolChainUrl: String,
         stars: { type: Number, default: 0 },
         collected: { type: Number, default: 0 },
+        types: [
+          {
+            pokeType: String,
+            doubleDamageTo: [String],
+            halfDamageTo: [String],
+            noDamageTo: [String]
+          }
+        ],
         shiny: Boolean,
         spriteUrl: String,
         hp: Number,
         atk: Number,
         def: Number,
-        speed: Number
+        speed: Number,
+        caughtBy: [String]
       }
     ],
     team: [
       {
         name: String,
-        types: [{ name: String, url: String }],
-        doubleDamageTo: [{ name: String }],
-        halfDamageTo: [{ name: String }],
-        noDamageTo: [{ name: String }],
+        pokeId: String,
+        evolChainUrl: String,
         stars: { type: Number, default: 0 },
         collected: { type: Number, default: 0 },
+        types: [
+          {
+            pokeType: String,
+            doubleDamageTo: [String],
+            halfDamageTo: [String],
+            noDamageTo: [String]
+          }
+        ],
         shiny: Boolean,
         spriteUrl: String,
         hp: Number,
         atk: Number,
         def: Number,
-        speed: Number
+        speed: Number,
+        caughtBy: [String]
       }
     ],
-    safari: Boolean
+    safari: { type: Boolean, default: false }
   },
   { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
 );

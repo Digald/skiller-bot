@@ -17,7 +17,8 @@ const spawnSchema = new Schema(
     hp: Number,
     atk: Number,
     def: Number,
-    speed: Number
+    speed: Number,
+    caughtBy: [String]
   },
   { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
 );
