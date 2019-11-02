@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema(
   {
     discordId: String,
+    discordIcon: String,
     pokemon: [
       {
         name: String,
@@ -11,6 +12,7 @@ const userSchema = new Schema(
         evolChainUrl: String,
         stars: { type: Number, default: 0 },
         collected: { type: Number, default: 0 },
+        timesEvolved: {type: Number, default: 0},
         types: [
           {
             pokeType: String,
@@ -25,7 +27,7 @@ const userSchema = new Schema(
         atk: Number,
         def: Number,
         speed: Number,
-        caughtBy: [String]
+
       }
     ],
     team: [
@@ -49,7 +51,6 @@ const userSchema = new Schema(
         atk: Number,
         def: Number,
         speed: Number,
-        caughtBy: [String]
       }
     ],
     safari: { type: Boolean, default: false }

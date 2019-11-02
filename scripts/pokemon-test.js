@@ -110,7 +110,8 @@ module.exports = (client) => {
         stats[3].base_stat > stats[1].base_stat
           ? stats[3].base_stat
           : stats[1].base_stat,
-      speed: stats[0].base_stat
+      speed: stats[0].base_stat,
+      caughtBy: []
     };
 
     // Make final insertion in database
@@ -123,5 +124,4 @@ module.exports = (client) => {
     });
   }
   spawnPokemon();
-  setInterval(spawnPokemon, 5000);
 };
