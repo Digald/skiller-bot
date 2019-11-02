@@ -5,6 +5,7 @@ const userSchema = new Schema(
   {
     discordId: String,
     discordIcon: String,
+    safari: { type: Boolean, default: false },
     pokemon: [
       {
         name: String,
@@ -37,6 +38,7 @@ const userSchema = new Schema(
         evolChainUrl: String,
         stars: { type: Number, default: 0 },
         collected: { type: Number, default: 0 },
+        timesEvolved: {type: Number, default: 0},
         types: [
           {
             pokeType: String,
@@ -52,8 +54,7 @@ const userSchema = new Schema(
         def: Number,
         speed: Number,
       }
-    ],
-    safari: { type: Boolean, default: false }
+    ]
   },
   { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
 );

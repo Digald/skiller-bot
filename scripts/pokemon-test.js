@@ -116,7 +116,7 @@ module.exports = (client) => {
 
     // Make final insertion in database
     db.Spawn.findOneAndUpdate(pokemon).then(result => {
-      if (result === null) {
+      if (!result) {
         db.Spawn.create(pokemon);
         return;
       }
