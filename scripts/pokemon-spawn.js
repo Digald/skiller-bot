@@ -98,7 +98,7 @@ module.exports = (client) => {
     const pokemon = {
       name: data.name,
       pokeId: basicForm.id,
-      evolChain: basicForm.chainUrl,
+      evolChainUrl: basicForm.chainUrl,
       types: typesData,
       shiny: shiny,
       spriteUrl: sprite,

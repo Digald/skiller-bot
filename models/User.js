@@ -12,7 +12,6 @@ const userSchema = new Schema(
         pokeId: String,
         evolChainUrl: String,
         stars: { type: Number, default: 0 },
-        collected: { type: Number, default: 0 },
         timesEvolved: {type: Number, default: 0},
         types: [
           {
@@ -36,9 +35,8 @@ const userSchema = new Schema(
         name: String,
         pokeId: String,
         evolChainUrl: String,
-        stars: { type: Number, default: 0 },
-        collected: { type: Number, default: 0 },
-        timesEvolved: {type: Number, default: 0},
+        stars: Number,
+        timesEvolved: Number,
         types: [
           {
             pokeType: String,

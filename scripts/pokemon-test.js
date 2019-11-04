@@ -41,7 +41,8 @@ module.exports = (client) => {
     }
 
     // Make call to get final pokemon data
-    const url = `https://pokeapi.co/api/v2/pokemon/${basicForm.id}/`;
+    const url = `https://pokeapi.co/api/v2/pokemon/1/`;
+    // const url = `https://pokeapi.co/api/v2/pokemon/${basicForm.id}/`;
     const res = await axios.get(url);
     const data = await res.data;
 
@@ -97,7 +98,7 @@ module.exports = (client) => {
     const pokemon = {
       name: data.name,
       pokeId: basicForm.id,
-      evolChain: basicForm.chainUrl,
+      evolChainUrl: basicForm.chainUrl,
       types: typesData,
       shiny: shiny,
       spriteUrl: sprite,
