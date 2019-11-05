@@ -22,7 +22,7 @@ module.exports = (msg, client) => {
       smugs(msg);
       break;
     case "!myavatar":
-      smugs(msg);
+      avatar(msg);
       break;
     case "<@414591805707780107>":
       msg.reply("Sup?");
