@@ -65,43 +65,83 @@ module.exports = async msg => {
   let hasPokemon;
 
   // If user does not already have pokemon, add it and return
+  console.log(hasPokemonCheck);
   if (hasPokemonCheck.length < 1) {
     db.User.updateOne(
       { discordId: userId },
       { $push: { pokemon: pokemonObj } }
     ).exec();
     return msg.reply(`${getPokemon.name} has been added to your collection!`);
-  } 
-  // if user has 1 already, check 
-  else if (hasPokemonCheck.length === 1) {
-    if (hasPokemonCheck[0].stars == 3) {
+  }
+  // if user has 1 already, check
+  else if (hasPokemonCheck.length > 0) {
+    const undevelopedPokemon = hasPokemonCheck.filter(poke => {
+      return poke.stars !== 3;
+    });
+    if (undevelopedPokemon.length > 0) {
+      hasPokemon = hasPokemonCheck[0];
+    } else {
       db.User.updateOne(
         { discordId: userId },
         { $push: { pokemon: pokemonObj } }
       ).exec();
       return msg.reply(`${getPokemon.name} has been added to your collection!`);
     }
-    hasPokemon = hasPokemonCheck[0];
-  } else {
-    const undevelopedPokemon = hasPokemonCheck.filter(poke => {
-      return poke.stars !== 3;
-    });
-    hasPokemon = undevelopedPokemon[0];
   }
+  console.log(hasPokemon);
+  //   if (hasPokemonCheck[0].stars == 3) {
+  // db.User.updateOne(
+  //   { discordId: userId },
+  //   { $push: { pokemon: pokemonObj } }
+  // ).exec();
+  // return msg.reply(`${getPokemon.name} has been added to your collection!`);
+  //   }
+  //   hasPokemon = hasPokemonCheck[0];
+  // } else {
+  //   const undevelopedPokemon = hasPokemonCheck.filter(poke => {
+  //     return poke.stars !== 3;
+  //   });
+  //   hasPokemon = undevelopedPokemon[0];
+  // }
 
   // const res = await axios.get(hasPokemon.evolChainUrl);
-  const res = await axios.get("https://pokeapi.co/api/v2/evolution-chain/1/");
+  const res = await axios.get("https://pokeapi.co/api/v2/evolution-chain/65/");
   const data = await res.data;
-  let currentPath = data.chain;
+  let currentPath = data.chain.evolves_to;
 
   // Check if pokemon can evolve or not
+  console.log(hasPokemon);
   if (hasPokemon.stars === 2) {
-    evolvePokemon(hasPokemon, getPokemon, currentPath, userId);
+    const evolvedMessage = await evolvePokemon(
+      hasPokemon,
+      getPokemon,
+      currentPath,
+      userId
+    );
+    console.log(evolvedMessage);
+    return msg.reply(evolvedMessage);
   }
-  // Find the pokemon from the user and add a star to it
-  // NEEDS TO CONSIDER SHINY POKEMON AS WELL
-  // await db.User.findOneAndUpdate(
-  //   { discordId: userId, "pokemon.name": hasPokemon.name },
-  //   { $inc: { "pokemon.$.stars": 1 } }
-  // );
+
+  const currentStars = hasPokemon.stars + 1;
+  const isShiny = getPokemon.shiny || hasPokemon.shiny;
+  await db.User.updateOne(
+    {
+      discordId: userId,
+      "pokemon._id": hasPokemon._id
+    },
+    {
+      $set: {
+        "pokemon.$.stars": currentStars,
+        "pokemon.$.shiny": isShiny,
+        "pokemon.$.spriteUrl": isShiny
+          ? `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/${hasPokemon.pokeId}.png`
+          : hasPokemon.spriteUrl,
+        "pokemon.$.hp": hasPokemon.hp + 3,
+        "pokemon.$.atk": hasPokemon.atk + 3,
+        "pokemon.$.def": hasPokemon.def + 3,
+        "pokemon.$.speed": hasPokemon.speed + 3
+      }
+    }
+  );
+  return msg.reply(`${getPokemon.name} has been added to your collection!`);
 };
