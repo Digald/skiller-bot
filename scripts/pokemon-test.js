@@ -41,7 +41,7 @@ module.exports = (client) => {
     }
 
     // Make call to get final pokemon data
-    const url = `https://pokeapi.co/api/v2/pokemon/131/`;
+    const url = `https://pokeapi.co/api/v2/pokemon/1/`;
     // const url = `https://pokeapi.co/api/v2/pokemon/${basicForm.id}/`;
     const res = await axios.get(url);
     const data = await res.data;

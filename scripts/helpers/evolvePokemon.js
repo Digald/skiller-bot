@@ -8,7 +8,12 @@ const extractTypeData = require("./extractTypeData");
  * @param {string} userId the discordId of the user adding a pokemon
  * @return {string} message for the pokemon-catch function to choose next stops
  */
-module.exports = async function evolvePokemon(hasPokemon, spawnPokemon, evolvesTo, userId) {
+module.exports = async function evolvePokemon(
+  hasPokemon,
+  spawnPokemon,
+  evolvesTo,
+  userId
+) {
   console.log(hasPokemon);
   // 1) Check if there is a next evolution
   // If yes, Evolve to the next level
@@ -93,11 +98,15 @@ module.exports = async function evolvePokemon(hasPokemon, spawnPokemon, evolvesT
       const isShiny = spawnPokemon.shiny || evolvedPokemon.shiny;
       const currentStars = evolvedPokemon.stars + 1;
       await db.User.updateOne(
-        { discordId: userId, "pokemon.name": evolvedPokemon.name },
+        { discordId: userId, "pokemon._id": evolvedPokemon._id },
         {
           $set: {
             "pokemon.$.stars": currentStars,
             "pokemon.$.shiny": isShiny,
+            "pokemon.$.hp": evolvedPokemon.hp + 3,
+            "pokemon.$.atk": evolvedPokemon.atk + 3,
+            "pokemon.$.def": evolvedPokemon.def + 3,
+            "pokemon.$.speed": evolvedPokemon.speed + 3,
             "pokemon.$.spriteUrl": isShiny
               ? `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/${evolvedPokemon.pokeId}.png`
               : evolvedPokemon.spriteUrl
@@ -118,7 +127,7 @@ module.exports = async function evolvePokemon(hasPokemon, spawnPokemon, evolvesT
     if (hasPokemon.stars !== 3) {
       const currentStars = hasPokemon.stars + 1;
       const isShiny = spawnPokemon.shiny || hasPokemon.shiny;
-      const finalPokemon = await db.User.updateOne(
+      await db.User.updateOne(
         {
           discordId: userId,
           "pokemon._id": hasPokemon._id
@@ -127,6 +136,10 @@ module.exports = async function evolvePokemon(hasPokemon, spawnPokemon, evolvesT
           $set: {
             "pokemon.$.stars": currentStars,
             "pokemon.$.shiny": isShiny,
+            "pokemon.$.hp": hasPokemon.hp + 3,
+            "pokemon.$.atk": hasPokemon.atk + 3,
+            "pokemon.$.def": hasPokemon.def + 3,
+            "pokemon.$.speed": hasPokemon.speed + 3,
             "pokemon.$.spriteUrl": isShiny
               ? `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/${hasPokemon.pokeId}.png`
               : hasPokemon.spriteUrl

@@ -76,10 +76,10 @@ module.exports = async msg => {
   // if user has 1 already, check
   else if (hasPokemonCheck.length > 0) {
     const undevelopedPokemon = hasPokemonCheck.filter(poke => {
-      return poke.stars !== 3;
+      return poke.stars < 3;
     });
     if (undevelopedPokemon.length > 0) {
-      hasPokemon = hasPokemonCheck[0];
+      hasPokemon = undevelopedPokemon[0];
     } else {
       db.User.updateOne(
         { discordId: userId },
@@ -89,28 +89,13 @@ module.exports = async msg => {
     }
   }
   console.log(hasPokemon);
-  //   if (hasPokemonCheck[0].stars == 3) {
-  // db.User.updateOne(
-  //   { discordId: userId },
-  //   { $push: { pokemon: pokemonObj } }
-  // ).exec();
-  // return msg.reply(`${getPokemon.name} has been added to your collection!`);
-  //   }
-  //   hasPokemon = hasPokemonCheck[0];
-  // } else {
-  //   const undevelopedPokemon = hasPokemonCheck.filter(poke => {
-  //     return poke.stars !== 3;
-  //   });
-  //   hasPokemon = undevelopedPokemon[0];
-  // }
 
   // const res = await axios.get(hasPokemon.evolChainUrl);
-  const res = await axios.get("https://pokeapi.co/api/v2/evolution-chain/65/");
+  const res = await axios.get("https://pokeapi.co/api/v2/evolution-chain/1/");
   const data = await res.data;
   let currentPath = data.chain.evolves_to;
 
   // Check if pokemon can evolve or not
-  console.log(hasPokemon);
   if (hasPokemon.stars === 2) {
     const evolvedMessage = await evolvePokemon(
       hasPokemon,
