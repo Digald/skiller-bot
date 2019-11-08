@@ -7,6 +7,8 @@
     "start": "cross-env NODE_ENV=production node server.js"
   },
   "dependencies": {
+    "@material-ui/core": "^4.6.0",
+    "@material-ui/icons": "^4.5.1",
     "axios": "^0.19.0",
     "colorthief": "^2.3.0",
     "discord.js": "^11.5.1",
@@ -16,8 +18,9 @@
     "fetch-subreddit": "^3.0.0",
     "mongoose": "^5.7.7",
     "next": "latest",
-    "react": "^16.7.0",
-    "react-dom": "^16.7.0"
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0",
+    "styled-components": "^4.4.1"
   },
   "devDependencies": {
     "cross-env": "^5.2.0",

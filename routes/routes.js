@@ -1,4 +1,15 @@
-module.exports = (server, handle) => {
+const db = require("../models");
+
+module.exports = (server, handle, app) => {
+  server.get("/pokemon/:discordID", (req, res) => {
+    db.User.findOne({
+      discordId: req.params.discordID
+    }).then(result => {
+      console.log(result);
+      return app.render(req, res, "/collection", result);
+    });
+  });
+
   server.get("/a", (req, res) => {
     return app.render(req, res, "/a", req.query);
   });

@@ -21,13 +21,11 @@ app.prepare().then(() => {
   mongoose.connect("mongodb://localhost:27017/skillerbot", {
     useNewUrlParser: true, useFindAndModify: false
   });
-  // Listen for Discord Bot
+  // Listen for Discord Bot_____________________________________
   client.on("ready", () => {
     console.log(`Logged in as ${client.user.tag}!`);
     startPokemon(client);
   });
-
-  // Discord Scripts here___________________________________________
   client.on("message", msg => {
     scripts(msg, client);
   });
@@ -35,7 +33,7 @@ app.prepare().then(() => {
   client.login(token);
 
   // Server Routes
-  routes(server, handle);
+  routes(server, handle, app);
 
   // Listen for express server
   server.listen(port, err => {
