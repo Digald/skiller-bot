@@ -90,8 +90,8 @@ module.exports = async msg => {
   }
   console.log(hasPokemon);
 
-  // const res = await axios.get(hasPokemon.evolChainUrl);
-  const res = await axios.get("https://pokeapi.co/api/v2/evolution-chain/1/");
+  const res = await axios.get(hasPokemon.evolChainUrl);
+  // const res = await axios.get("https://pokeapi.co/api/v2/evolution-chain/1/");
   const data = await res.data;
   let currentPath = data.chain.evolves_to;
 

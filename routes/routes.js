@@ -1,7 +1,8 @@
 const db = require("../models");
 
 module.exports = (server, handle, app) => {
-  server.get("/pokemon/:discordID", (req, res) => {
+  // 129038630953025536 my discord id
+  server.get("/collection/:discordID", (req, res) => {
     db.User.findOne({
       discordId: req.params.discordID
     }).then(result => {
