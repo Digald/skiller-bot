@@ -18,8 +18,11 @@
     "fetch-subreddit": "^3.0.0",
     "mongoose": "^5.7.7",
     "next": "latest",
-    "react": "^16.8.0",
-    "react-dom": "^16.8.0",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "react-redux": "^7.1.3",
+    "redux": "^4.0.4",
+    "redux-devtools-extension": "^2.13.8",
     "styled-components": "^4.4.1"
   },
   "devDependencies": {
