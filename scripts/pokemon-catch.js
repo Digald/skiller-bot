@@ -50,6 +50,7 @@ module.exports = async msg => {
   if (!requestingUser) {
     const userObject = {
       discordId: userId,
+      discordName: msg.author.username,
       discordIcon: msg.author.avatarURL,
       pokemon: [pokemonObj]
     };
@@ -65,7 +66,6 @@ module.exports = async msg => {
   let hasPokemon;
 
   // If user does not already have pokemon, add it and return
-  console.log(hasPokemonCheck);
   if (hasPokemonCheck.length < 1) {
     db.User.updateOne(
       { discordId: userId },
@@ -88,7 +88,6 @@ module.exports = async msg => {
       return msg.reply(`${getPokemon.name} has been added to your collection!`);
     }
   }
-  console.log(hasPokemon);
 
   const res = await axios.get(hasPokemon.evolChainUrl);
   // const res = await axios.get("https://pokeapi.co/api/v2/evolution-chain/1/");
@@ -103,7 +102,6 @@ module.exports = async msg => {
       currentPath,
       userId
     );
-    console.log(evolvedMessage);
     return msg.reply(evolvedMessage);
   }
 

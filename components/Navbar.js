@@ -1,10 +1,13 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
+import Avatar from "@material-ui/core/Avatar";
+import HomeSharpIcon from '@material-ui/icons/HomeSharp';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -18,10 +21,19 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     flexGrow: 1
+  },
+  avatar: {
+    margin: 10
   }
 }));
 
-export default function ButtonAppBar() {
+const useNavBar = () => {
+  const user = useSelector(state => state.user);
+  return { user };
+};
+
+export default function NavBar() {
+  const { user } = useNavBar();
   const classes = useStyles();
 
   return (
@@ -34,11 +46,16 @@ export default function ButtonAppBar() {
             color="inherit"
             aria-label="menu"
           >
-            <MenuIcon />
+            <HomeSharpIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            Test's Pokemon
+            {user.discordName}'s Pokemon
           </Typography>
+          <Avatar
+            alt="Remy Sharp"
+            src={user.discordIcon}
+            className={classes.avatar}
+          />
         </Toolbar>
       </AppBar>
     </div>

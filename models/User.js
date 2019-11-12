@@ -5,6 +5,7 @@ const userSchema = new Schema(
   {
     discordId: String,
     discordIcon: String,
+    discordName: String,
     safari: { type: Boolean, default: false },
     pokemon: [
       {

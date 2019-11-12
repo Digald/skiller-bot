@@ -1,0 +1,80 @@
+import React, { useEffect } from "react";
+import styled from "styled-components";
+
+const PokeCard = styled.div`
+  position: relative;
+  display: grid;
+  max-height: 196px;
+  max-width: 120px;
+  margin-bottom: 40px;
+  justify-items: center;
+  font-size: 14px;
+  font-weight: bold;
+  p {
+    margin: 0;
+  }
+`;
+const StatSpan = styled.span`
+  font-size: 10px;
+  color: rgba(0, 0, 0, 0.5);
+`;
+const NameBorder = styled.div`
+  height: 2px;
+  width: 50%;
+  background: #a8ff78; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to bottom, #78ffd6, #a8ff78);
+  background: linear-gradient(to bottom, #78ffd6, #a8ff78);
+`;
+const StarsIcon = styled.img`
+  position: absolute;
+  top: 120px;
+  right: 0;
+  width: 20px;
+`;
+const ShinyIcon = styled.img`
+  position: absolute;
+  top: 19px;
+  right: 0;
+`;
+const PokeImg = styled.img``
+const GridCard = ({ poke }) => {
+  let newID = poke.pokeId;
+  if (poke.pokeId.length < 3) {
+    newID = "0".repeat(3 - poke.pokeId.length) + poke.pokeId;
+  }
+  return (
+    <PokeCard>
+      <p>
+        <StatSpan>stat total</StatSpan>{" "}
+        {poke.hp + poke.speed + poke.atk + poke.def}
+      </p>
+      <img
+        src={
+          poke.shiny
+            ? `https://www.serebii.net/Shiny/SM/${newID}.png`
+            : `https://www.serebii.net/sunmoon/pokemon/${newID}.png`
+        }
+      />
+      <p>{poke.name.charAt(0).toUpperCase() + poke.name.slice(1)}</p>
+      <NameBorder></NameBorder>
+      <StarsIcon
+        src={
+          poke.stars === 3
+            ? "https://img.icons8.com/color/48/000000/insignia-3.png"
+            : poke.stars === 2
+            ? "https://img.icons8.com/color/48/000000/insignia-2.png"
+            : poke.stars === 1
+            ? "https://img.icons8.com/color/48/000000/insignia-1-stars--v2.png"
+            : "https://img.icons8.com/ios-filled/50/000000/pokeball--v2.png"
+        }
+      />
+      {poke.shiny ? (
+        <ShinyIcon src="https://i.ibb.co/8j61Qpb/shining.png" />
+      ) : (
+        ""
+      )}
+    </PokeCard>
+  );
+};
+
+export default GridCard;

@@ -21,11 +21,13 @@ const theme = createMuiTheme({
 });
 
 const GlobalStyle = createGlobalStyle`
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
     html, body {
-        height: 100%;
-        width: 100%;
-        padding: 0;
-        margin: 0;
+      font-family: 'Open Sans', sans-serif;
+      height: 100%;
+      width: 100%;
+      padding: 0;
+      margin: 0;
     }
 `;
 
