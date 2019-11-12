@@ -1,7 +1,10 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 
-const PokeCard = styled.div`
+const PokeCard = styled.button`
+  background: none;
+  border: none;
+  padding: 0;
   position: relative;
   display: grid;
   max-height: 196px;
@@ -10,6 +13,12 @@ const PokeCard = styled.div`
   justify-items: center;
   font-size: 14px;
   font-weight: bold;
+  &:hover {
+    .pokemonImg {
+      border-radius: 50%;
+      background: radial-gradient(#d2ffb8, #ffffff);
+    }
+  }
   p {
     margin: 0;
   }
@@ -19,6 +28,7 @@ const StatSpan = styled.span`
   color: rgba(0, 0, 0, 0.5);
 `;
 const NameBorder = styled.div`
+  margin: 0 auto;
   height: 2px;
   width: 50%;
   background: #a8ff78; /* fallback for old browsers */
@@ -36,7 +46,6 @@ const ShinyIcon = styled.img`
   top: 19px;
   right: 0;
 `;
-const PokeImg = styled.img``
 const GridCard = ({ poke }) => {
   let newID = poke.pokeId;
   if (poke.pokeId.length < 3) {
@@ -49,6 +58,7 @@ const GridCard = ({ poke }) => {
         {poke.hp + poke.speed + poke.atk + poke.def}
       </p>
       <img
+        className="pokemonImg"
         src={
           poke.shiny
             ? `https://www.serebii.net/Shiny/SM/${newID}.png`

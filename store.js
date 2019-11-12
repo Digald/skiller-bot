@@ -3,7 +3,8 @@ import { composeWithDevTools } from "redux-devtools-extension";
 
 const initialState = {
   user: {},
-  users: []
+  users: [],
+  singlePoke: {}
 };
 
 const reducer = (state = initialState, action) => {

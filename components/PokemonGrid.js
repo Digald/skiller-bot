@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import GridCard from "./GridCard";
+import PokeCard from "./PokeCard";
 
 const PokeGrid = styled.div`
   padding: 5% 1% 1% 1%;
@@ -25,6 +26,7 @@ const PokemonGrid = () => {
       {pokemon.map(singlePoke => {
         return <GridCard key={singlePoke._id} poke={singlePoke} />;
       })}
+      <PokeCard />
     </PokeGrid>
   );
 };
