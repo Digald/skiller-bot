@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import GridCard from "./GridCard";
-import PokeCard from "./PokeCard";
+import PokeCard from "./PokeModal";
 
 const PokeGrid = styled.div`
   padding: 5% 1% 1% 1%;

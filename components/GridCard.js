@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 
 const PokeCard = styled.button`
@@ -46,13 +47,26 @@ const ShinyIcon = styled.img`
   top: 19px;
   right: 0;
 `;
+
+const useGridCard = () => {
+  const dispatch = useDispatch();
+  const setPokemon = poke => {
+    dispatch({
+      type: "SET-POKEMON",
+      data: poke
+    });
+  };
+  return {setPokemon}
+};
+
 const GridCard = ({ poke }) => {
+  const {setPokemon} = useGridCard();
   let newID = poke.pokeId;
   if (poke.pokeId.length < 3) {
     newID = "0".repeat(3 - poke.pokeId.length) + poke.pokeId;
   }
   return (
-    <PokeCard>
+    <PokeCard onClick={() => setPokemon(poke)}>
       <p>
         <StatSpan>stat total</StatSpan>{" "}
         {poke.hp + poke.speed + poke.atk + poke.def}

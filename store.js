@@ -4,7 +4,8 @@ import { composeWithDevTools } from "redux-devtools-extension";
 const initialState = {
   user: {},
   users: [],
-  singlePoke: {}
+  singlePoke: {},
+  isModalToggled: false
 };
 
 const reducer = (state = initialState, action) => {
@@ -13,6 +14,21 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         user: action.data
+      };
+    case "SET-POKEMON":
+      return {
+        ...state,
+        singlePoke: action.data
+      };
+    case "OPEN-MODAL":
+      return {
+        ...state,
+        isModalToggled: true
+      };
+    case "CLOSE-MODAL":
+      return {
+        ...state,
+        isModalToggled: false
       };
     default:
       return state;
