@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 
+// -------------------------------STYLES
 const PokeCard = styled.button`
   background: none;
   border: none;
@@ -48,6 +49,7 @@ const ShinyIcon = styled.img`
   right: 0;
 `;
 
+// -------------------------------HOOK
 const useGridCard = () => {
   const dispatch = useDispatch();
   const setPokemon = poke => {
@@ -58,7 +60,7 @@ const useGridCard = () => {
   };
   return {setPokemon}
 };
-
+// -------------------------------COMPONENT
 const GridCard = ({ poke }) => {
   const {setPokemon} = useGridCard();
   let newID = poke.pokeId;

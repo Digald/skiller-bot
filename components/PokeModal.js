@@ -5,10 +5,19 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import { makeStyles } from "@material-ui/core/styles";
+import typesJson from "./types.json";
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    background: "black"
+  root: props => ({
+    background: props.background,
+    padding: "0"
+  }),
+  content: {
+    background: "white",
+    height: "100%",
+    borderRadius: "20px",
+    margin: "50px 1% 1% 1%",
+    padding: "20px"
   }
 }));
 
@@ -16,25 +25,36 @@ const usePokeModal = () => {
   const open = useSelector(state => state.isModalToggled);
   const pokemon = useSelector(state => state.singlePoke);
   const dispatch = useDispatch();
-  const openModal = () => {
-    dispatch({
-      type: "OPEN-MODAL"
-    });
-  };
-
   const closeModal = () => {
     dispatch({
       type: "CLOSE-MODAL"
     });
   };
 
-  return { open, pokemon, openModal, closeModal };
+  return { open, pokemon, closeModal };
 };
 
 export default function PokeModal() {
-  const {open, pokemon, openModal, closeModal} = usePokeModal();
-  const classes = useStyles();
-  
+  const { open, pokemon, closeModal } = usePokeModal();
+  const { types } = pokemon;
+  let props = { background: "black" };
+  if (types) {
+    if (types.length === 1) {
+      props = {
+        background: `linear-gradient(to right, ${
+          typesJson[types[0].pokeType].single[0]
+        }, ${typesJson[types[0].pokeType].single[1]})`
+      };
+    } else {
+      props = {
+        background: `linear-gradient(to right, ${
+          typesJson[types[0].pokeType].duo
+        }, ${typesJson[types[1].pokeType].duo})`
+      };
+    }
+  }
+  const classes = useStyles(props);
+
   const descriptionElementRef = React.useRef(null);
   React.useEffect(() => {
     const { current: descriptionElement } = descriptionElementRef;
@@ -45,7 +65,6 @@ export default function PokeModal() {
 
   return (
     <div>
-      <Button onClick={openModal}>scroll=body</Button>
       <Dialog
         open={open}
         onClose={closeModal}
@@ -55,6 +74,7 @@ export default function PokeModal() {
       >
         <DialogContent className={classes.root}>
           <DialogContentText
+            className={classes.content}
             id="scroll-dialog-description"
             ref={descriptionElementRef}
             tabIndex={-1}

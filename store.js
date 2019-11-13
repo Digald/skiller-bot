@@ -18,7 +18,8 @@ const reducer = (state = initialState, action) => {
     case "SET-POKEMON":
       return {
         ...state,
-        singlePoke: action.data
+        singlePoke: action.data,
+        isModalToggled: true
       };
     case "OPEN-MODAL":
       return {
