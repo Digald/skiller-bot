@@ -1,6 +1,7 @@
 const axios = require("axios");
 const ColorThief = require("colorthief");
 const { RichEmbed } = require("discord.js");
+const extractTypesData = require('./helpers/extractTypeData');
 const db = require("../models");
 
 // https://www.serebii.net/pokemongo/pokemon/719.png for more detailed sprites
@@ -61,37 +62,10 @@ module.exports = (client) => {
       thumb = "";
     }
     const pokeColor = await ColorThief.getColor(sprite).then(color => color);
-
-    // Submit Embed to Discord for users to see
-    const embed = await new RichEmbed()
-      .setTitle(`A wild ${data.name} appears!`)
-      .setThumbnail(thumb)
-      .setImage(sprite)
-      .setFooter("!catch to add to your collection")
-      .setColor(pokeColor);
-    client.channels.get("468570185847013379").send(embed);
     
     // Collect Type Data for database insertion
-    const extractTypesData = data.types.map(async type => {
-      const damageResponse = await axios.get(type.type.url);
-      const damageRelations = damageResponse.data.damage_relations;
-      const {
-        double_damage_to,
-        half_damage_to,
-        no_damage_to
-      } = damageRelations;
-      const doubleDamageTo = double_damage_to.map(type => type.name);
-      const halfDamageTo = half_damage_to.map(type => type.name);
-      const noDamageTo = no_damage_to.map(type => type.name);
-      return {
-        pokeType: type.type.name,
-        doubleDamageTo,
-        halfDamageTo,
-        noDamageTo
-      };
-    });
-    const p = Promise.all(extractTypesData);
-    const typesData = await p.then(v => v);
+    const typesData = await Promise.resolve(extractTypesData(data));
+    // console.log(typesData);
 
     // Insert all data into Spawn schema
     const { stats } = data;
@@ -107,10 +81,8 @@ module.exports = (client) => {
         stats[4].base_stat > stats[2].base_stat
           ? stats[4].base_stat
           : stats[2].base_stat,
-      def:
-        stats[3].base_stat > stats[1].base_stat
-          ? stats[3].base_stat
-          : stats[1].base_stat,
+      def: stats[3].base_stat,
+      spdef: stats[1].base_stat,
       speed: stats[0].base_stat,
       caughtBy: []
     };
@@ -123,6 +95,14 @@ module.exports = (client) => {
       }
       return;
     });
+    // Submit Embed to Discord for users to see
+    const embed = await new RichEmbed()
+      .setTitle(`A wild ${data.name} appears!`)
+      .setThumbnail(thumb)
+      .setImage(sprite)
+      .setFooter("!catch to add to your collection")
+      .setColor(pokeColor);
+    client.channels.get("468570185847013379").send(embed);
   }
   spawnPokemon();
   // setInterval(spawnPokemon, 5000);

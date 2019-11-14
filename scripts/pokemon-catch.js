@@ -18,6 +18,7 @@ module.exports = async msg => {
     hp,
     atk,
     def,
+    spdef,
     speed
   } = getPokemon;
   const pokemonObj = {
@@ -30,6 +31,7 @@ module.exports = async msg => {
     hp,
     atk,
     def,
+    spdef,
     speed
   };
   // If the pokemon has already been caught by the user
@@ -122,6 +124,7 @@ module.exports = async msg => {
         "pokemon.$.hp": hasPokemon.hp + 3,
         "pokemon.$.atk": hasPokemon.atk + 3,
         "pokemon.$.def": hasPokemon.def + 3,
+        "pokemon.$.spdef": hasPokemon.spdef + 3,
         "pokemon.$.speed": hasPokemon.speed + 3
       }
     }

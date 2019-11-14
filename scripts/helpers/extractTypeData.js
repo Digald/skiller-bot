@@ -12,11 +12,13 @@ module.exports = async data => {
     const doubleDamageTo = double_damage_to.map(type => type.name);
     const halfDamageTo = half_damage_to.map(type => type.name);
     const noDamageTo = no_damage_to.map(type => type.name);
+    const strongAgainst = []
+    const weakAgainst = []
+    console.log(damageRelations);
     return {
       pokeType: type.type.name,
-      doubleDamageTo,
-      halfDamageTo,
-      noDamageTo
+      strongAgainst,
+      weakAgainst
     };
   });
   const p = Promise.all(extractTypesData);

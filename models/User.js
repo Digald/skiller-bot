@@ -27,33 +27,12 @@ const userSchema = new Schema(
         hp: Number,
         atk: Number,
         def: Number,
+        spdef: Number,
         speed: Number,
 
       }
     ],
-    team: [
-      {
-        name: String,
-        pokeId: String,
-        evolChainUrl: String,
-        stars: Number,
-        timesEvolved: Number,
-        types: [
-          {
-            pokeType: String,
-            doubleDamageTo: [String],
-            halfDamageTo: [String],
-            noDamageTo: [String]
-          }
-        ],
-        shiny: Boolean,
-        spriteUrl: String,
-        hp: Number,
-        atk: Number,
-        def: Number,
-        speed: Number,
-      }
-    ]
+    team: String
   },
   { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
 );

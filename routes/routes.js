@@ -6,7 +6,6 @@ module.exports = (server, handle, app) => {
     db.User.findOne({
       discordId: req.params.discordID
     }).then(result => {
-      console.log(result);
       return app.render(req, res, "/collection", result);
     });
   });

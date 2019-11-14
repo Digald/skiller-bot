@@ -17,6 +17,7 @@ const spawnSchema = new Schema(
     hp: Number,
     atk: Number,
     def: Number,
+    spdef: Number,
     speed: Number,
     caughtBy: [String]
   },
