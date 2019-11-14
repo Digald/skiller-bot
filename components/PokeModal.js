@@ -1,29 +1,25 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import Button from "@material-ui/core/Button";
+import styled from "styled-components";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import { makeStyles } from "@material-ui/core/styles";
 import typesJson from "./types.json";
+import ModalDetails from "./ModalDetails";
 
-const useStyles = makeStyles(theme => ({
+//  --------------------------------------------------------------------------STYLES
+const useStyles = makeStyles({
   root: props => ({
     background: props.background,
-    padding: "0"
+    padding: "0",
+    width: "100%"
   }),
-  content: {
-    background: "white",
-    height: "100%",
-    borderRadius: "20px",
-    margin: "50px 1% 1% 1%",
-    padding: "20px"
-  }
-}));
-
+  paperScrollBody: { width: "100%", overflow: "hidden" }
+});
+// ----------------------------------------------------------------------------HOOK
 const usePokeModal = () => {
   const open = useSelector(state => state.isModalToggled);
-  const pokemon = useSelector(state => state.singlePoke);
+  const pokemon = useSelector(state => state.singlePoke)
   const dispatch = useDispatch();
   const closeModal = () => {
     dispatch({
@@ -33,10 +29,11 @@ const usePokeModal = () => {
 
   return { open, pokemon, closeModal };
 };
-
+// -----------------------------------------------------------------------Component
 export default function PokeModal() {
   const { open, pokemon, closeModal } = usePokeModal();
   const { types } = pokemon;
+
   let props = { background: "black" };
   if (types) {
     if (types.length === 1) {
@@ -63,33 +60,20 @@ export default function PokeModal() {
     }
   }, [open]);
 
+  if (!types) return "";
+  // ------------------------------------------------------------------------RENDER
   return (
-    <div>
-      <Dialog
-        open={open}
-        onClose={closeModal}
-        scroll="body"
-        aria-labelledby="scroll-dialog-title"
-        aria-describedby="scroll-dialog-description"
-      >
-        <DialogContent className={classes.root}>
-          <DialogContentText
-            className={classes.content}
-            id="scroll-dialog-description"
-            ref={descriptionElementRef}
-            tabIndex={-1}
-          >
-            {[...new Array(1)]
-              .map(
-                () => `Cras mattis consectetur purus sit amet fermentum.
-Cras justo odio, dapibus ac facilisis in, egestas eget quam.
-Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
-              )
-              .join("\n")}
-          </DialogContentText>
-        </DialogContent>
-      </Dialog>
-    </div>
+    <Dialog
+      open={open}
+      onClose={closeModal}
+      scroll="body"
+      aria-labelledby="scroll-dialog-title"
+      aria-describedby="scroll-dialog-description"
+      classes={{ paperScrollBody: classes.paperScrollBody }}
+    >
+      <DialogContent className={classes.root}>
+        <ModalDetails />
+      </DialogContent>
+    </Dialog>
   );
 }
