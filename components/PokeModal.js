@@ -72,7 +72,7 @@ export default function PokeModal() {
       classes={{ paperScrollBody: classes.paperScrollBody }}
     >
       <DialogContent className={classes.root}>
-        <ModalDetails />
+        <ModalDetails colors={props.background}/>
       </DialogContent>
     </Dialog>
   );

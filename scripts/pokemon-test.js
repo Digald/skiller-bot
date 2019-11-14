@@ -65,7 +65,6 @@ module.exports = (client) => {
     
     // Collect Type Data for database insertion
     const typesData = await Promise.resolve(extractTypesData(data));
-    // console.log(typesData);
 
     // Insert all data into Spawn schema
     const { stats } = data;

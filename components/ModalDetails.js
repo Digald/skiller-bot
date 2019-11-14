@@ -14,7 +14,7 @@ const Content = styled.div`
   grid-template-columns: 1fr;
   grid-template-rows: auto auto auto;
   .name-space {
-      margin-bottom: 20px;
+    margin-bottom: 20px;
   }
 `;
 
@@ -73,15 +73,25 @@ const IconSection = styled.div`
   }
 `;
 const TypesSection = styled.div`
-    
-`
+  .offence {
+    display: flex;
+    flex-wrap: nowrap;
+    background: rgba(0, 0, 0, 0.1);
+    p {
+      background: ${props => props.gradient};
+      border-radius: 10%;
+      color: white;
+      font-weight: bold;
+    }
+  }
+`;
 // ----------------------------------------------------------------------------HOOK
 const useModalDetails = () => {
   const pokemon = useSelector(state => state.singlePoke);
   return { pokemon };
 };
 // -----------------------------------------------------------------------Component
-export default function ModalDetails() {
+export default function ModalDetails(props) {
   const { pokemon } = useModalDetails();
   const { types, pokeId, shiny, stars, name } = pokemon;
 
@@ -149,7 +159,11 @@ export default function ModalDetails() {
           <p>LEVEL</p>
         </div>
       </IconSection>
-      <TypesSection></TypesSection>
+      <TypesSection gradient={props.colors}>
+        <div className="offence">
+          <p>OFFENCE</p>
+        </div>
+      </TypesSection>
     </Content>
   );
 }

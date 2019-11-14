@@ -13,13 +13,22 @@ const userSchema = new Schema(
         pokeId: String,
         evolChainUrl: String,
         stars: { type: Number, default: 0 },
-        timesEvolved: {type: Number, default: 0},
+        timesEvolved: { type: Number, default: 0 },
         types: [
           {
             pokeType: String,
-            doubleDamageTo: [String],
-            halfDamageTo: [String],
-            noDamageTo: [String]
+            damageTo: [
+              {
+                pokeType: String,
+                mod: Number
+              }
+            ],
+            damageFrom: [
+              {
+                pokeType: String,
+                mod: Number
+              }
+            ]
           }
         ],
         shiny: Boolean,
@@ -28,8 +37,7 @@ const userSchema = new Schema(
         atk: Number,
         def: Number,
         spdef: Number,
-        speed: Number,
-
+        speed: Number
       }
     ],
     team: String

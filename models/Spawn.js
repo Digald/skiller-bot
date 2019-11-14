@@ -6,12 +6,23 @@ const spawnSchema = new Schema(
     name: String,
     pokeId: String,
     evolChainUrl: String,
-    types: [{
-      pokeType: String,
-      doubleDamageTo: [String],
-      halfDamageTo: [String],
-      noDamageTo: [String]
-    }],
+    types: [
+      {
+        pokeType: String,
+        damageTo: [
+          {
+            pokeType: String,
+            mod: Number
+          }
+        ],
+        damageFrom: [
+          {
+            pokeType: String,
+            mod: Number
+          }
+        ]
+      }
+    ],
     shiny: Boolean,
     spriteUrl: String,
     hp: Number,

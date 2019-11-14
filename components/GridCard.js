@@ -17,6 +17,8 @@ const PokeCard = styled.button`
   font-weight: bold;
   &:hover {
     .pokemonImg {
+      max-width: 120px;
+      height: 120px;
       border-radius: 50%;
       background: radial-gradient(#d2ffb8, #ffffff);
     }
@@ -58,11 +60,11 @@ const useGridCard = () => {
       data: poke
     });
   };
-  return {setPokemon}
+  return { setPokemon };
 };
 // -------------------------------COMPONENT
 const GridCard = ({ poke }) => {
-  const {setPokemon} = useGridCard();
+  const { setPokemon } = useGridCard();
   let newID = poke.pokeId;
   if (poke.pokeId.length < 3) {
     newID = "0".repeat(3 - poke.pokeId.length) + poke.pokeId;
