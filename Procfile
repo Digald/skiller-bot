@@ -1,1 +1,1 @@
-yarn start
+node server.js
