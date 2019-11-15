@@ -5,7 +5,8 @@
     "dev": "nodemon server.js",
     "build": "next build",
     "heroku-postbuild": "next build",
-    "start": "cross-env NODE_ENV=production node server.js"
+    "starty": "cross-env NODE_ENV=production node server.js",
+    "start": "node server.js"
   },
   "dependencies": {
     "@material-ui/core": "^4.6.0",
