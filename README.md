@@ -22,12 +22,16 @@ WARCRAFT_LOGS=api key from https://www.warcraftlogs.com/
 Install dependencies.
 
 ```
-npm install
+npm i
+```
+or
+```
+yarn
 ```
 Run start command.
 
 ```
-npm start
+yarn dev
 ```
 and that should be it! 
 
@@ -39,15 +43,6 @@ Start with typing a command to get started in your text channel or private messa
 
 ```
 !help
-```
-
-## Running the tests
-
-I haven't developed any test for the bot yet but that is something I want to tackle in the near future. I have jest set up so far.
-
-To run jest tests type,
-```
-npm test
 ```
 
 ## Deployment
