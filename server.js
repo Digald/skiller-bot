@@ -18,7 +18,7 @@ const startPokemon = require("./scripts/pokemon-spawn");
 
 app.prepare().then(() => {
   const server = express();
-  mongoose.connect("mongodb://localhost:27017/skillerbot", {
+  mongoose.connect("mongodb://localhost:27017/skillerbot" || process.env.MONGODB_URI, {
     useNewUrlParser: true, useFindAndModify: false
   });
   // Listen for Discord Bot_____________________________________
