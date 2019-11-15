@@ -13,6 +13,10 @@ const IconSummary = styled.div`
   align-items: center;
   padding-bottom: 20px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  .typeIcon-wrap {
+    display: flex;
+    flex-wrap: nowrap;
+  }
   p {
     font-size: 12px;
     color: rgba(0, 0, 0, 0.5);
@@ -59,14 +63,17 @@ export default function IconSection() {
         <p>RARITY</p>
       </div>
       <div>
-        <div>
-          {types.map(type => {
-            return <img src={`/type-icons/${type.pokeType}.png`} />;
+        <div className="typeIcon-wrap">
+          {types.map((type, index) => {
+            return <img key={index} src={`/type-icons/${type.pokeType}.png`} />;
           })}
         </div>
         <div className="types">
           {types.map((type, index) => {
-            return <p key={index}>{type.pokeType.toUpperCase()}</p>;
+            if (types.length - 1 === index) {
+              return <p key={index}>{type.pokeType.toUpperCase()}</p>;
+            }
+            return <p key={index}>{type.pokeType.toUpperCase()} /</p>;
           })}
         </div>
       </div>

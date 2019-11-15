@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import styled from "styled-components";
+import Fab from "@material-ui/core/Fab";
+import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import { makeStyles } from "@material-ui/core/styles";
@@ -14,12 +15,18 @@ const useStyles = makeStyles({
     padding: "0",
     width: "100%"
   }),
-  paperScrollBody: { width: "100%", overflow: "hidden" }
+  paperScrollBody: { width: "100%", overflow: "hidden" },
+  fab: {
+    position: "fixed",
+    top: "0",
+    right: "0"
+  }
 });
+
 // ----------------------------------------------------------------------------HOOK
 const usePokeModal = () => {
   const open = useSelector(state => state.isModalToggled);
-  const pokemon = useSelector(state => state.singlePoke)
+  const pokemon = useSelector(state => state.singlePoke);
   const dispatch = useDispatch();
   const closeModal = () => {
     dispatch({
@@ -72,7 +79,10 @@ export default function PokeModal() {
       classes={{ paperScrollBody: classes.paperScrollBody }}
     >
       <DialogContent className={classes.root}>
-        <ModalDetails colors={props.background}/>
+        <ModalDetails colors={props.background} />
+        {/* <Fab color="primary" aria-label="add" className={classes.fab}>
+          <HighlightOffIcon/>
+        </Fab> */}
       </DialogContent>
     </Dialog>
   );

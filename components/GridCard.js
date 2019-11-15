@@ -7,6 +7,7 @@ const PokeCard = styled.button`
   background: none;
   border: none;
   padding: 0;
+  margin: 0 20px;
   position: relative;
   display: grid;
   max-height: 196px;
@@ -83,7 +84,7 @@ const GridCard = ({ poke }) => {
             : `https://www.serebii.net/sunmoon/pokemon/${newID}.png`
         }
       />
-      <p>{poke.name.charAt(0).toUpperCase() + poke.name.slice(1)}</p>
+<p>{poke.name.charAt(0).toUpperCase() + poke.name.slice(1)}</p>
       <NameBorder></NameBorder>
       <StarsIcon
         src={
