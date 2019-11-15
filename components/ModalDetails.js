@@ -1,31 +1,45 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
-import typesJson from "./types.json";
+import IconSummary from "./IconSummary";
+import TypeModifiers from "./TypeModifiers";
+import StatSummary from "./StatSummary";
 
 // --------------------------------------------------------------------------STYLES
 const Content = styled.div`
-  background: white;
+  /* background: white; */
   height: 100%;
   border-radius: 20px;
-  margin: 100px 1% 1% 1%;
-  padding: 50px 20px 20px 20px;
+  margin: 1%;
+  /* padding: 50px 20px 20px 20px; */
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: auto auto auto;
+  grid-template-rows: 100px 100px auto auto auto;
+  .bottomImgPanel {
+    border-radius: 25px 25px 0px 0px;
+    background: white;
+    grid-row: 2 / 3;
+    grid-column: 1 / 2;
+    height: 100%;
+    width: 100%;
+  }
   .name-space {
-    margin-bottom: 20px;
+    padding-bottom: 20px;
+    background: white;
   }
 `;
 
 const PokemonImg = styled.img`
-  position: absolute;
+  grid-row: 1 / 3;
+  grid-column: 1 / 2;
+  justify-self: center;
   width: 200px;
   top: 0;
   left: 200px;
-  @media (max-width: 600px) {
-    left: 25%;
-  }
+  z-index: 2;
+  border: 1px solid white;
+  border-radius: 50%;
+  border-bottom: none;
 `;
 const PokemonName = styled.h1`
   margin: 0;
@@ -39,52 +53,6 @@ const NameBorder = styled.div`
   background: -webkit-linear-gradient(to bottom, #78ffd6, #a8ff78);
   background: linear-gradient(to bottom, #78ffd6, #a8ff78);
 `;
-const IconSection = styled.div`
-  display: grid;
-  width: 100%;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: auto;
-  justify-items: center;
-  align-items: center;
-  padding-bottom: 20px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-  p {
-    font-size: 12px;
-    color: rgba(0, 0, 0, 0.5);
-    margin: 0;
-  }
-  .types {
-    display: flex;
-    flex-wrap: nowrap;
-    text-align: center;
-    justify-content: space-evenly;
-  }
-  .align-section {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: none;
-    justify-content: space-evenly;
-    align-items: center;
-  }
-  .stars-icon {
-    width: 40px;
-  }
-`;
-const TypesSection = styled.div`
-  .offence {
-    display: flex;
-    flex-wrap: nowrap;
-    background: rgba(0, 0, 0, 0.1);
-    p {
-      background: ${props => props.gradient};
-      border-radius: 10%;
-      color: white;
-      font-weight: bold;
-    }
-  }
-`;
 // ----------------------------------------------------------------------------HOOK
 const useModalDetails = () => {
   const pokemon = useSelector(state => state.singlePoke);
@@ -93,7 +61,7 @@ const useModalDetails = () => {
 // -----------------------------------------------------------------------Component
 export default function ModalDetails(props) {
   const { pokemon } = useModalDetails();
-  const { types, pokeId, shiny, stars, name } = pokemon;
+  const { pokeId, shiny, name } = pokemon;
 
   let newID = pokeId;
   if (pokeId) {
@@ -113,57 +81,16 @@ export default function ModalDetails(props) {
             : `https://www.serebii.net/sunmoon/pokemon/${newID}.png`
         }
       />
+      <div className="bottomImgPanel"></div>
       <div className="name-space">
         <PokemonName>
           {name.charAt(0).toUpperCase() + name.slice(1)}
         </PokemonName>
         <NameBorder />
       </div>
-      <IconSection>
-        <div className="align-section">
-          {shiny ? (
-            <img src="https://i.ibb.co/8j61Qpb/shining.png" />
-          ) : (
-            <p>NORMAL</p>
-          )}
-          <p>RARITY</p>
-        </div>
-        <div>
-          <div>
-            {types.map(type => {
-              return <img src={`/type-icons/${type.pokeType}.png`} />;
-            })}
-          </div>
-          <div className="types">
-            {types.map((type, index) => {
-              if (index === types.length - 1) {
-                return <p>{type.pokeType.toUpperCase()}</p>;
-              }
-              return <p>{type.pokeType.toUpperCase()}</p>;
-            })}
-          </div>
-        </div>
-        <div className="align-section">
-          <img
-            className="stars-icon"
-            src={
-              stars === 3
-                ? "https://img.icons8.com/color/48/000000/insignia-3.png"
-                : stars === 2
-                ? "https://img.icons8.com/color/48/000000/insignia-2.png"
-                : stars === 1
-                ? "https://img.icons8.com/color/48/000000/insignia-1-stars--v2.png"
-                : "https://img.icons8.com/ios-filled/50/000000/pokeball--v2.png"
-            }
-          />
-          <p>LEVEL</p>
-        </div>
-      </IconSection>
-      <TypesSection gradient={props.colors}>
-        <div className="offence">
-          <p>OFFENCE</p>
-        </div>
-      </TypesSection>
+      <IconSummary />
+      <TypeModifiers colors={props} />
+      <StatSummary />
     </Content>
   );
 }

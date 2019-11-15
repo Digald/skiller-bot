@@ -1,5 +1,5 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import {useDispatch } from "react-redux";
 import styled from "styled-components";
 
 // -------------------------------STYLES
@@ -73,7 +73,7 @@ const GridCard = ({ poke }) => {
     <PokeCard onClick={() => setPokemon(poke)}>
       <p>
         <StatSpan>stat total</StatSpan>{" "}
-        {poke.hp + poke.speed + poke.atk + poke.def}
+        {poke.hp + poke.speed + poke.atk + poke.def + poke.spdef}
       </p>
       <img
         className="pokemonImg"
