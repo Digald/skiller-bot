@@ -1,6 +1,7 @@
 const axios = require("axios");
 const ColorThief = require("colorthief");
 const { RichEmbed } = require("discord.js");
+const extractTypesData = require('./helpers/extractTypeData');
 const db = require("../models");
 
 // pokemon channel id 441820156197339136
