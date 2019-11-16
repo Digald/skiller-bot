@@ -102,8 +102,9 @@ module.exports = client => {
       .setImage(sprite)
       .setFooter("!catch to add to your collection")
       .setColor(pokeColor);
-    client.channels.get("468570185847013379").send(embed);
+    // console.log(client.channels.get("468570185847013379"));
+    client.channels.get("441820156197339136").send(embed);
   }
-  spawnPokemon();
-  setInterval(spawnPokemon, 5000);
+  // spawnPokemon();
+  // setInterval(spawnPokemon, 43200 * 1000);
 };

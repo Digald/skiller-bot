@@ -31,6 +31,7 @@ app.prepare().then(() => {
     console.log(`Logged in as ${client.user.tag}!`);
     startPokemon(client);
   });
+  
   client.on("message", msg => {
     scripts(msg, client);
   });
