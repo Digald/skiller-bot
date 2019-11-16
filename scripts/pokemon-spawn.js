@@ -77,10 +77,8 @@ module.exports = client => {
       shiny: shiny,
       spriteUrl: sprite,
       hp: stats[5].base_stat,
-      atk:
-        stats[4].base_stat > stats[2].base_stat
-          ? stats[4].base_stat
-          : stats[2].base_stat,
+      atk: stats[4].base_stat,
+      spatk: stats[2].base_stat,
       def: stats[3].base_stat,
       spdef: stats[1].base_stat,
       speed: stats[0].base_stat,
@@ -102,9 +100,8 @@ module.exports = client => {
       .setImage(sprite)
       .setFooter("!catch to add to your collection")
       .setColor(pokeColor);
-    // console.log(client.channels.get("468570185847013379"));
     client.channels.get("441820156197339136").send(embed);
   }
-  // spawnPokemon();
-  // setInterval(spawnPokemon, 43200 * 1000);
+  spawnPokemon();
+  setInterval(spawnPokemon, 43200 * 1000);
 };

@@ -48,8 +48,8 @@ const useStatSummary = () => {
 // -----------------------------------------------------------------------Component
 export default function StatSummary() {
   const { pokemon } = useStatSummary();
-  const { hp, atk, def, spdef, speed } = pokemon;
-  const maxVal = Math.max(hp, atk, def, spdef, speed) / 0.9;
+  const { hp, atk, spatk, def, spdef, speed } = pokemon;
+  const maxVal = Math.max(hp, atk, spatk, def, spdef, speed) / 0.9;
   console.log(maxVal);
   const normalise = value => ((value - 0) * 100) / (maxVal - 0);
   // ------------------------------------------------------------------------RENDER
@@ -71,6 +71,13 @@ export default function StatSummary() {
           value={normalise(atk)}
         />
         <span>{atk}</span>
+        <span>SP. ATK.</span>
+        <StatsBar
+          variant="determinate"
+          color="secondary"
+          value={normalise(spatk)}
+        />
+        <span>{spatk}</span>
         <span>DEFENCE</span>
         <StatsBar
           variant="determinate"

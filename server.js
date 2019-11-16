@@ -9,6 +9,7 @@ const app = next({ dev });
 const routes = require("./routes/routes");
 const handle = app.getRequestHandler();
 const mongoose = require("mongoose");
+const axios = require('axios');
 // Discord Deps
 const Discord = require("discord.js");
 const token = process.env.BOT_TOKEN;
@@ -47,8 +48,7 @@ app.prepare().then(() => {
     console.log(`> Ready on http://localhost:${port}`);
   });
 
-  var http = require("http");
   setInterval(function() {
-    http.get("https://skiller-bot.herokuapp.com/");
+    axios.get("https://skiller-bot.herokuapp.com/");
   }, 300000); // every 5 minutes (300000)
 });

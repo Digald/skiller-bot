@@ -17,6 +17,7 @@ module.exports = async msg => {
     spriteUrl,
     hp,
     atk,
+    spatk,
     def,
     spdef,
     speed
@@ -30,6 +31,7 @@ module.exports = async msg => {
     spriteUrl,
     hp,
     atk,
+    spatk,
     def,
     spdef,
     speed
@@ -57,7 +59,9 @@ module.exports = async msg => {
       pokemon: [pokemonObj]
     };
     db.User.create(userObject);
-    return msg.reply(`${getPokemon.name} has been added to your collection!`);
+    return msg.reply(
+      `${getPokemon.name} has been added to your collection!\nCheck out your collection at https://skiller-bot.herokuapp.com/collection/${msg.author.id}`
+    );
   }
 
   // Check if user already has that pokemon since they exist (array)
@@ -73,7 +77,9 @@ module.exports = async msg => {
       { discordId: userId },
       { $push: { pokemon: pokemonObj } }
     ).exec();
-    return msg.reply(`${getPokemon.name} has been added to your collection!`);
+    return msg.reply(
+      `${getPokemon.name} has been added to your collection!\nCheck out your collection at https://skiller-bot.herokuapp.com/collection/${msg.author.id}`
+    );
   }
   // if user has 1 already, check
   else if (hasPokemonCheck.length > 0) {
@@ -87,7 +93,9 @@ module.exports = async msg => {
         { discordId: userId },
         { $push: { pokemon: pokemonObj } }
       ).exec();
-      return msg.reply(`${getPokemon.name} has been added to your collection!`);
+      return msg.reply(
+        `${getPokemon.name} has been added to your collection!\nCheck out your collection at https://skiller-bot.herokuapp.com/collection/${msg.author.id}`
+      );
     }
   }
 
@@ -104,7 +112,10 @@ module.exports = async msg => {
       currentPath,
       userId
     );
-    return msg.reply(evolvedMessage);
+    return msg.reply(
+      evolvedMessage +
+        `\nCheck out your collection at https://skiller-bot.herokuapp.com/collection/${msg.author.id}`
+    );
   }
 
   const currentStars = hasPokemon.stars + 1;
@@ -123,11 +134,14 @@ module.exports = async msg => {
           : hasPokemon.spriteUrl,
         "pokemon.$.hp": hasPokemon.hp + 3,
         "pokemon.$.atk": hasPokemon.atk + 3,
+        "pokemon.$.spatk": hasPokemon.spatk + 3,
         "pokemon.$.def": hasPokemon.def + 3,
         "pokemon.$.spdef": hasPokemon.spdef + 3,
         "pokemon.$.speed": hasPokemon.speed + 3
       }
     }
   );
-  return msg.reply(`${getPokemon.name} has been added to your collection!`);
+  return msg.reply(
+    `${getPokemon.name} has been added to your collection!\nCheck out your collection at https://skiller-bot.herokuapp.com/collection/${msg.author.id}`
+  );
 };

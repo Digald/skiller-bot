@@ -52,10 +52,8 @@ module.exports = async function evolvePokemon(
         spriteUrl: isShiny ? sprites.front_shiny : sprites.front_default,
         shiny: isShiny,
         hp: stats[5].base_stat,
-        atk:
-          stats[4].base_stat > stats[2].base_stat
-            ? stats[4].base_stat
-            : stats[2].base_stat,
+        atk: stats[4].base_stat,
+        spatk: stats[2].base_stat,
         def: stats[3].base_stat,
         spdef: stats[1].base_stat,
         speed: stats[0].base_stat
@@ -103,6 +101,7 @@ module.exports = async function evolvePokemon(
             "pokemon.$.shiny": isShiny,
             "pokemon.$.hp": evolvedPokemon.hp + 3,
             "pokemon.$.atk": evolvedPokemon.atk + 3,
+            "pokemon.$.spatk": evolvedPokemon.spatk + 3,
             "pokemon.$.def": evolvedPokemon.def + 3,
             "pokemon.$.spdef": evolvedPokemon.spdef + 3,
             "pokemon.$.speed": evolvedPokemon.speed + 3,
@@ -137,6 +136,7 @@ module.exports = async function evolvePokemon(
             "pokemon.$.shiny": isShiny,
             "pokemon.$.hp": hasPokemon.hp + 3,
             "pokemon.$.atk": hasPokemon.atk + 3,
+            "pokemon.$.spatk": hasPokemon.spatk + 3,
             "pokemon.$.def": hasPokemon.def + 3,
             "pokemon.$.spdef": evolvedPokemon.spdef + 3,
             "pokemon.$.speed": hasPokemon.speed + 3,
@@ -161,6 +161,7 @@ module.exports = async function evolvePokemon(
         : hasPokemon.spriteUrl,
       hp: hasPokemon.hp,
       atk: hasPokemon.atk,
+      spatk: hasPokemon.spatk,
       def: hasPokemon.def,
       spdef: hasPokemon.spdef,
       speed: hasPokemon.speed

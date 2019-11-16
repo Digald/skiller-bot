@@ -3,8 +3,7 @@ const ColorThief = require("colorthief");
 const { RichEmbed } = require("discord.js");
 const extractTypesData = require('./helpers/extractTypeData');
 const db = require("../models");
-
-// https://www.serebii.net/pokemongo/pokemon/719.png for more detailed sprites
+// 468570185847013379 private message id for skiller-bot
 module.exports = (client) => {
   async function spawnPokemon() {
     
@@ -75,10 +74,8 @@ module.exports = (client) => {
       shiny: shiny,
       spriteUrl: sprite,
       hp: stats[5].base_stat,
-      atk:
-        stats[4].base_stat > stats[2].base_stat
-          ? stats[4].base_stat
-          : stats[2].base_stat,
+      atk: stats[4].base_stat,
+      spatk: stats[2].base_stat,
       def: stats[3].base_stat,
       spdef: stats[1].base_stat,
       speed: stats[0].base_stat,
@@ -103,5 +100,5 @@ module.exports = (client) => {
     client.channels.get("468570185847013379").send(embed);
   }
   spawnPokemon();
-  setInterval(spawnPokemon, 5000);
+  // setInterval(spawnPokemon, 5000);
 };

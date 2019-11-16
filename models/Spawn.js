@@ -27,6 +27,7 @@ const spawnSchema = new Schema(
     spriteUrl: String,
     hp: Number,
     atk: Number,
+    spatk: Number,
     def: Number,
     spdef: Number,
     speed: Number,
