@@ -8,78 +8,10 @@ const db = require("../models");
 // setInterval(spawnPokemon, 43200 * 1000);
 module.exports = client => {
   async function spawnPokemon() {
+    
     // Exclude Mythical and Legendaries for now
-    const exclusionList = [
-      "151",
-      "251",
-      "385",
-      "386",
-      "490",
-      "489",
-      "491",
-      "492",
-      "493",
-      "494",
-      "647",
-      "648",
-      "649",
-      "719",
-      "720",
-      "721",
-      "801",
-      "802",
-      "807",
-      "145",
-      "144",
-      "146",
-      "150",
-      "244",
-      "245",
-      "243",
-      "249",
-      "250",
-      "377",
-      "378",
-      "379",
-      "380",
-      "381",
-      "382",
-      "383",
-      "384",
-      "480",
-      "481",
-      "482",
-      "483",
-      "484",
-      "485",
-      "487",
-      "488",
-      "486",
-      "638",
-      "639",
-      "640",
-      "641",
-      "642",
-      "645",
-      "643",
-      "644",
-      "646",
-      "716",
-      "717",
-      "718",
-      "772",
-      "773",
-      "785",
-      "786",
-      "787",
-      "788",
-      "789",
-      "790",
-      "791",
-      "792",
-      "800"
-    ];
-
+    const exclusionList = [ "151", "251", "385", "386", "490", "489", "491", "492", "493", "494", "647", "648", "649", "719", "720", "721", "801", "802", "807", "145", "144", "146", "150", "244", "245", "243", "249", "250", "377", "378", "379", "380", "381", "382", "383", "384", "480", "481", "482", "483", "484", "485", "487", "488", "486", "638", "639", "640", "641", "642", "645", "643", "644", "646", "716", "717", "718", "772", "773", "785", "786", "787", "788", "789", "790", "791", "792", "800" ];
+    
     // Return random number
     const randomNum = () => Math.ceil(Math.random() * 807);
 
@@ -110,6 +42,7 @@ module.exports = client => {
     }
 
     // Make call to get final pokemon data
+    // const url = `https://pokeapi.co/api/v2/pokemon/1/`;
     const url = `https://pokeapi.co/api/v2/pokemon/${basicForm.id}/`;
     const res = await axios.get(url);
     const data = await res.data;
@@ -129,28 +62,9 @@ module.exports = client => {
       thumb = "";
     }
     const pokeColor = await ColorThief.getColor(sprite).then(color => color);
-
+    
     // Collect Type Data for database insertion
-    const extractTypesData = data.types.map(async type => {
-      const damageResponse = await axios.get(type.type.url);
-      const damageRelations = damageResponse.data.damage_relations;
-      const {
-        double_damage_to,
-        half_damage_to,
-        no_damage_to
-      } = damageRelations;
-      const doubleDamageTo = double_damage_to.map(type => type.name);
-      const halfDamageTo = half_damage_to.map(type => type.name);
-      const noDamageTo = no_damage_to.map(type => type.name);
-      return {
-        pokeType: type.type.name,
-        doubleDamageTo,
-        halfDamageTo,
-        noDamageTo
-      };
-    });
-    const p = Promise.all(extractTypesData);
-    const typesData = await p.then(v => v);
+    const typesData = await Promise.resolve(extractTypesData(data));
 
     // Insert all data into Spawn schema
     const { stats } = data;
@@ -174,7 +88,7 @@ module.exports = client => {
 
     // Make final insertion in database
     db.Spawn.findOneAndUpdate(pokemon).then(result => {
-      if (result === null) {
+      if (!result) {
         db.Spawn.create(pokemon);
         return;
       }
@@ -187,6 +101,8 @@ module.exports = client => {
       .setImage(sprite)
       .setFooter("!catch to add to your collection")
       .setColor(pokeColor);
-    client.channels.get("441820156197339136").send(embed);
+    client.channels.get("468570185847013379").send(embed);
   }
+  spawnPokemon();
+  setInterval(spawnPokemon, 5000);
 };

@@ -18,9 +18,14 @@ const startPokemon = require("./scripts/pokemon-spawn");
 
 app.prepare().then(() => {
   const server = express();
-  mongoose.connect("mongodb://localhost:27017/skillerbot" || process.env.MONGODB_URI, {
-    useNewUrlParser: true, useFindAndModify: false
-  });
+  const mongooseURL = process.env.MONGODB_URI || "mongodb://localhost:27017/skillerbot"
+  mongoose.connect(
+    mongooseURL,
+    {
+      useNewUrlParser: true,
+      useFindAndModify: false
+    }
+  );
   // Listen for Discord Bot_____________________________________
   client.on("ready", () => {
     console.log(`Logged in as ${client.user.tag}!`);
@@ -40,4 +45,9 @@ app.prepare().then(() => {
     if (err) throw err;
     console.log(`> Ready on http://localhost:${port}`);
   });
+
+  var http = require("http");
+  setInterval(function() {
+    http.get("https://skiller-bot.herokuapp.com/");
+  }, 300000); // every 5 minutes (300000)
 });

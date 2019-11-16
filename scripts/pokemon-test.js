@@ -104,5 +104,5 @@ module.exports = (client) => {
     client.channels.get("468570185847013379").send(embed);
   }
   spawnPokemon();
-  // setInterval(spawnPokemon, 5000);
+  setInterval(spawnPokemon, 5000);
 };
