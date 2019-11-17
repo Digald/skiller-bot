@@ -74,7 +74,7 @@ const GridCard = ({ poke }) => {
     <PokeCard onClick={() => setPokemon(poke)}>
       <p>
         <StatSpan>stat total</StatSpan>{" "}
-        {poke.hp + poke.speed + poke.atk + poke.def + poke.spdef}
+        {poke.hp + poke.speed + poke.atk + poke.spatk + poke.def + poke.spdef}
       </p>
       <img
         className="pokemonImg"

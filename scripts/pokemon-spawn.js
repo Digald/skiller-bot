@@ -50,7 +50,7 @@ module.exports = client => {
 
     // Check if pokemon is shiny or not, get theme color
     const { sprites } = data;
-    const shinyChance = Math.floor(Math.random() * 10);
+    const shinyChance = Math.floor(Math.random() * 20);
     let sprite;
     let thumb;
     let shiny = false;
@@ -103,5 +103,5 @@ module.exports = client => {
     client.channels.get("441820156197339136").send(embed);
   }
   spawnPokemon();
-  setInterval(spawnPokemon, 43200 * 1000);
+  setInterval(spawnPokemon, 28800 * 1000);
 };
