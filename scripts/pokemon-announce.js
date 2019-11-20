@@ -8,7 +8,18 @@ const { RichEmbed } = require("discord.js");
 // setInterval(spawnPokemon, 43200 * 1000);
 module.exports = client => {
   async function spawnPokemon() {
-    // db.Spawn.updateOne({}, {$set: {caughtBy: []}});
+    // Make initial insertion in database
+    db.Spawn.findOne().then(result => {
+      if (!result) {
+        db.Spawn.create();
+        return;
+      }
+      // When spawning a new pokemon, reset catches
+      db.Spawn.updateOne({_id: result._id}, {$set: {caughtBy: []}})
+      return;
+    });
+
+    // Set up embed
     const sprite = "https://img.icons8.com/plasticine/100/000000/pokeball.png";
     const thumb = "https://img.icons8.com/bubbles/50/000000/question-mark.png";
     const pokeColor = await ColorThief.getColor(sprite).then(color => color);

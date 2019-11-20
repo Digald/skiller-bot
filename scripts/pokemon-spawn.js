@@ -8,7 +8,7 @@ const catchPokemon = require('./pokemon-catch');
 // pokemon channel id 441820156197339136
 // spawnPokemon();
 // setInterval(spawnPokemon, 43200 * 1000);
-module.exports = (msg, client) => {
+module.exports = (msg) => {
   async function spawnPokemon() {
     
     // Exclude Mythical and Legendaries for now

@@ -16,7 +16,7 @@ module.exports = (msg, client) => {
       // test_pokemon_spawn(client);
       break;
     case "!catch":
-      pokemonSpawn(msg, client);
+      pokemonSpawn(msg);
       break;
     case "!smugs":
       smugs(msg);
