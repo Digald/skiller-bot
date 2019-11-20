@@ -2,12 +2,13 @@ const axios = require("axios");
 const ColorThief = require("colorthief");
 const { RichEmbed } = require("discord.js");
 const extractTypesData = require('./helpers/extractTypeData');
-const db = require("../models");
+const catchPokemon = require('./pokemon-catch');
 
+// 468570185847013379 private message id for skiller-bot
 // pokemon channel id 441820156197339136
 // spawnPokemon();
 // setInterval(spawnPokemon, 43200 * 1000);
-module.exports = client => {
+module.exports = (msg, client) => {
   async function spawnPokemon() {
     
     // Exclude Mythical and Legendaries for now
@@ -81,27 +82,18 @@ module.exports = client => {
       spatk: stats[2].base_stat,
       def: stats[3].base_stat,
       spdef: stats[1].base_stat,
-      speed: stats[0].base_stat,
-      caughtBy: []
+      speed: stats[0].base_stat
     };
-
-    // Make final insertion in database
-    db.Spawn.findOneAndUpdate(pokemon).then(result => {
-      if (!result) {
-        db.Spawn.create(pokemon);
-        return;
-      }
-      return;
-    });
     // Submit Embed to Discord for users to see
-    const embed = await new RichEmbed()
-      .setTitle(`A wild ${data.name} appears!`)
-      .setThumbnail(thumb)
-      .setImage(sprite)
-      .setFooter("!catch to add to your collection")
-      .setColor(pokeColor);
-    client.channels.get("441820156197339136").send(embed);
+    // const embed = await new RichEmbed()
+    //   .setTitle(`A wild ${data.name} appears!`)
+    //   .setThumbnail(thumb)
+    //   .setImage(sprite)
+    //   .setFooter("!catch to add to your collection")
+    //   .setColor(pokeColor);
+    // client.channels.get("441820156197339136").send(embed);
+    return pokemon
   }
-  spawnPokemon();
-  setInterval(spawnPokemon, 28800 * 1000);
+  const pokemon = spawnPokemon();
+  catchPokemon(msg, pokemon);
 };

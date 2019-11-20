@@ -3,11 +3,10 @@ const db = require("../models");
 const logger = require("./logger.js");
 const evolvePokemon = require("./helpers/evolvePokemon");
 
-module.exports = async msg => {
+module.exports = async (msg, getPokemon) => {
   logger(msg);
   const userId = msg.author.id;
   // Grab pokemon spawn object
-  const getPokemon = await db.Spawn.findOne();
   const {
     name,
     pokeId,
