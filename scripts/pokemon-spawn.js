@@ -8,9 +8,9 @@ const logger = require("./logger.js");
 // pokemon channel id 441820156197339136
 module.exports = async (msg, client) => {
   // For testing privately
-  if (msg.author.id !== "129038630953025536") {
-    return;
-  }
+  // if (msg.author.id !== "129038630953025536") {
+  //   return;
+  // }
   
   // If the pokemon has already been caught by the user
   const spawn = await db.Spawn.findOne({});
