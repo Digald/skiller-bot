@@ -15,7 +15,7 @@ const Discord = require("discord.js");
 const token = process.env.BOT_TOKEN;
 const client = new Discord.Client();
 const scripts = require("./scripts");
-const startPokemon = require("./scripts/pokemon-spawn");
+const announcePokemon = require("./scripts/pokemon-announce");
 
 app.prepare().then(() => {
   const server = express();
@@ -30,7 +30,7 @@ app.prepare().then(() => {
   // Listen for Discord Bot_____________________________________
   client.on("ready", () => {
     console.log(`Logged in as ${client.user.tag}!`);
-    startPokemon(client);
+    announcePokemon(client);
   });
   
   client.on("message", msg => {

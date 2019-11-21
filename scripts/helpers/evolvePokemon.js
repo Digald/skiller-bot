@@ -12,9 +12,8 @@ module.exports = async function evolvePokemon(
   hasPokemon,
   spawnPokemon,
   evolvesTo,
-  userId
+  userId, msg
 ) {
-  console.log(hasPokemon);
   // 1) Check if there is a next evolution
   // If yes, Evolve to the next level
   // If no, Add a final star to the pokemon
@@ -69,7 +68,7 @@ module.exports = async function evolvePokemon(
         }
       );
       console.log(evolutionUpdate);
-      return `Your ${hasPokemon.name} has evolved into ${pokeObject.name}!`;
+      return `${msg.author.username}'s ${hasPokemon.name} has evolved into ${pokeObject.name}!`;
     } else {
       // 4) Check if evolution has two stars
       let evolvedPokemon = hasPokemonEvolved.pokemon.filter(poke => {
@@ -88,7 +87,7 @@ module.exports = async function evolvePokemon(
           evolvedPokemon,
           spawnPokemon,
           evolution.evolves_to,
-          userId
+          userId, msg
         );
       }
       const isShiny = spawnPokemon.shiny || evolvedPokemon.shiny;
@@ -115,7 +114,7 @@ module.exports = async function evolvePokemon(
         { discordId: userId },
         { $pull: { pokemon: { _id: hasPokemon._id } } }
       ).exec();
-      return `Your ${hasPokemon.name} has evolved into ${evolvedPokemon.name}!`;
+      return `${msg.author.username} ${hasPokemon.name} has evolved into ${evolvedPokemon.name}!`;
     }
   } else {
     console.log("There is no other evolution");
@@ -146,7 +145,7 @@ module.exports = async function evolvePokemon(
           }
         }
       );
-      return `You've maxed out your ${hasPokemon.name}!`;
+      return `${msg.author.username} has maxed out their ${hasPokemon.name}!`;
     }
     const pokemonObj = {
       stars: 0,
@@ -170,6 +169,6 @@ module.exports = async function evolvePokemon(
       { discordId: userId },
       { $push: { pokemon: pokemonObj } }
     ).exec();
-    return `${hasPokemon.name} has been added to your collection!`;
+    return `${hasPokemon.name} has been added to ${msg.author.username}'s collection!`;
   }
 }; // End function

@@ -1,13 +1,29 @@
 const axios = require("axios");
-const ColorThief = require("colorthief");
-const { RichEmbed } = require("discord.js");
-const extractTypesData = require('./helpers/extractTypeData');
 const db = require("../models");
+const extractTypesData = require('./helpers/extractTypeData');
+const catchPokemon = require('./pokemon-catch');
+const logger = require("./logger.js");
 
+// 468570185847013379 private message id for skiller-bot
 // pokemon channel id 441820156197339136
-// spawnPokemon();
-// setInterval(spawnPokemon, 43200 * 1000);
-module.exports = client => {
+module.exports = async (msg, client) => {
+  // For testing privately
+  // if (msg.author.id !== "129038630953025536") {
+  //   return;
+  // }
+  
+  // If the pokemon has already been caught by the user
+  const spawn = await db.Spawn.findOne({});
+  if (spawn.caughtBy.indexOf(msg.author.id) !== -1) {
+    return msg.reply(
+      `You've already caught a pokemon recently. Try again later.`
+    );
+  }
+  // Update the caught list for the pokemon
+  db.Spawn.updateOne({}, { $push: { caughtBy: msg.author.id } }).exec();
+
+  logger(msg);
+  
   async function spawnPokemon() {
     
     // Exclude Mythical and Legendaries for now
@@ -52,17 +68,13 @@ module.exports = client => {
     const { sprites } = data;
     const shinyChance = Math.floor(Math.random() * 20);
     let sprite;
-    let thumb;
     let shiny = false;
     if (shinyChance === 0) {
       sprite = sprites.front_shiny;
       shiny = true;
-      thumb = "https://i.ibb.co/8j61Qpb/shining.png";
     } else {
       sprite = sprites.front_default;
-      thumb = "";
     }
-    const pokeColor = await ColorThief.getColor(sprite).then(color => color);
     
     // Collect Type Data for database insertion
     const typesData = await Promise.resolve(extractTypesData(data));
@@ -81,27 +93,10 @@ module.exports = client => {
       spatk: stats[2].base_stat,
       def: stats[3].base_stat,
       spdef: stats[1].base_stat,
-      speed: stats[0].base_stat,
-      caughtBy: []
+      speed: stats[0].base_stat
     };
-
-    // Make final insertion in database
-    db.Spawn.findOneAndUpdate(pokemon).then(result => {
-      if (!result) {
-        db.Spawn.create(pokemon);
-        return;
-      }
-      return;
-    });
-    // Submit Embed to Discord for users to see
-    const embed = await new RichEmbed()
-      .setTitle(`A wild ${data.name} appears!`)
-      .setThumbnail(thumb)
-      .setImage(sprite)
-      .setFooter("!catch to add to your collection")
-      .setColor(pokeColor);
-    client.channels.get("441820156197339136").send(embed);
+    return pokemon
   }
-  spawnPokemon();
-  setInterval(spawnPokemon, 28800 * 1000);
+  const pokemon = await spawnPokemon();
+  catchPokemon(msg, client, pokemon);
 };

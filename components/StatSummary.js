@@ -50,7 +50,6 @@ export default function StatSummary() {
   const { pokemon } = useStatSummary();
   const { hp, atk, spatk, def, spdef, speed } = pokemon;
   const maxVal = Math.max(hp, atk, spatk, def, spdef, speed) / 0.9;
-  console.log(maxVal);
   const normalise = value => ((value - 0) * 100) / (maxVal - 0);
   // ------------------------------------------------------------------------RENDER
   return (
