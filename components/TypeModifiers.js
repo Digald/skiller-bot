@@ -65,7 +65,7 @@ export default function TypeModifiers(props) {
         <div className="type-mods">
           {/* Loop through each type and show the icon with the damage modifier. If more than one types, multiply the two modifiers using the same index from the loop. */}
           {types[0].damageTo.map((type, index) => {
-            return calcModifiers(type, index, "damageTo");
+            return calcModifiers(type, index, "damageTo", hasTwoTypes);
           })}
         </div>
       </div>
