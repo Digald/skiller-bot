@@ -48,7 +48,7 @@ export default function TypeModifiers(props) {
     hasTwoTypes = true;
   }
   const calcModifiers = (type, index, damageDir, hasTwoTypes) => {
-    const mod = hasTwoTypes ? type.mod * types[1][damageDir][index] : type.mod;
+    const mod = hasTwoTypes ? type.mod * types[1][damageDir][index].mod : type.mod;
     if (mod === 1) return "";
     return (
       <div key={index} className="centerMods">

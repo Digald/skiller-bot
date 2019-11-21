@@ -30,7 +30,7 @@ app.prepare().then(() => {
   // Listen for Discord Bot_____________________________________
   client.on("ready", () => {
     console.log(`Logged in as ${client.user.tag}!`);
-    announcePokmone(client);
+    announcePokemon(client);
   });
   
   client.on("message", msg => {

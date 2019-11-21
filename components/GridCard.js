@@ -70,11 +70,12 @@ const GridCard = ({ poke }) => {
   if (poke.pokeId.length < 3) {
     newID = "0".repeat(3 - poke.pokeId.length) + poke.pokeId;
   }
+  const {hp, atk, spatk, def, spdef, speed} = poke;
   return (
     <PokeCard onClick={() => setPokemon(poke)}>
       <p>
         <StatSpan>stat total</StatSpan>{" "}
-        {poke.hp + poke.speed + poke.atk + poke.spatk + poke.def + poke.spdef}
+        {hp + speed + (atk > spatk ? atk : spatk) + def + spdef}
       </p>
       <img
         className="pokemonImg"

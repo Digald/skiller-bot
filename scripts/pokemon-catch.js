@@ -1,10 +1,25 @@
 const axios = require("axios");
 const db = require("../models");
-const logger = require("./logger.js");
 const evolvePokemon = require("./helpers/evolvePokemon");
+const { RichEmbed } = require("discord.js");
+const ColorThief = require("colorthief");
 
-module.exports = async (msg, getPokemon) => {
-  logger(msg);
+module.exports = async (msg, client, getPokemon) => {
+  // Set up embed for users
+  const shinyThumb = "https://i.ibb.co/8j61Qpb/shining.png";
+  const setEmbed = async (name, sprite, thumb, userId) => {
+    const pokeColor = await ColorThief.getColor(sprite).then(color => color);
+    const embed = await new RichEmbed()
+      .setTitle(`${msg.author.username} caught a wild ${name}!`)
+      .setThumbnail(thumb)
+      .setImage(sprite)
+      .setDescription(
+        `See ${name} and all of ${msg.author.username}'s pokes at https://skiller-bot.herokuapp.com/collection/${userId}`
+      )
+      .setColor(pokeColor);
+    return embed;
+  };
+
   const userId = msg.author.id;
   // Grab pokemon spawn object
   const {
@@ -36,15 +51,15 @@ module.exports = async (msg, getPokemon) => {
     speed
   };
   // If the pokemon has already been caught by the user
-  if (getPokemon.caughtBy.indexOf(userId) !== -1) {
-    return msg.reply(`You've already caught this ${getPokemon.name}.`);
+  const spawn = await db.Spawn.findOne({});
+  if (spawn.caughtBy.indexOf(userId) !== -1) {
+    return msg.reply(
+      `You've alright caught a pokemon recently. Try again later.`
+    );
   }
 
   // Update the caught list for the pokemon
-  db.Spawn.updateOne(
-    { name: getPokemon.name },
-    { $push: { caughtBy: msg.author.id } }
-  ).exec();
+  db.Spawn.updateOne({}, { $push: { caughtBy: msg.author.id } }).exec();
 
   // Check if user exists in the database
   const requestingUser = await db.User.findOne({ discordId: userId });
@@ -58,9 +73,16 @@ module.exports = async (msg, getPokemon) => {
       pokemon: [pokemonObj]
     };
     db.User.create(userObject);
-    return msg.reply(
-      `${getPokemon.name} has been added to your collection!\nCheck out your collection at https://skiller-bot.herokuapp.com/collection/${msg.author.id}`
+    // return msg.reply(
+    //   `${getPokemon.name} has been added to your collection!\nCheck out your collection at https://skiller-bot.herokuapp.com/collection/${msg.author.id}`
+    // );
+    const message = await setEmbed(
+      name,
+      spriteUrl,
+      shiny ? shinyThumb : "",
+      userId
     );
+    return client.users.get("129038630953025536").send(message);
   }
 
   // Check if user already has that pokemon since they exist (array)
@@ -76,9 +98,16 @@ module.exports = async (msg, getPokemon) => {
       { discordId: userId },
       { $push: { pokemon: pokemonObj } }
     ).exec();
-    return msg.reply(
-      `${getPokemon.name} has been added to your collection!\nCheck out your collection at https://skiller-bot.herokuapp.com/collection/${msg.author.id}`
+    // return msg.reply(
+    //   `${getPokemon.name} has been added to your collection!\nCheck out your collection at https://skiller-bot.herokuapp.com/collection/${msg.author.id}`
+    // );
+    const message = await setEmbed(
+      name,
+      spriteUrl,
+      shiny ? shinyThumb : "",
+      userId
     );
+    return client.users.get("129038630953025536").send(message);
   }
   // if user has 1 already, check
   else if (hasPokemonCheck.length > 0) {
@@ -92,9 +121,16 @@ module.exports = async (msg, getPokemon) => {
         { discordId: userId },
         { $push: { pokemon: pokemonObj } }
       ).exec();
-      return msg.reply(
-        `${getPokemon.name} has been added to your collection!\nCheck out your collection at https://skiller-bot.herokuapp.com/collection/${msg.author.id}`
+      // return msg.reply(
+      //   `${getPokemon.name} has been added to your collection!\nCheck out your collection at https://skiller-bot.herokuapp.com/collection/${msg.author.id}`
+      // );
+      const message = await setEmbed(
+        name,
+        spriteUrl,
+        shiny ? shinyThumb : "",
+        userId
       );
+      return client.users.get("129038630953025536").send(message);
     }
   }
 
@@ -140,7 +176,14 @@ module.exports = async (msg, getPokemon) => {
       }
     }
   );
-  return msg.reply(
-    `${getPokemon.name} has been added to your collection!\nCheck out your collection at https://skiller-bot.herokuapp.com/collection/${msg.author.id}`
+  // return msg.reply(
+  //   `${getPokemon.name} has been added to your collection!\nCheck out your collection at https://skiller-bot.herokuapp.com/collection/${msg.author.id}`
+  // );
+  const message = await setEmbed(
+    name,
+    spriteUrl,
+    shiny ? shinyThumb : "",
+    userId
   );
+  return client.users.get("129038630953025536").send(message);
 };
