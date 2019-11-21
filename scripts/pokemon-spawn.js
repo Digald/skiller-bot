@@ -6,13 +6,12 @@ const logger = require("./logger.js");
 
 // 468570185847013379 private message id for skiller-bot
 // pokemon channel id 441820156197339136
-// spawnPokemon();
-// setInterval(spawnPokemon, 43200 * 1000);
 module.exports = async (msg, client) => {
   // For testing privately
   if (msg.author.id !== "129038630953025536") {
     return;
   }
+  
   // If the pokemon has already been caught by the user
   const spawn = await db.Spawn.findOne({});
   if (spawn.caughtBy.indexOf(msg.author.id) !== -1) {
@@ -20,6 +19,9 @@ module.exports = async (msg, client) => {
       `You've already caught a pokemon recently. Try again later.`
     );
   }
+  // Update the caught list for the pokemon
+  db.Spawn.updateOne({}, { $push: { caughtBy: msg.author.id } }).exec();
+
   logger(msg);
   
   async function spawnPokemon() {
@@ -96,6 +98,5 @@ module.exports = async (msg, client) => {
     return pokemon
   }
   const pokemon = await spawnPokemon();
-  // console.log(pokemon);
   catchPokemon(msg, client, pokemon);
 };
