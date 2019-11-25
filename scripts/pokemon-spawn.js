@@ -8,15 +8,15 @@ const logger = require("./logger.js");
 // pokemon channel id 441820156197339136
 module.exports = async (msg, client) => {
   // For testing privately
-  // if (msg.author.id !== "129038630953025536") {
-  //   return;
-  // }
+  if (msg.author.id !== "129038630953025536") {
+    return;
+  }
   
   // If the pokemon has already been caught by the user
   const spawn = await db.Spawn.findOne({});
   if (spawn.caughtBy.indexOf(msg.author.id) !== -1) {
     return msg.reply(
-      `You've already caught a pokemon recently. Try again later.`
+      `You've caught a pokemon recently. Try again later.`
     );
   }
   // Update the caught list for the pokemon
