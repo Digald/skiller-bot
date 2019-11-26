@@ -18,6 +18,12 @@ module.exports = (server, handle, app) => {
       return app.render(req, res, "/collection", result);
     });
   });
+
+  server.get("/", async (req, res) => {
+    const allUsers = await db.User.find().exec();
+    console.log(allUsers.length);
+    return app.render(req, res, "/index", {})
+  });
   
   server.all("*", (req, res) => {
     return handle(req, res);

@@ -6,7 +6,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import Avatar from "@material-ui/core/Avatar";
-import HomeSharpIcon from '@material-ui/icons/HomeSharp';
+import HomeSharpIcon from "@material-ui/icons/HomeSharp";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -39,6 +39,14 @@ export default function NavBar() {
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar className={classes.toolbar}>
+          <Avatar
+            alt="Discord Icon"
+            src={user.discordIcon}
+            className={classes.avatar}
+          />
+          <Typography variant="h6" className={classes.title}>
+            {user.discordName}'s Pokemon
+          </Typography>
           <IconButton
             edge="start"
             className={classes.menuButton}
@@ -47,14 +55,6 @@ export default function NavBar() {
           >
             <HomeSharpIcon />
           </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            {user.discordName}'s Pokemon
-          </Typography>
-          <Avatar
-            alt="Remy Sharp"
-            src={user.discordIcon}
-            className={classes.avatar}
-          />
         </Toolbar>
       </AppBar>
     </div>
