@@ -66,7 +66,7 @@ module.exports = async (msg, client) => {
 
     // Check if pokemon is shiny or not, get theme color
     const { sprites } = data;
-    const shinyChance = Math.floor(Math.random() * 20);
+    const shinyChance = Math.floor(Math.random() * 100);
     let sprite;
     let shiny = false;
     if (shinyChance === 0) {
