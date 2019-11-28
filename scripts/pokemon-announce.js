@@ -10,13 +10,13 @@ module.exports = client => {
     // Make initial insertion in database
     db.Spawn.findOne().then(result => {
       if (!result) {
-        db.Spawn.create({ caughtBy: [] });
+        db.Spawn.create({ caughtBy: [], lastSpawnTime: Date.now() });
         return;
       }
       // When spawning a new pokemon, reset catches
       db.Spawn.updateOne(
         { _id: result._id },
-        { $set: { caughtBy: [] } }
+        { $set: { caughtBy: [],  lastSpawnTime: Date.now()} }
       ).exec();
       return;
     });

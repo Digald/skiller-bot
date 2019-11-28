@@ -3,7 +3,7 @@ const smugs = require("./smugs");
 const help = require("./help");
 const avatar = require("./userAvatar");
 const reddit = require("./redditPost");
-const test_pokemon_spawn = require("./pokemon-test");
+const pokemonUpdate = require("./pokemon-update");
 const pokemonSpawn = require('./pokemon-spawn');
 
 module.exports = (msg, client) => {
@@ -12,8 +12,8 @@ module.exports = (msg, client) => {
     case "!help":
       help(msg);
       break;
-    case "!p":
-      // test_pokemon_spawn(client);
+    case "!updateme":
+      pokemonUpdate(msg);
       break;
     case "!catch":
       pokemonSpawn(msg, client);

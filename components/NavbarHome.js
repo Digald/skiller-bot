@@ -40,11 +40,11 @@ export default function NavBar() {
         <Toolbar className={classes.toolbar}>
           <Avatar
             alt="Discord Icon"
-            src={user.discordIcon}
+            src="/gnome.jpg"
             className={classes.avatar}
           />
           <Typography variant="h6" className={classes.title}>
-            {user.discordName}'s Pokemon
+            Pokemon Skiller Edition
           </Typography>
           <IconButton
             edge="start"
@@ -52,7 +52,6 @@ export default function NavBar() {
             color="inherit"
             aria-label="menu"
           >
-            <HomeSharpIcon />
           </IconButton>
         </Toolbar>
       </AppBar>

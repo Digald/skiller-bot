@@ -15,6 +15,11 @@ const reducer = (state = initialState, action) => {
         ...state,
         user: action.data
       };
+    case "SET-ALL-USERS":
+      return {
+        ...state,
+        users: action.data
+      };
     case "SET-POKEMON":
       return {
         ...state,

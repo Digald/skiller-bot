@@ -18,6 +18,12 @@ module.exports = (server, handle, app) => {
       return app.render(req, res, "/collection", result);
     });
   });
+
+  server.get("/", async (req, res) => {
+    const allUsers = await db.User.find().exec();
+    // When secret battle keys are assigned, I have to take them out with map
+    return app.render(req, res, "/index", allUsers)
+  });
   
   server.all("*", (req, res) => {
     return handle(req, res);

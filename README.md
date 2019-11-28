@@ -1,5 +1,5 @@
 # skiller-bot
-A custom discord bot for my friend's personal discord server. The bot's functionality is simple at the moment but may have more uses in the future depending on our needs. As of right now, the bot is only used for fun and doesn't really have any admin permissions.
+A custom discord bot for my friend's personal discord server. Currently the bot is only for entertainment and is only available on our server.
 
 ## Getting Started
 
@@ -14,7 +14,6 @@ You will also need a few tokens to get this particular bot functioning. You will
 BOT_TOKEN=provided from discord developer portal
 IMGUR_ID=made by registering with Imgur developer
 IMGUR_SECRET=made by registering with Imgur developer
-WARCRAFT_LOGS=api key from https://www.warcraftlogs.com/
 ```
 
 ### Installing

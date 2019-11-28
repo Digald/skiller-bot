@@ -1,22 +1,29 @@
-import React from 'react'
-import Link from 'next/link'
+import React, { useEffect } from "react";
+import { withRedux } from "../lib/redux";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/router";
+import Link from "next/link";
+import DataTable from "../components/DataTable";
+import Layout from "../components/Layout";
 
-export default () => (
-  <ul>
-    <li>
-      <Link href='/b'>
-        <a>a</a>
-      </Link>
-    </li>
-    <li>
-      <Link href='/a'>
-        <a>b</a>
-      </Link>
-    </li>
-    <li>
-      <Link href={{ pathname: '/posts', query: { id: '2' } }} as='/posts/2'>
-        <a>post #2</a>
-      </Link>
-    </li>
-  </ul>
-)
+const Index = () => {
+  const router = useRouter();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch({
+      type: "SET-ALL-USERS",
+      data: router.query
+    });
+  });
+  return (
+    <Layout>
+      <DataTable />
+    </Layout>
+  );
+};
+
+// Index.getInitialProps = () => {
+//   return {};
+// };
+
+export default withRedux(Index);

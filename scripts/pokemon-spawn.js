@@ -1,7 +1,7 @@
 const axios = require("axios");
 const db = require("../models");
-const extractTypesData = require('./helpers/extractTypeData');
-const catchPokemon = require('./pokemon-catch');
+const extractTypesData = require("./helpers/extractTypeData");
+const catchPokemon = require("./pokemon-catch");
 const logger = require("./logger.js");
 
 // 468570185847013379 private message id for skiller-bot
@@ -11,24 +11,93 @@ module.exports = async (msg, client) => {
   // if (msg.author.id !== "129038630953025536") {
   //   return;
   // }
-  
+
   // If the pokemon has already been caught by the user
   const spawn = await db.Spawn.findOne({});
   if (spawn.caughtBy.indexOf(msg.author.id) !== -1) {
     return msg.reply(
-      `You've already caught a pokemon recently. Try again later.`
+      `Try again in ${((28800000 + spawn.lastSpawnTime - Date.now()) /
+        3600000).toFixed(2)} hours. You've caught a pokemon recently.`
     );
   }
   // Update the caught list for the pokemon
   db.Spawn.updateOne({}, { $push: { caughtBy: msg.author.id } }).exec();
 
   logger(msg);
-  
+
   async function spawnPokemon() {
-    
     // Exclude Mythical and Legendaries for now
-    const exclusionList = [ "151", "251", "385", "386", "490", "489", "491", "492", "493", "494", "647", "648", "649", "719", "720", "721", "801", "802", "807", "145", "144", "146", "150", "244", "245", "243", "249", "250", "377", "378", "379", "380", "381", "382", "383", "384", "480", "481", "482", "483", "484", "485", "487", "488", "486", "638", "639", "640", "641", "642", "645", "643", "644", "646", "716", "717", "718", "772", "773", "785", "786", "787", "788", "789", "790", "791", "792", "800" ];
-    
+    const exclusionList = [
+      "151",
+      "251",
+      "385",
+      "386",
+      "490",
+      "489",
+      "491",
+      "492",
+      "493",
+      "494",
+      "647",
+      "648",
+      "649",
+      "719",
+      "720",
+      "721",
+      "801",
+      "802",
+      "807",
+      "145",
+      "144",
+      "146",
+      "150",
+      "244",
+      "245",
+      "243",
+      "249",
+      "250",
+      "377",
+      "378",
+      "379",
+      "380",
+      "381",
+      "382",
+      "383",
+      "384",
+      "480",
+      "481",
+      "482",
+      "483",
+      "484",
+      "485",
+      "487",
+      "488",
+      "486",
+      "638",
+      "639",
+      "640",
+      "641",
+      "642",
+      "645",
+      "643",
+      "644",
+      "646",
+      "716",
+      "717",
+      "718",
+      "772",
+      "773",
+      "785",
+      "786",
+      "787",
+      "788",
+      "789",
+      "790",
+      "791",
+      "792",
+      "800"
+    ];
+
     // Return random number
     const randomNum = () => Math.ceil(Math.random() * 807);
 
@@ -75,7 +144,7 @@ module.exports = async (msg, client) => {
     } else {
       sprite = sprites.front_default;
     }
-    
+
     // Collect Type Data for database insertion
     const typesData = await Promise.resolve(extractTypesData(data));
 
@@ -95,7 +164,7 @@ module.exports = async (msg, client) => {
       spdef: stats[1].base_stat,
       speed: stats[0].base_stat
     };
-    return pokemon
+    return pokemon;
   }
   const pokemon = await spawnPokemon();
   catchPokemon(msg, client, pokemon);
