@@ -21,8 +21,8 @@ module.exports = (server, handle, app) => {
 
   server.get("/", async (req, res) => {
     const allUsers = await db.User.find().exec();
-    console.log(allUsers.length);
-    return app.render(req, res, "/index", {})
+    // When secret battle keys are assigned, I have to take them out with map
+    return app.render(req, res, "/index", allUsers)
   });
   
   server.all("*", (req, res) => {

@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import { createGlobalStyle } from "styled-components";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import Navbar from "./Navbar";
+import NavbarHome from './NavbarHome';
 
 const theme = createMuiTheme({
   palette: {
@@ -37,7 +38,7 @@ export default props => {
   console.log(router.pathname);
   return (
     <ThemeProvider theme={theme}>
-      <Navbar />
+      {router.pathname === "/" ? <NavbarHome /> : <Navbar />}
       {props.children}
       <GlobalStyle />
     </ThemeProvider>

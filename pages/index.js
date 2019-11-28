@@ -1,12 +1,29 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { withRedux } from "../lib/redux";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/router";
 import Link from "next/link";
+import DataTable from "../components/DataTable";
 import Layout from "../components/Layout";
 
-const Index = () => <div>Hello</div>;
-
-Index.getInitialProps = () => {
-  return {};
+const Index = () => {
+  const router = useRouter();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch({
+      type: "SET-ALL-USERS",
+      data: router.query
+    });
+  });
+  return (
+    <Layout>
+      <DataTable />
+    </Layout>
+  );
 };
+
+// Index.getInitialProps = () => {
+//   return {};
+// };
 
 export default withRedux(Index);
