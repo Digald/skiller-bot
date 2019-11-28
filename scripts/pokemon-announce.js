@@ -10,13 +10,13 @@ module.exports = client => {
     // Make initial insertion in database
     db.Spawn.findOne().then(result => {
       if (!result) {
-        db.Spawn.create({ caughtBy: [] });
+        db.Spawn.create({ caughtBy: [], lastSpawnTime: Date.now() });
         return;
       }
       // When spawning a new pokemon, reset catches
       db.Spawn.updateOne(
         { _id: result._id },
-        { $set: { caughtBy: [] } }
+        { $set: { caughtBy: [],  lastSpawnTime: Date.now()} }
       ).exec();
       return;
     });
@@ -30,9 +30,9 @@ module.exports = client => {
       .setThumbnail(thumb)
       .setDescription("!catch to add to your collection")
       .setColor(pokeColor);
-    client.channels.get("441820156197339136").send(embed);
-    // client.users.get("129038630953025536").send(embed);
+    // client.channels.get("441820156197339136").send(embed);
+    client.users.get("129038630953025536").send(embed);
   }
-  // announce();
-  // setInterval(announce, 28800 * 1000);
+  announce();
+  setInterval(announce, 28800 * 1000);
 };

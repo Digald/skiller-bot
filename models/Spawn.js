@@ -3,7 +3,8 @@ const Schema = mongoose.Schema;
 
 const spawnSchema = new Schema(
   {
-    caughtBy: {type: Array, default: []}
+    caughtBy: {type: Array, default: []},
+    lastSpawnTime: Number
   },
   { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
 );
