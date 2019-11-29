@@ -3,7 +3,7 @@ import { withRedux } from "../lib/redux";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import DataTable from "../components/DataTable";
+import TableWrapper from '../components/TableWrapper';
 import Layout from "../components/Layout";
 
 const Index = () => {
@@ -17,7 +17,7 @@ const Index = () => {
   });
   return (
     <Layout>
-      <DataTable />
+      <TableWrapper />
     </Layout>
   );
 };
