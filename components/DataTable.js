@@ -1,17 +1,14 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import Link from "next/link";
 import styled from "styled-components";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
 import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import Avatar from "@material-ui/core/Avatar";
 import Paper from "@material-ui/core/Paper";
+
+import TableList from "./TableList";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -33,22 +30,16 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const PlayerCard = styled.div`
-  cursor: pointer;
-  &:hover {
-    background-color: #33c9dc;
-  }
-`;
-
-const useListTable = () => {
+const useDataTable = () => {
   const users = useSelector(state => state.users);
   return { users };
 };
 
-export default function ListTable(props) {
+export default function DataTable(props) {
   const classes = useStyles();
-  const { users } = useListTable();
-
+  const { users } = useDataTable();
+  const {table, rankUsers} = props;
+  const data = rankUsers(users);
   return (
     <Paper>
       <div className={classes.root}>
@@ -56,36 +47,17 @@ export default function ListTable(props) {
           <Grid container alignItems="center">
             <Grid item xs>
               <Typography gutterBottom variant="h4">
-                Most Collected Pokemon
+                {props.title}
               </Typography>
             </Grid>
           </Grid>
           <Typography color="textSecondary" variant="body2">
-            Total amount of unique, non-maxed, Pokemon
+            {props.description}
           </Typography>
         </div>
         <Divider variant="middle" />
         <List className={classes.root}>
-          {data.map((player, index) => (
-            <Link href={`/collection/${player.discordId}`}>
-              <PlayerCard>
-                <ListItem>
-                  <ListItemAvatar>
-                    <Avatar
-                      alt="Discord Icon"
-                      src={player.discordIcon}
-                      className={classes.avatar}
-                    />
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary={`${index + 1} ${player.discordName}`}
-                    secondary={`Caught ${player.pokemon.length} Pokemon`}
-                  />
-                </ListItem>
-                {index < 4 ? <Divider variant="inset" component="li" /> : ""}
-              </PlayerCard>
-            </Link>
-          ))}
+          <TableList data={data} table={table}/>
         </List>
       </div>
     </Paper>

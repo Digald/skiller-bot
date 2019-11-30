@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
-import ListTable from "./ListTable";
+import DataTable from "./DataTable";
 
 // --------------------------------------------------------------------------STYLES
 const TWrapper = styled.div`
@@ -27,8 +27,9 @@ export default function TableWrapper() {
   // ------------------------------------------------------------------------RENDER
   return (
     <TWrapper>
-      <ListTable
-        rankedUsers={getMostCollectedUsers}
+      <DataTable
+        table="collected"
+        rankUsers={getMostCollectedUsers}
         title="Most Collected Pokemon"
         description="Total amount of unique, non-maxed, Pokemon"
       />
