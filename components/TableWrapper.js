@@ -10,12 +10,28 @@ const TWrapper = styled.div`
   padding: 5%;
 `;
 
+const useTableWrapper = () => {
+  const users = useSelector(state => state.users);
+  return { users };
+};
+
+const getMostCollectedUsers = users =>
+  users
+    .sort((a, b) => {
+      return parseInt(b.pokemon.length) - parseInt(a.pokemon.length);
+    })
+    .slice(0, 5);
 // -----------------------------------------------------------------------Component
 export default function TableWrapper() {
+  const { users } = useTableWrapper();
   // ------------------------------------------------------------------------RENDER
   return (
     <TWrapper>
-      <ListTable ranking="collected"/>
+      <ListTable
+        rankedUsers={getMostCollectedUsers}
+        title="Most Collected Pokemon"
+        description="Total amount of unique, non-maxed, Pokemon"
+      />
     </TWrapper>
   );
 }

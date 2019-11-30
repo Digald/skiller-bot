@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import Link from "next/link";
 import styled from "styled-components";
@@ -34,14 +34,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const PlayerCard = styled.div`
+  cursor: pointer;
   &:hover {
-    background-color: cyan;
+    background-color: #33c9dc;
   }
-`;
-
-const AnchorTag = styled.a`
-  text-decoration: none;
-  color: black;
 `;
 
 const useListTable = () => {
@@ -49,27 +45,10 @@ const useListTable = () => {
   return { users };
 };
 
-const getMostCollectedUsers = users =>
-  users
-    .sort((a, b) => {
-      return parseInt(b.pokemon.length) - parseInt(a.pokemon.length);
-    })
-    .slice(0, 5);
-
 export default function ListTable(props) {
   const classes = useStyles();
   const { users } = useListTable();
-  const { ranking } = props;
-  let data = [];
-  if (users.length > 0) {
-    switch (ranking) {
-      case "collected":
-        data = getMostCollectedUsers(users);
-        break;
-      default:
-        break;
-    }
-  }
+
   return (
     <Paper>
       <div className={classes.root}>
@@ -82,31 +61,30 @@ export default function ListTable(props) {
             </Grid>
           </Grid>
           <Typography color="textSecondary" variant="body2">
-            Pinstriped cornflower blue cotton blouse takes you on a walk to the
-            park or just down the hall.
+            Total amount of unique, non-maxed, Pokemon
           </Typography>
         </div>
         <Divider variant="middle" />
         <List className={classes.root}>
           {data.map((player, index) => (
-            <PlayerCard>
-              <Link href={`/collection/${player.discordId}`}>
-                  <ListItem>
-                    <ListItemAvatar>
-                      <Avatar
-                        alt="Discord Icon"
-                        src={player.discordIcon}
-                        className={classes.avatar}
-                      />
-                    </ListItemAvatar>
-                    <ListItemText
-                      primary={`${index + 1} - ${player.discordName}`}
-                      secondary={`Caught ${player.pokemon.length} Pokemon`}
+            <Link href={`/collection/${player.discordId}`}>
+              <PlayerCard>
+                <ListItem>
+                  <ListItemAvatar>
+                    <Avatar
+                      alt="Discord Icon"
+                      src={player.discordIcon}
+                      className={classes.avatar}
                     />
-                  </ListItem>
-                  {index < 4 ? <Divider variant="inset" component="li" /> : ""}
-              </Link>
-            </PlayerCard>
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary={`${index + 1} ${player.discordName}`}
+                    secondary={`Caught ${player.pokemon.length} Pokemon`}
+                  />
+                </ListItem>
+                {index < 4 ? <Divider variant="inset" component="li" /> : ""}
+              </PlayerCard>
+            </Link>
           ))}
         </List>
       </div>
