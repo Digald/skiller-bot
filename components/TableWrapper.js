@@ -7,7 +7,6 @@ import ListTable from "./ListTable";
 const TWrapper = styled.div`
   display: flex;
   justify-content: start;
-  width: 100%;
   padding: 5%;
 `;
 
