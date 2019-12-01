@@ -6,14 +6,9 @@ import DataTable from "./DataTable";
 // --------------------------------------------------------------------------STYLES
 const TWrapper = styled.div`
   display: flex;
-  justify-content: start;
-  padding: 5%;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
 `;
-
-const useTableWrapper = () => {
-  const users = useSelector(state => state.users);
-  return { users };
-};
 
 const getMostCollectedUsers = users =>
   users
@@ -21,17 +16,48 @@ const getMostCollectedUsers = users =>
       return parseInt(b.pokemon.length) - parseInt(a.pokemon.length);
     })
     .slice(0, 5);
+
+const getMostLeveledUsers = users =>
+  users
+    .map(user => {
+      user.total = user.pokemon
+        .map(poke => poke.stars + poke.timesEvolved * 3)
+        .reduce((total, curr) => total + curr);
+      return user;
+    })
+    .sort((a, b) => b.total - a.total)
+    .slice(0, 5);
+
+const getMostShinyUsers = users =>
+  users
+    .map(user => {
+      user.shinyTotal = user.pokemon.filter(poke => poke.shiny === true).length;
+      return user;
+    })
+    .sort((a, b) => b.shinyTotal - a.shinyTotal)
+    .slice(0, 5);
 // -----------------------------------------------------------------------Component
 export default function TableWrapper() {
-  const { users } = useTableWrapper();
   // ------------------------------------------------------------------------RENDER
   return (
     <TWrapper>
       <DataTable
         table="collected"
         rankUsers={getMostCollectedUsers}
-        title="Most Collected Pokemon"
-        description="Total amount of unique, non-maxed, Pokemon"
+        title="Top Collected Pokemon"
+        description="Count of individually listed Pokemon"
+      />
+      <DataTable
+        table="leveled"
+        rankUsers={getMostLeveledUsers}
+        title="Top Leveled Pokemon"
+        description="Times a any Pokemon has leveled up."
+      />
+      <DataTable
+        table="shiny"
+        rankUsers={getMostShinyUsers}
+        title="Top Shiny Pokemon"
+        description="Number of shiny listed Pokemon"
       />
     </TWrapper>
   );

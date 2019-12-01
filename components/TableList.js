@@ -39,14 +39,24 @@ const PlayerCard = styled.div`
 export default function TableList(props) {
   const classes = useStyles();
   const { data, table } = props;
-  const message = "";
-  switch (table) {
-    case "collection":
-      message = `Caught ${player.pokemon.length} Pokemon`;
-      break;
-    default:
-      break;
-  }
+  const getMessage = player => {
+    let message = "";
+    switch (table) {
+      case "collected":
+        message = `Caught ${player.pokemon.length} Pokemon`;
+        break;
+      case "leveled":
+        message = `${player.total} Leveled Pokemon`;
+        break;
+      case "shiny":
+        message = `${player.shinyTotal} Shiny Pokemon`;
+        break;
+      default:
+        break;
+    }
+    return message;
+  };
+
   return (
     <>
       {data.map((player, index) => (
@@ -58,7 +68,7 @@ export default function TableList(props) {
               </ListItemAvatar>
               <ListItemText
                 primary={`${index + 1} ${player.discordName}`}
-                secondary={message}
+                secondary={getMessage(player)}
               />
             </ListItem>
             {index < 4 ? <Divider variant="inset" component="li" /> : ""}

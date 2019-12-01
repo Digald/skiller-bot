@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { makeStyles } from "@material-ui/core/styles";
@@ -15,6 +15,9 @@ const useStyles = makeStyles(theme => ({
     width: "100%",
     maxWidth: 360,
     backgroundColor: theme.palette.background.paper
+  },
+  paper: {
+    margin: "0px 10px 25px 10px"
   },
   chip: {
     marginRight: theme.spacing(1)
@@ -38,10 +41,14 @@ const useDataTable = () => {
 export default function DataTable(props) {
   const classes = useStyles();
   const { users } = useDataTable();
-  const {table, rankUsers} = props;
+  const [userData, setUserData] = useState(users);
+  const { table, rankUsers } = props;
+  if (userData.length <= 0) {
+    return <div>Loading...</div>;
+  }
   const data = rankUsers(users);
   return (
-    <Paper>
+    <Paper className={classes.paper}>
       <div className={classes.root}>
         <div className={classes.section1}>
           <Grid container alignItems="center">
@@ -57,7 +64,7 @@ export default function DataTable(props) {
         </div>
         <Divider variant="middle" />
         <List className={classes.root}>
-          <TableList data={data} table={table}/>
+          <TableList data={data} table={table} />
         </List>
       </div>
     </Paper>
