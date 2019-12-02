@@ -15,9 +15,16 @@ module.exports = async (msg, client) => {
   // If the pokemon has already been caught by the user
   const spawn = await db.Spawn.findOne({});
   if (spawn.caughtBy.indexOf(msg.author.id) !== -1) {
+    const timeStamp = Date.now();
+    const hours = (28800000 + spawn.lastSpawnTime - timeStamp) / 3600000;
+    const minutes =
+      ((((28800000 + spawn.lastSpawnTime - timeStamp) % 3600000) / 3600000) *
+        60) /
+      1;
     return msg.reply(
-      `Try again in ${((28800000 + spawn.lastSpawnTime - Date.now()) /
-        3600000).toFixed(2)} hours. You've caught a pokemon recently.`
+      `Try again in ${Math.floor(hours)}hrs ${
+        minutes.toFixed(0) === 60 ? 0 : minutes.toFixed(0)
+      }mins. You've caught a pokemon recently.`
     );
   }
   // Update the caught list for the pokemon

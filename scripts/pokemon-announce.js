@@ -30,9 +30,9 @@ module.exports = client => {
       .setThumbnail(thumb)
       .setDescription("!catch to add to your collection")
       .setColor(pokeColor);
-    client.channels.get("441820156197339136").send(embed);
-    // client.users.get("129038630953025536").send(embed);
+    // client.channels.get("441820156197339136").send(embed);
+    client.users.get("129038630953025536").send(embed);
   }
-  // announce();
+  announce();
   // setInterval(announce, 28800 * 1000);
 };
