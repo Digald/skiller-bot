@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import { useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -46,14 +47,16 @@ export default function NavBar() {
           <Typography variant="h6" className={classes.title}>
             {user.discordName}'s Pokemon
           </Typography>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="menu"
-          >
-            <HomeSharpIcon />
-          </IconButton>
+          <Link href="/">
+            <IconButton
+              edge="start"
+              className={classes.menuButton}
+              color="inherit"
+              aria-label="menu"
+            >
+              <HomeSharpIcon />
+            </IconButton>
+          </Link>
         </Toolbar>
       </AppBar>
     </div>

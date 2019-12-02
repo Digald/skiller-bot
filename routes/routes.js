@@ -7,7 +7,7 @@ module.exports = (server, handle, app) => {
       discordId: req.params.discordID
     }).then(result => {
       if (!result) {
-        return app.render(req, res, "/a");
+        return app.render(req, res, "/404");
       }
       // Sort pokemon by their Id number from Gen 1 to Gen 8
       const pokeArr = result.pokemon;
@@ -19,12 +19,14 @@ module.exports = (server, handle, app) => {
     });
   });
 
-  server.get("/", async (req, res) => {
-    const allUsers = await db.User.find().exec();
-    // When secret battle keys are assigned, I have to take them out with map
-    return app.render(req, res, "/index", allUsers)
+  server.get("/api/users", async (req, res) => {
+    // Need to omit user tokens after team battles are implemented.
+    db.User.find().then(result => {
+      return res.json(result);
+    });
+    return;
   });
-  
+
   server.all("*", (req, res) => {
     return handle(req, res);
   });

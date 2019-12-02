@@ -39,7 +39,6 @@ export default function NavBar() {
       <AppBar position="static">
         <Toolbar className={classes.toolbar}>
           <Avatar
-            alt="Discord Icon"
             src="/gnome.jpg"
             className={classes.avatar}
           />

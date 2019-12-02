@@ -35,7 +35,6 @@ const GlobalStyle = createGlobalStyle`
 
 export default props => {
   const router = useRouter();
-  console.log(router.pathname);
   return (
     <ThemeProvider theme={theme}>
       {router.pathname === "/" ? <NavbarHome /> : <Navbar />}
