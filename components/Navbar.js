@@ -47,7 +47,7 @@ export default function NavBar() {
           <Typography variant="h6" className={classes.title}>
             {user.discordName}'s Pokemon
           </Typography>
-          <a href="/">
+          <Link href="/">
             <IconButton
               edge="start"
               className={classes.menuButton}
@@ -56,7 +56,7 @@ export default function NavBar() {
             >
               <HomeSharpIcon />
             </IconButton>
-          </a>
+          </Link>
         </Toolbar>
       </AppBar>
     </div>
