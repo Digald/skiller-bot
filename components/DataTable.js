@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
-import styled from "styled-components";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Divider from "@material-ui/core/Divider";
@@ -41,11 +40,7 @@ const useDataTable = () => {
 export default function DataTable(props) {
   const classes = useStyles();
   const { users } = useDataTable();
-  const [userData, setUserData] = useState(users);
   const { table, rankUsers } = props;
-  if (userData.length <= 0) {
-    return <div>Loading...</div>;
-  }
   const data = rankUsers(users);
   return (
     <Paper className={classes.paper}>
