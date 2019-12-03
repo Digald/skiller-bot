@@ -40,7 +40,6 @@ export default function NavBar() {
       <AppBar position="static">
         <Toolbar className={classes.toolbar}>
           <Avatar
-            alt="Discord Icon"
             src={user.discordIcon}
             className={classes.avatar}
           />
