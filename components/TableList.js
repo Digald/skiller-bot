@@ -60,7 +60,11 @@ export default function TableList(props) {
   return (
     <>
       {data.map((player, index) => (
-        <Link key={index} href={`/collection/${player.discordId}`}>
+        <Link
+          key={index}
+          href={`/collection/${player.discordId}`}
+          as={`/collection/${player.discordId}`}
+        >
           <PlayerCard>
             <ListItem>
               <ListItemAvatar>

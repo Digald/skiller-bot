@@ -46,7 +46,7 @@ export default function NavBar() {
           <Typography variant="h6" className={classes.title}>
             {user.discordName}'s Pokemon
           </Typography>
-          <Link href="/">
+          <Link href="/" as="/">
             <IconButton
               edge="start"
               className={classes.menuButton}

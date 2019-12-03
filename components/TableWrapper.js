@@ -44,19 +44,19 @@ export default function TableWrapper() {
       <DataTable
         table="collected"
         rankUsers={getMostCollectedUsers}
-        title="Top Collected Pokemon"
+        title="Most Collected Pokemon"
         description="Count of individually listed Pokemon"
       />
       <DataTable
         table="leveled"
         rankUsers={getMostLeveledUsers}
-        title="Top Leveled Pokemon"
-        description="Times a any Pokemon has leveled up."
+        title="Most Leveled Pokemon"
+        description="Times any Pokemon has leveled up."
       />
       <DataTable
         table="shiny"
         rankUsers={getMostShinyUsers}
-        title="Top Shiny Pokemon"
+        title="Most Shiny Pokemon"
         description="Number of shiny listed Pokemon"
       />
     </TWrapper>
