@@ -27,6 +27,10 @@ module.exports = (server, handle, app) => {
     return;
   });
 
+  server.all("/", (req, res) => {
+    return app.render(req, res, "/index");
+  });
+
   server.all("*", (req, res) => {
     return handle(req, res);
   });
