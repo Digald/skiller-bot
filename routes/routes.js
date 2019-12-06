@@ -15,7 +15,7 @@ module.exports = (server, handle, app) => {
       discordId: req.params.discordID
     }).then(result => {
       if (!result) {
-        return res.json();
+        return res.json({});
       }
       // Sort pokemon by their Id number from Gen 1 to Gen 8
       const pokeArr = result.pokemon;
@@ -23,19 +23,17 @@ module.exports = (server, handle, app) => {
         return parseInt(a.pokeId) - parseInt(b.pokeId);
       });
       result.pokemon = pokeArr;
-      return res.json();
+      return res.json(result);
     });
   });
 
-  server.get("/collection/:discordID", (req, res) => {
-    return app.render(req, res, "/collection", {
-      userID: req.params.discordID
-    });
-  });
+  // server.get("/collection/:discordID", (req, res) => {
+  //   return app.render(req, res, "/collection");
+  // });
 
-  server.get("/", (req, res) => {
-    return app.render(req, res, "/index");
-  });
+  // server.get("/", (req, res) => {
+  //   return app.render(req, res, "/index");
+  // });
 
   server.all("*", (req, res) => {
     return handle(req, res);

@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
+// import Link from "../components/Link"
 import Link from "next/link";
 import styled from "styled-components";
 import { makeStyles } from "@material-ui/core/styles";
@@ -60,11 +61,7 @@ export default function TableList(props) {
   return (
     <>
       {data.map((player, index) => (
-        <Link
-          key={index}
-          href={`/collection/${player.discordId}`}
-          as={`/collection/${player.discordId}`}
-        >
+        <Link href={{pathname: "/collection", query: {user: player.discordId}}}>
           <PlayerCard>
             <ListItem>
               <ListItemAvatar>

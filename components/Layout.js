@@ -5,7 +5,7 @@ import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import Navbar from "./Navbar";
 import NavbarHome from './NavbarHome';
 
-const theme = createMuiTheme({
+export const theme = createMuiTheme({
   palette: {
     primary: {
       light: "#33c9dc",
