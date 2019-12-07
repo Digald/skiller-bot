@@ -18,9 +18,7 @@ const usePokemonGrid = () => {
 
 const PokemonGrid = () => {
   const { pokemon } = usePokemonGrid();
-  if (!pokemon) {
-    return <div>Loading...</div>;
-  }
+  // if (!pokemon) return <LoadingSpinner />;
   return (
     <PokeGrid>
       {pokemon.map(singlePoke => {

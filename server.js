@@ -19,9 +19,8 @@ const announcePokemon = require("./scripts/pokemon-announce");
 
 app.prepare().then(() => {
   const server = express();
-  const mongooseURL = process.env.MONGODB_URI || "mongodb://localhost:27017/skillerbot"
   mongoose.connect(
-    mongooseURL,
+    process.env.MONGODB_URI,
     {
       useNewUrlParser: true,
       useFindAndModify: false
