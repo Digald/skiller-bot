@@ -33,7 +33,6 @@ const Index = () => {
       const json = await res.json();
       setAllUsers(json);
     };
-    console.log(users.length);
     if (users.length < 1) {
       fetchData();
     }

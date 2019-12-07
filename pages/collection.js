@@ -26,7 +26,6 @@ const Collection = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
-      console.log(query);
       const res = await fetch(`${server}/api/user/${query.user}`);
       const json = await res.json();
       setUser(json);
