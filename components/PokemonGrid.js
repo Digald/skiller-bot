@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import styled from "styled-components";
 import GridCard from "./GridCard";
 import PokeCard from "./PokeModal";
-import LoadingSpinner from "./LoadingSpinner";
 
 const PokeGrid = styled.div`
   padding: 5% 1% 1% 1%;
@@ -19,7 +18,7 @@ const usePokemonGrid = () => {
 
 const PokemonGrid = () => {
   const { pokemon } = usePokemonGrid();
-  if (!pokemon) return <LoadingSpinner />;
+  // if (!pokemon) return <LoadingSpinner />;
   return (
     <PokeGrid>
       {pokemon.map(singlePoke => {
