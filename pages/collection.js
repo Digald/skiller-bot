@@ -27,7 +27,6 @@ const Collection = () => {
       console.log(query);
       const res = await fetch(`${server}/api/user/${query.user}`);
       const json = await res.json();
-      console.log(json);
       setUser(json);
     };
       fetchData();
@@ -38,16 +37,5 @@ const Collection = () => {
     </Layout>
   );
 };
-
-// Collection.getInitialProps = async ({ reduxStore , query}) => {
-//   const res = await fetch(`${server}/api/user/${query.userID}`);
-//   const json = await res.json();
-//   const { dispatch } = reduxStore;
-//   dispatch({
-//     type: "SET-USER",
-//     data: json
-//   });
-//   return {};
-// };
 
 export default withRedux(Collection);

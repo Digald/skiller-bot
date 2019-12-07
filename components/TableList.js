@@ -1,7 +1,5 @@
 import React from "react";
-import { useSelector } from "react-redux";
-// import Link from "../components/Link"
-import Link from "next/link";
+import Link from "../components/Link";
 import styled from "styled-components";
 import { makeStyles } from "@material-ui/core/styles";
 import Divider from "@material-ui/core/Divider";
@@ -9,6 +7,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
+import LoadingSpinner from "./LoadingSpinner";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -57,11 +56,15 @@ export default function TableList(props) {
     }
     return message;
   };
-
+  if (data.length < 1) return <LoadingSpinner />;
   return (
     <>
       {data.map((player, index) => (
-        <Link key={index} href={`/collection?user=${player.discordId}`} as={`/collection/${player.discordId}`}>
+        <Link
+          key={index}
+          href={`/collection?user=${player.discordId}`}
+          as={`/collection/${player.discordId}`}
+        >
           <PlayerCard>
             <ListItem>
               <ListItemAvatar>
