@@ -27,13 +27,9 @@ module.exports = (server, handle, app) => {
     });
   });
 
-  // server.get("/collection/:discordID", (req, res) => {
-  //   return app.render(req, res, "/collection");
-  // });
-
-  // server.get("/", (req, res) => {
-  //   return app.render(req, res, "/index");
-  // });
+  server.get("/collection/:discordId", (req, res) => {
+    return app.render(req, res, "/collection", {user: req.params.discordId});
+  });
 
   server.all("*", (req, res) => {
     return handle(req, res);

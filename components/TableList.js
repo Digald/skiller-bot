@@ -61,7 +61,7 @@ export default function TableList(props) {
   return (
     <>
       {data.map((player, index) => (
-        <Link href={{pathname: "/collection", query: {user: player.discordId}}}>
+        <Link key={index} href={`/collection?user=${player.discordId}`} as={`/collection/${player.discordId}`}>
           <PlayerCard>
             <ListItem>
               <ListItemAvatar>
