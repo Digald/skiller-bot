@@ -7,6 +7,7 @@ import { withRedux } from "../lib/redux";
 import Layout from "../components/Layout";
 import PokemonGrid from "../components/PokemonGrid";
 import LoadingSpinner from "../components/LoadingSpinner";
+import TeamBar from '../components/TeamBar';
 
 const useCollection = () => {
   const dispatch = useDispatch();
@@ -36,6 +37,7 @@ const Collection = () => {
   if (!isLoaded) return <LoadingSpinner />;
   return (
     <Layout>
+      <TeamBar/>
       <PokemonGrid />
     </Layout>
   );
