@@ -21,7 +21,7 @@ module.exports = (msg, client) => {
     case "!smugs":
       smugs(msg);
       break;
-    case "!myavatar":
+    case "!mypic":
       avatar(msg);
       break;
     case "<@414591805707780107>":
