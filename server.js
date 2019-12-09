@@ -28,6 +28,7 @@ app.prepare().then(() => {
   );
   // Listen for Discord Bot_____________________________________
   client.on("ready", () => {
+    client.user.setActivity("!help to get started", {type: 'WATCHING'});
     console.log(`Logged in as ${client.user.tag}!`);
     announcePokemon(client);
   });

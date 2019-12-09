@@ -1,13 +1,15 @@
 const roll = require("./roll");
 const smugs = require("./smugs");
 const help = require("./help");
-const avatar = require("./userAvatar");
+const mypic = require("./mypic");
 const reddit = require("./redditPost");
 const pokemonUpdate = require("./pokemon-update");
 const pokemonSpawn = require('./pokemon-spawn');
+const pokemonTeamBuild = require('./pokemon-teambuild');
 
 module.exports = (msg, client) => {
   const userMsg = msg.content.toLowerCase();
+  // basic command switch statment
   switch (userMsg) {
     case "!help":
       help(msg);
@@ -22,13 +24,16 @@ module.exports = (msg, client) => {
       smugs(msg);
       break;
     case "!mypic":
-      avatar(msg);
+      mypic(msg);
+      break;
+    case "!teambuild":
+      pokemonTeamBuild(msg, client);
       break;
     case "<@414591805707780107>":
       msg.reply("Sup?");
       break;
   }
-
+  // commands with multiple arguments switch statement
   switch (userMsg.split(" ")[0]) {
     case "!roll":
       if (userMsg.split(" ")[1]) {

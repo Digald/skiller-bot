@@ -7,6 +7,7 @@ const userSchema = new Schema(
     discordIcon: String,
     discordName: String,
     safari: { type: Boolean, default: false },
+    teamId: String,
     pokemon: [
       {
         name: String,
@@ -41,7 +42,36 @@ const userSchema = new Schema(
         speed: Number
       }
     ],
-    team: String
+    team: [
+      {
+        name: String,
+        pokeId: String,
+        types: [
+          {
+            pokeType: String,
+            damageTo: [
+              {
+                pokeType: String,
+                mod: Number
+              }
+            ],
+            damageFrom: [
+              {
+                pokeType: String,
+                mod: Number
+              }
+            ]
+          }
+        ],
+        spriteUrl: String,
+        hp: Number,
+        atk: Number,
+        spatk: Number,
+        def: Number,
+        spdef: Number,
+        speed: Number
+      }
+    ],
   },
   { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
 );
