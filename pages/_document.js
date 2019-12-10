@@ -15,6 +15,8 @@ export default class MyDocument extends Document {
           />
           {/* PWA primary color */}
           <meta name="theme-color" content={theme.palette.primary.main} />
+          <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"/>
+          <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"/>
           <link
             rel="stylesheet"
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"

@@ -26,6 +26,21 @@ const reducer = (state = initialState, action) => {
         singlePoke: action.data,
         isModalToggled: true
       };
+    case "UPDATE-TEAM":
+      const pokemonToPutOnTeam = state.user.pokemon.map(poke => {
+        if (poke._id === action.data) {
+          poke.isOnTeam = !poke.isOnTeam;
+          return poke;
+        }
+        return poke;
+      });
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          pokemon: pokemonToPutOnTeam
+        }
+      };
     case "OPEN-MODAL":
       return {
         ...state,

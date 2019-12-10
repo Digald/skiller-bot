@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
@@ -19,19 +19,28 @@ const useStyles = makeStyles(theme => ({
 
 const useAddToTeamBtn = () => {
   const user = useSelector(state => state.user);
-  return { user };
+  const dispatch = useDispatch();
+  const updateTeamStatus = pokeId => {
+    dispatch({
+      type: "UPDATE-TEAM",
+      data: pokeId
+    });
+  };
+  return { user, updateTeamStatus };
 };
 
 export default function AddToTeamBtn(props) {
-  const { user } = useAddToTeamBtn();
-  const [isAdded, setIsAdded] = useState(false);
+  const { poke } = props;
+  const { user, updateTeamStatus } = useAddToTeamBtn();
+  const [isAdded, setIsAdded] = useState(poke.isOnTeam);
   const [teamList, setTeamList] = useState([]);
   const classes = useStyles();
   const handleClick = async pokemon => {
     if (teamList.length < 6) {
-      setIsAdded(!isAdded);
       console.log(pokemon);
       await addToTeam(pokemon._id, user.teamId, !isAdded);
+      updateTeamStatus(pokemon._id);
+      setIsAdded(!isAdded);
     }
   };
   return (
