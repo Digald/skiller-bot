@@ -22,7 +22,7 @@ const useAddToTeamBtn = () => {
   const dispatch = useDispatch();
   const updateTeamStatus = pokeId => {
     dispatch({
-      type: "UPDATE-TEAM",
+      type: "UPDATE-POKEMON-STATUS",
       data: pokeId
     });
   };

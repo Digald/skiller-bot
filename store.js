@@ -5,7 +5,8 @@ const initialState = {
   user: {},
   users: [],
   singlePoke: {},
-  isModalToggled: false
+  isModalToggled: false,
+  currentTeam: []
 };
 
 const reducer = (state = initialState, action) => {
@@ -26,7 +27,7 @@ const reducer = (state = initialState, action) => {
         singlePoke: action.data,
         isModalToggled: true
       };
-    case "UPDATE-TEAM":
+    case "UPDATE-POKEMON-STATUS":
       const pokemonToPutOnTeam = state.user.pokemon.map(poke => {
         if (poke._id === action.data) {
           poke.isOnTeam = !poke.isOnTeam;
@@ -41,6 +42,14 @@ const reducer = (state = initialState, action) => {
           pokemon: pokemonToPutOnTeam
         }
       };
+    case "GET-TEAM":
+    const currentTeam = state.user.pokemon.filter(poke => {
+      return poke.isOnTeam
+    });
+    return {
+      ...state,
+      currentTeam
+    };
     case "OPEN-MODAL":
       return {
         ...state,

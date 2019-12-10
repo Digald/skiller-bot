@@ -8,7 +8,7 @@ import PokemonGrid from "../components/PokemonGrid";
 import LoadingSpinner from "../components/LoadingSpinner";
 import TeamBar from '../components/TeamBar';
 
-const useCollection = () => {
+const useTeamBuilder = () => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user);
   const setUser = user => {
@@ -17,11 +17,16 @@ const useCollection = () => {
       data: user
     });
   };
-  return { user, setUser };
+  const getPokemonTeam = pokemon => {
+    dispatch({
+      type: "GET-TEAM"
+    });
+  };
+  return { user, setUser, getPokemonTeam };
 };
 
 const Collection = () => {
-  const { user, setUser } = useCollection();
+  const { user, setUser, getPokemonTeam } = useTeamBuilder();
   const { query } = useRouter();
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => {
