@@ -9,7 +9,8 @@ const app = next({ dev });
 const routes = require("./routes/routes");
 const handle = app.getRequestHandler();
 const mongoose = require("mongoose");
-const axios = require('axios');
+const axios = require("axios");
+const bodyParser = require('body-parser')
 // Discord Deps
 const Discord = require("discord.js");
 const token = process.env.BOT_TOKEN;
@@ -19,20 +20,20 @@ const announcePokemon = require("./scripts/pokemon-announce");
 
 app.prepare().then(() => {
   const server = express();
-  mongoose.connect(
-    process.env.MONGODB_URI,
-    {
-      useNewUrlParser: true,
-      useFindAndModify: false
-    }
-  );
+  server.use(bodyParser.json()); // for parsing application/json
+  server.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+
+  mongoose.connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useFindAndModify: false
+  });
   // Listen for Discord Bot_____________________________________
   client.on("ready", () => {
-    client.user.setActivity("!help to get started", {type: 'WATCHING'});
+    client.user.setActivity("!help to get started", { type: "WATCHING" });
     console.log(`Logged in as ${client.user.tag}!`);
     announcePokemon(client);
   });
-  
+
   client.on("message", msg => {
     scripts(msg, client);
   });

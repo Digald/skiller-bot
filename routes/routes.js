@@ -16,6 +16,11 @@ module.exports = (server, handle, app) => {
     return;
   });
 
+  server.post('/api/add-to-team', (req, res) => {
+    console.log(req.body);
+    res.send(req.body);
+  });
+
   server.get("/api/user/:discordID", (req, res) => {
     db.User.findOne({
       discordId: req.params.discordID
@@ -34,7 +39,7 @@ module.exports = (server, handle, app) => {
     });
   });
 
-  server.get("/api/user-team/:teamId", (req, res) => {
+  server.get("/api/user-with-teamid/:teamId", (req, res) => {
     db.User.findOne({
       teamId: req.params.teamId
     }).then(result => {

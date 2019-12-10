@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { server } from "../lib/config";
-import fetch from "isomorphic-unfetch";
+import React, { useEffect} from "react";
 import styled from "styled-components";
+import {getUsers} from '../lib/api';
 import { withRedux } from "../lib/redux";
 import { useSelector, useDispatch } from "react-redux";
 import TableWrapper from "../components/TableWrapper";
@@ -29,8 +28,7 @@ const Index = () => {
   const { users, setAllUsers } = useIndex();
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch(`${server}/api/users`);
-      const json = await res.json();
+      const json = await getUsers();
       setAllUsers(json);
     };
     if (users.length < 1) {

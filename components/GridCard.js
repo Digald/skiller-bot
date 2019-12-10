@@ -12,7 +12,6 @@ const PokeCard = styled.button`
   display: grid;
   max-height: 196px;
   max-width: 120px;
-  margin-bottom: 40px;
   justify-items: center;
   font-size: 14px;
   font-weight: bold;

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import fetch from "isomorphic-unfetch";
-import { server } from "../lib/config";
+import {getUser} from '../lib/api';
 import { useRouter } from "next/router";
 import { withRedux } from "../lib/redux";
 import Layout from "../components/Layout";
@@ -27,8 +26,7 @@ const Collection = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch(`${server}/api/user-team/${query.user}`);
-      const json = await res.json();
+      const json = await getUser(query, "user-with-teamid")
       setUser(json);
       setIsLoaded(true);
     };
