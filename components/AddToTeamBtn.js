@@ -18,19 +18,20 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const useAddToTeamBtn = () => {
-  const team = useSelector(state => state.user.team);
-  return { team };
+  const user = useSelector(state => state.user);
+  return { user };
 };
 
 export default function AddToTeamBtn(props) {
-  const { team } = useAddToTeamBtn();
+  const { user } = useAddToTeamBtn();
   const [isAdded, setIsAdded] = useState(false);
+  const [teamList, setTeamList] = useState([]);
   const classes = useStyles();
   const handleClick = async pokemon => {
-    if (team.length < 6) {
+    if (teamList.length < 6) {
       setIsAdded(!isAdded);
       console.log(pokemon);
-      await addToTeam(pokemon);
+      await addToTeam(pokemon._id, user.teamId, !isAdded);
     }
   };
   return (

@@ -11,6 +11,7 @@ const userSchema = new Schema(
     pokemon: [
       {
         name: String,
+        isOnTeam: { type: Boolean, default: false },
         pokeId: String,
         evolChainUrl: String,
         stars: { type: Number, default: 0 },
@@ -41,37 +42,7 @@ const userSchema = new Schema(
         spdef: Number,
         speed: Number
       }
-    ],
-    team: [
-      {
-        name: String,
-        pokeId: String,
-        types: [
-          {
-            pokeType: String,
-            damageTo: [
-              {
-                pokeType: String,
-                mod: Number
-              }
-            ],
-            damageFrom: [
-              {
-                pokeType: String,
-                mod: Number
-              }
-            ]
-          }
-        ],
-        spriteUrl: String,
-        hp: Number,
-        atk: Number,
-        spatk: Number,
-        def: Number,
-        spdef: Number,
-        speed: Number
-      }
-    ],
+    ]
   },
   { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
 );

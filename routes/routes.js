@@ -16,8 +16,13 @@ module.exports = (server, handle, app) => {
     return;
   });
 
-  server.post('/api/add-to-team', (req, res) => {
-    console.log(req.body);
+  server.post("/api/add-to-team", async (req, res) => {
+    const { user, pokemon, status } = req.body;
+    const response = await db.User.updateOne(
+      { teamId: user, "pokemon._id": pokemon },
+      { $set: { "pokemon.$.isOnTeam": status } }
+    ).exec();
+    console.log(response);
     res.send(req.body);
   });
 
