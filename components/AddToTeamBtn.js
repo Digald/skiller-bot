@@ -26,12 +26,17 @@ const useAddToTeamBtn = () => {
       data: pokeId
     });
   };
-  return { user, updateTeamStatus };
+  const getPokemonTeam = pokemon => {
+    dispatch({
+      type: "GET-TEAM"
+    });
+  };
+  return { user, updateTeamStatus, getPokemonTeam };
 };
 
 export default function AddToTeamBtn(props) {
   const { poke } = props;
-  const { user, updateTeamStatus } = useAddToTeamBtn();
+  const { user, updateTeamStatus, getPokemonTeam } = useAddToTeamBtn();
   const [isAdded, setIsAdded] = useState(poke.isOnTeam);
   const [teamList, setTeamList] = useState([]);
   const classes = useStyles();
@@ -40,6 +45,7 @@ export default function AddToTeamBtn(props) {
       console.log(pokemon);
       await addToTeam(pokemon._id, user.teamId, !isAdded);
       updateTeamStatus(pokemon._id);
+      getPokemonTeam();
       setIsAdded(!isAdded);
     }
   };

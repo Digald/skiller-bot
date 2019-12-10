@@ -17,16 +17,12 @@ const useTeamBuilder = () => {
       data: user
     });
   };
-  const getPokemonTeam = pokemon => {
-    dispatch({
-      type: "GET-TEAM"
-    });
-  };
-  return { user, setUser, getPokemonTeam };
+  
+  return { user, setUser };
 };
 
 const Collection = () => {
-  const { user, setUser, getPokemonTeam } = useTeamBuilder();
+  const { user, setUser } = useTeamBuilder();
   const { query } = useRouter();
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => {

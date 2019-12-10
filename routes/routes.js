@@ -49,7 +49,7 @@ module.exports = (server, handle, app) => {
       teamId: req.params.teamId
     }).then(result => {
       if (!result) {
-        return res.json({});
+        return res.json([]);
       }
       // Sort pokemon by their Id number from Gen 1 to Gen 8
       const pokeArr = result.pokemon;
