@@ -26,7 +26,7 @@ const useAddToTeamBtn = () => {
       data: pokeId
     });
   };
-  const getPokemonTeam = pokemon => {
+  const getPokemonTeam = () => {
     dispatch({
       type: "GET-TEAM"
     });

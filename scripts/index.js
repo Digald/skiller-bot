@@ -26,7 +26,7 @@ module.exports = (msg, client) => {
     case "!mypic":
       mypic(msg);
       break;
-    case "!teambuild":
+    case "!teambuilder":
       pokemonTeamBuild(msg, client);
       break;
     case "<@414591805707780107>":

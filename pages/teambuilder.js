@@ -17,12 +17,16 @@ const useTeamBuilder = () => {
       data: user
     });
   };
-  
-  return { user, setUser };
+  const getPokemonTeam = () => {
+    dispatch({
+      type: "GET-TEAM"
+    });
+  };
+  return { user, setUser, getPokemonTeam };
 };
 
-const Collection = () => {
-  const { user, setUser } = useTeamBuilder();
+const TeamBuilder = () => {
+  const { user, setUser, getPokemonTeam } = useTeamBuilder();
   const { query } = useRouter();
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => {
@@ -30,6 +34,7 @@ const Collection = () => {
       const json = await getUser(query, "user-with-teamid")
       setUser(json);
       setIsLoaded(true);
+      getPokemonTeam();
     };
     fetchData();
   }, []);
@@ -42,4 +47,4 @@ const Collection = () => {
   );
 };
 
-export default withRedux(Collection);
+export default withRedux(TeamBuilder);

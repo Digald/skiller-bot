@@ -8,6 +8,11 @@ const TeamBarContainer = styled.div`
   border: 2px solid black;
   margin: 60px 30% 0 30%;
   height: 120px;
+  .smooth-dnd-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 const useTeamBar = () => {
@@ -21,9 +26,9 @@ export default function TeamBar(props) {
   console.log(team);
   return (
     <TeamBarContainer>
-      <Container>
+      <Container orientation="horizontal">
         {team.map(poke => {
-          return <Draggable>{poke.name}</Draggable>;
+          return <Draggable><img src={poke.spriteUrl}/></Draggable>;
         })}
       </Container>
     </TeamBarContainer>
