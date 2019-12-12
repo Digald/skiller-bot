@@ -26,27 +26,26 @@ const useAddToTeamBtn = () => {
       data: pokeId
     });
   };
-  const getPokemonTeam = () => {
-    dispatch({
-      type: "GET-TEAM"
-    });
-  };
-  return { user, updateTeamStatus, getPokemonTeam };
+  return { user, updateTeamStatus };
 };
 
 export default function AddToTeamBtn(props) {
   const { poke } = props;
-  const { user, updateTeamStatus, getPokemonTeam } = useAddToTeamBtn();
-  const [isAdded, setIsAdded] = useState(poke.isOnTeam);
-  const [teamList, setTeamList] = useState([]);
+  const { user, updateTeamStatus } = useAddToTeamBtn();
+  const [isAdded, setIsAdded] = useState(
+    user.team.findIndex(x => x._id === poke._id) !== -1 ? true : false
+  );
   const classes = useStyles();
   const handleClick = async pokemon => {
-    if (teamList.length < 6) {
-      console.log(pokemon);
-      await addToTeam(pokemon._id, user.teamId, !isAdded);
+    if (!isAdded && user.team.length < 6) {
+      user.team.push(pokemon);
+      await addToTeam(user.team, user.teamId);
       updateTeamStatus(pokemon._id);
-      getPokemonTeam();
       setIsAdded(!isAdded);
+    } else if (isAdded) {
+    } else {
+      // Add message that the team is already capped
+      console.log("Your team already has six pokemon");
     }
   };
   return (

@@ -17,10 +17,10 @@ module.exports = (server, handle, app) => {
   });
 
   server.post("/api/add-to-team", async (req, res) => {
-    const { user, pokemon, status } = req.body;
+    const { user, pokemonList} = req.body;
     const response = await db.User.updateOne(
-      { teamId: user, "pokemon._id": pokemon },
-      { $set: { "pokemon.$.isOnTeam": status } }
+      { teamId: user},
+      { $set: { team: pokemonList } }
     ).exec();
     console.log(response);
     res.send(req.body);

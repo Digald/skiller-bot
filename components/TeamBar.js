@@ -17,17 +17,16 @@ const TeamBarContainer = styled.div`
 
 const useTeamBar = () => {
   const user = useSelector(state => state.user);
-  const team = useSelector(state => state.currentTeam);
-  return { user, team };
+  return { user};
 };
 
 export default function TeamBar(props) {
-  const { user, team } = useTeamBar();
-  console.log(team);
+  const { user } = useTeamBar();
+  console.log(user)
   return (
     <TeamBarContainer>
       <Container orientation="horizontal">
-        {team.map(poke => {
+        {user.team.map(poke => {
           return <Draggable><img src={poke.spriteUrl}/></Draggable>;
         })}
       </Container>
