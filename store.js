@@ -11,6 +11,16 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case "UPDATE-POKEMON-STATUS":
+      return {
+        ...state,
+        currentTeam: action.data
+      };
+    case "GET-TEAM":
+      return {
+        ...state,
+        currentTeam: state.user.team
+      };
     case "SET-USER":
       return {
         ...state,
@@ -27,29 +37,6 @@ const reducer = (state = initialState, action) => {
         singlePoke: action.data,
         isModalToggled: true
       };
-    case "UPDATE-POKEMON-STATUS":
-      const pokemonToPutOnTeam = state.user.pokemon.map(poke => {
-        if (poke._id === action.data) {
-          poke.isOnTeam = !poke.isOnTeam;
-          return poke;
-        }
-        return poke;
-      });
-      return {
-        ...state,
-        user: {
-          ...state.user,
-          pokemon: pokemonToPutOnTeam
-        }
-      };
-    case "GET-TEAM":
-    const currentTeam = state.user.pokemon.filter(poke => {
-      return poke.isOnTeam
-    });
-    return {
-      ...state,
-      currentTeam
-    };
     case "OPEN-MODAL":
       return {
         ...state,
