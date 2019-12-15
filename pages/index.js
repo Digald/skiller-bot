@@ -1,6 +1,6 @@
 import React, { useEffect} from "react";
 import styled from "styled-components";
-import {getUsers} from '../lib/api';
+import {getUserApi} from '../lib/api';
 import { withRedux } from "../lib/redux";
 import { useSelector, useDispatch } from "react-redux";
 import TableWrapper from "../components/TableWrapper";

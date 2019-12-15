@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { addToTeam } from "../lib/api";
+import { addToTeamApi } from "../lib/api";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -20,18 +20,18 @@ const useStyles = makeStyles(theme => ({
 const useAddToTeamBtn = () => {
   const user = useSelector(state => state.user);
   const dispatch = useDispatch();
-  const updateTeamStatus = pokeId => {
+  const updateTeam = team => {
     dispatch({
-      type: "UPDATE-POKEMON-STATUS",
-      data: pokeId
+      type: "UPDATE-POKEMON-TEAM",
+      data: team
     });
   };
-  return { user, updateTeamStatus };
+  return { user, updateTeam };
 };
 
 export default function AddToTeamBtn(props) {
   const { poke } = props;
-  const { user, updateTeamStatus } = useAddToTeamBtn();
+  const { user, updateTeam } = useAddToTeamBtn();
   const [isAdded, setIsAdded] = useState(
     user.team.findIndex(x => x._id === poke._id) !== -1 ? true : false
   );
@@ -43,16 +43,18 @@ export default function AddToTeamBtn(props) {
    */
   const handleClick = async pokemon => {
     if (!isAdded && user.team.length < 6) {
+      // if the pokemon has not been added and the team is not full
       user.team.push(pokemon);
       await addToTeam(user.team, user.teamId);
-      // updateTeamStatus(pokemon._id);
+      updateTeam(user.team);
       setIsAdded(!isAdded);
     } else if (isAdded) {
+      // if the pokemon has already been added, removed from team
       const updatedTeam = user.team.filter(poke => {
         return poke._id !== pokemon._id;
       });
       await addToTeam(updatedTeam, user.teamId);
-      // updateTeamStatus(pokemon._id);
+      updateTeam(updatedTeam);
       setIsAdded(!isAdded);
     } else {
       // Add message that the team is already capped
