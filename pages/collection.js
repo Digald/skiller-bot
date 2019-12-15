@@ -25,7 +25,7 @@ const Collection = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
-      const json = await getUser(query, "user");
+      const json = await getUserApi(query, "user");
       setUser(json);
       setIsLoaded(true);
     };

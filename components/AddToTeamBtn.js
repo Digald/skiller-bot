@@ -45,7 +45,7 @@ export default function AddToTeamBtn(props) {
     if (!isAdded && user.team.length < 6) {
       // if the pokemon has not been added and the team is not full
       user.team.push(pokemon);
-      await addToTeam(user.team, user.teamId);
+      await addToTeamApi(user.team, user.teamId);
       updateTeam(user.team);
       setIsAdded(!isAdded);
     } else if (isAdded) {
@@ -53,7 +53,7 @@ export default function AddToTeamBtn(props) {
       const updatedTeam = user.team.filter(poke => {
         return poke._id !== pokemon._id;
       });
-      await addToTeam(updatedTeam, user.teamId);
+      await addToTeamApi(updatedTeam, user.teamId);
       updateTeam(updatedTeam);
       setIsAdded(!isAdded);
     } else {

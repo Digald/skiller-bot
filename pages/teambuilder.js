@@ -31,7 +31,7 @@ const TeamBuilder = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
-      const json = await getUser(query, "user-with-teamid")
+      const json = await getUserApi(query, "user-with-teamid")
       setUser(json);
       setIsLoaded(true);
       getPokemonTeam();
