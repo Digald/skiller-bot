@@ -22,8 +22,7 @@ module.exports = (server, handle, app) => {
       { teamId: user},
       { $set: { team: pokemonList } }
     ).exec();
-    console.log(response);
-    res.send(req.body);
+    res.send(response);
   });
 
   server.get("/api/user/:discordID", (req, res) => {

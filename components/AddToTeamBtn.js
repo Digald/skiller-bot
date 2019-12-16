@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import Fab from "@material-ui/core/Fab";
@@ -19,6 +19,7 @@ const useStyles = makeStyles(theme => ({
 
 const useAddToTeamBtn = () => {
   const user = useSelector(state => state.user);
+  const currentTeam = useSelector(state => state.currentTeam);
   const dispatch = useDispatch();
   const updateTeam = team => {
     dispatch({
@@ -26,15 +27,16 @@ const useAddToTeamBtn = () => {
       data: team
     });
   };
-  return { user, updateTeam };
+  return { user, currentTeam, updateTeam };
 };
 
 export default function AddToTeamBtn(props) {
   const { poke } = props;
-  const { user, updateTeam } = useAddToTeamBtn();
-  const [isAdded, setIsAdded] = useState(
-    user.team.findIndex(x => x._id === poke._id) !== -1 ? true : false
-  );
+  const { user, currentTeam, updateTeam } = useAddToTeamBtn();
+  const [isAdded, setIsAdded] = useState(false);
+  useEffect(() => {
+    setIsAdded(currentTeam.findIndex(teamMember => teamMember._id === poke._id) !== -1 ? true : false)
+  });
   const classes = useStyles();
 
   /**
@@ -42,22 +44,24 @@ export default function AddToTeamBtn(props) {
    * @param {object} pokemon single pokemon data
    */
   const handleClick = async pokemon => {
-    if (!isAdded && user.team.length < 6) {
-      // if the pokemon has not been added and the team is not full
-      user.team.push(pokemon);
-      await addToTeamApi(user.team, user.teamId);
-      updateTeam(user.team);
+    // if the pokemon has not been added and the team is not full
+    if (!isAdded && currentTeam.length < 6) {
+      const updatedTeam = [...currentTeam, pokemon]
+      await addToTeamApi(updatedTeam, user.teamId);
+      updateTeam(updatedTeam);
       setIsAdded(!isAdded);
-    } else if (isAdded) {
-      // if the pokemon has already been added, removed from team
-      const updatedTeam = user.team.filter(poke => {
+    }
+    // if the pokemon has already been added, removed from team
+    else if (isAdded) {
+      const updatedTeam = currentTeam.filter(poke => {
         return poke._id !== pokemon._id;
       });
       await addToTeamApi(updatedTeam, user.teamId);
       updateTeam(updatedTeam);
       setIsAdded(!isAdded);
-    } else {
-      // Add message that the team is already capped
+    }
+    // Add message that the team is already capped
+    else {
       console.log("Your team already has six pokemon");
     }
   };

@@ -11,30 +11,32 @@ import TeamBar from '../components/TeamBar';
 const useTeamBuilder = () => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user);
+  const currentTeam = useSelector(state => state.currentTeam);
   const setUser = user => {
     dispatch({
       type: "SET-USER",
       data: user
     });
   };
-  const getPokemonTeam = () => {
+  const updateTeam = team => {
     dispatch({
-      type: "GET-TEAM"
+      type: "UPDATE-POKEMON-TEAM",
+      data: team
     });
   };
-  return { user, setUser, getPokemonTeam };
+  return { user, setUser, updateTeam, currentTeam };
 };
 
 const TeamBuilder = () => {
-  const { user, setUser, getPokemonTeam } = useTeamBuilder();
+  const { user, setUser, updateTeam } = useTeamBuilder();
   const { query } = useRouter();
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
       const json = await getUserApi(query, "user-with-teamid")
       setUser(json);
+      updateTeam(json.team);
       setIsLoaded(true);
-      getPokemonTeam();
     };
     fetchData();
   }, []);
