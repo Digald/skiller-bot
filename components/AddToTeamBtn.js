@@ -33,10 +33,7 @@ const useAddToTeamBtn = () => {
 export default function AddToTeamBtn(props) {
   const { poke } = props;
   const { user, currentTeam, updateTeam } = useAddToTeamBtn();
-  const [isAdded, setIsAdded] = useState(false);
-  useEffect(() => {
-    setIsAdded(currentTeam.findIndex(teamMember => teamMember._id === poke._id) !== -1 ? true : false)
-  });
+  const [isAdded, setIsAdded] = useState(currentTeam.findIndex(teamMember => teamMember._id === poke._id) !== -1 ? true : false);
   const classes = useStyles();
 
   /**
