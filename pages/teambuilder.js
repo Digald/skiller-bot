@@ -1,12 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {getUserApi} from '../lib/api';
 import { useRouter } from "next/router";
+import styled from "styled-components";
+import { getUserApi } from "../lib/api";
 import { withRedux } from "../lib/redux";
 import Layout from "../components/Layout";
 import PokemonGrid from "../components/PokemonGrid";
 import LoadingSpinner from "../components/LoadingSpinner";
-import TeamBar from '../components/TeamBar';
+import TeamBar from "../components/TeamBar";
+
+const Message = styled.p`
+  position: absolute;
+  bottom: 0;
+  margin: 0;
+  text-align: center;
+  font-size: 20px;
+  color: white;
+  width: 100%;
+  background-color: red;
+  transition: opacity 3s ease-in-out;
+  -webkit-transition: opacity 3s ease-in-out;
+  -moz-transition: opacity 3s ease-in-out;
+  -ms-transition: opacity 3s ease-in-out;
+  -o-transition: opacity 3s ease-in-out;
+  transition: opacity 3s ease-in-out;
+  opacity: 1;
+`;
 
 const useTeamBuilder = () => {
   const dispatch = useDispatch();
@@ -33,7 +52,7 @@ const TeamBuilder = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
-      const json = await getUserApi(query, "user-with-teamid")
+      const json = await getUserApi(query, "user-with-teamid");
       setUser(json);
       updateTeam(json.team);
       setIsLoaded(true);
@@ -43,8 +62,8 @@ const TeamBuilder = () => {
   if (!isLoaded) return <LoadingSpinner />;
   return (
     <Layout>
-      <TeamBar/>
-      <PokemonGrid />
+      <TeamBar />
+      <PokemonGrid/>
     </Layout>
   );
 };

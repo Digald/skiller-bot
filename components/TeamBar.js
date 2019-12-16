@@ -69,20 +69,19 @@ export default function TeamBar() {
    */
   async function onDrop(dropResult) {
     const { removedIndex, addedIndex, payload, element } = dropResult;
-    console.log(dropResult);
     // Swap pokemon in currentTeam array
     if (addedIndex !== null) {
       team.splice(removedIndex, 1);
       team.splice(addedIndex, 0, payload);
       setTeam([...team]);
       await addToTeamApi(team, user.teamId);
-      updateTeam(team);
+      updateTeam([...team]);
       return;
     }
     team.splice(removedIndex, 1);
     setTeam([...team]);
     await addToTeamApi(team, user.teamId);
-    updateTeam(team);
+    updateTeam([...team]);
     return;
   }
 
