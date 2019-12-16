@@ -12,7 +12,6 @@ const initialState = {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case "UPDATE-POKEMON-TEAM":
-      console.log(action.data);
       return {
         ...state,
         currentTeam: action.data
