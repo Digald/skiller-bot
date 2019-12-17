@@ -34,7 +34,11 @@ const TeamBuilder = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
-      const json = await getUserApi(query, "user-with-teamid");
+      let json = await getUserApi(query, "user-with-teamid");
+      if (!json) {
+        json = {};
+        json.team = [];
+      }
       setUser(json);
       updateTeam(json.team);
       setIsLoaded(true);

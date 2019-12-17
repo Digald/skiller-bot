@@ -76,7 +76,7 @@ const Help = () => {
       "",
       "Get a private message from the bot with a unique password and url. Use that url to edit your current pokemon team.",
       "Private message, url.",
-      "Currently a work in progress. You must already be a recorded player to use this command."
+      "You must already be a recorded player to use this command."
     )
   ];
   return (

@@ -8,6 +8,9 @@ module.exports = (msg, client) => {
   // Save that key in the database
   db.User.updateOne({ discordId: user }, { $set: { teamId: uniqueKey } }).then(
     result => {
+      if (!result) {
+        msg.reply("Sorry I don't recognize you currently.")
+      }
       // Send private message to user with the link
       client.users
         .get(user)
