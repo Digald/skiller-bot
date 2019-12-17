@@ -54,9 +54,6 @@ const TeamBarContainer = styled.div`
       );
     }
     .smooth-dnd-container {
-      overflow-x: scroll;
-      -webkit-overflow-scrolling: touch;
-      -webkit-box-flex: 1;
       border: none;
     }
   }
@@ -91,6 +88,12 @@ export default function TeamBar() {
    * @param {object} dropResult
    */
   async function onDrop(dropResult) {
+    document
+      .querySelector("body")
+      .classList.remove("smooth-dnd-disable-touch-action");
+    document
+      .querySelector("body")
+      .classList.remove("smooth-dnd-no-user-select");
     const { removedIndex, addedIndex, payload, element } = dropResult;
     // Swap pokemon in currentTeam array
     if (addedIndex !== null) {
@@ -136,6 +139,7 @@ export default function TeamBar() {
         </div>
         <Container
           getGhostParent={getGhostParent}
+          dragBeginDelay={0}
           removeOnDropOut={true}
           getChildPayload={getChildPayload}
           autoScrollEnabled={true}
