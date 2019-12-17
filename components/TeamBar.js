@@ -54,6 +54,9 @@ const TeamBarContainer = styled.div`
       );
     }
     .smooth-dnd-container {
+      overflow-x: scroll;
+      -webkit-overflow-scrolling: touch;
+      -webkit-box-flex: 1;
       border: none;
     }
   }
