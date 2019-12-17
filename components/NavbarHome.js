@@ -38,7 +38,7 @@ export default function NavBar() {
         <Toolbar className={classes.toolbar}>
           <Avatar src="/gnome.jpg" className={classes.avatar} />
           <Typography variant="h6" className={classes.title}>
-            Pokemon Skiller Edition
+            {router.pathname === "/teambuilder" ? "Team Builder" : "Pokemon Skiller Edition"}
           </Typography>
           <Link href={router.pathname !== "/" ? "/" : "/help"}>
             <IconButton

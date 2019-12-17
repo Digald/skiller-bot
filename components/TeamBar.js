@@ -3,24 +3,29 @@ import { useSelector, useDispatch } from "react-redux";
 import Sticky from "react-sticky-el";
 import { Container, Draggable } from "react-smooth-dnd";
 import styled from "styled-components";
+import TouchAppIcon from "@material-ui/icons/TouchApp";
+import DoubleArrowIcon from "@material-ui/icons/DoubleArrow";
+import Tooltip from "@material-ui/core/Tooltip";
 import { addToTeamApi } from "../lib/api";
 
 const TeamBarContainer = styled.div`
   display: flex;
   justify-content: center;
-  position: relative;
   margin: 0;
-  height: 100%;
-  width: 100vw;
-  .smooth-dnd-container {
-    margin: 0;
+  /* background-color: #00bcd4; */
+  .icon-container {
     display: flex;
-    justify-content: center;
-    width: auto;
-    height: 100%;
+    justify-content: space-evenly;
+    flex-direction: column;
+  }
+  .smooth-dnd-container {
+    border: 1px dashed black;
+    min-height: 102px;
+    min-width: 102px;
+    margin: 0;
   }
   @media (max-width: 600px) {
-    flex-direction: column;
+    justify-content: start;
     align-items: center;
     overflow-x: scroll;
     ::-webkit-scrollbar-track {
@@ -48,12 +53,7 @@ const TeamBarContainer = styled.div`
       );
     }
     .smooth-dnd-container {
-      margin: 0 0 0 60%;
-    }
-    @media (max-width: 350px) {
-      .smooth-dnd-container {
-        margin: 0 0 0 100%;
-      }
+      border: none;
     }
   }
 `;
@@ -70,25 +70,9 @@ const useTeamBar = () => {
   return { user, currentTeam, updateTeam };
 };
 
-function useWindowSize() {
-  const [size, setSize] = useState([0, 0]);
-  useLayoutEffect(() => {
-    function updateSize() {
-      setSize([window.innerWidth, window.innerHeight]);
-    }
-    window.addEventListener("resize", updateSize);
-    updateSize();
-    return () => window.removeEventListener("resize", updateSize);
-  }, []);
-  return size;
-}
-
 export default function TeamBar() {
   const { user, currentTeam, updateTeam } = useTeamBar();
   const [team, setTeam] = useState(currentTeam);
-  const [width, height] = useWindowSize();
-  const orientation = width > 600 ? "horizontal" : "vertical";
-  console.log(orientation);
   useEffect(() => {
     setTeam(currentTeam);
   });
@@ -108,6 +92,7 @@ export default function TeamBar() {
       updateTeam([...team]);
       return;
     }
+    console.log("dropped outside of space, removing");
     team.splice(removedIndex, 1);
     setTeam([...team]);
     await addToTeamApi(team, user.teamId);
@@ -123,10 +108,25 @@ export default function TeamBar() {
   function getChildPayload(index) {
     return currentTeam[index];
   }
+
+  const getGhostParent = () => {
+    return document.body;
+  };
+
+  const stickyStyle = { zIndex: 1, background: "white", height: "102px" };
   return (
-    <Sticky>
+    <Sticky stickyStyle={stickyStyle}>
       <TeamBarContainer>
+        <div className="icon-container">
+          <Tooltip title="Drag N Drop!" aria-label="drag">
+            <TouchAppIcon fontSize="large" color="primary" />
+          </Tooltip>
+          <Tooltip title="Order Pokemon left to right" aria-label="order">
+            <DoubleArrowIcon fontSize="large" color="primary" />
+          </Tooltip>
+        </div>
         <Container
+          getGhostParent={getGhostParent}
           removeOnDropOut={true}
           getChildPayload={getChildPayload}
           autoScrollEnabled={true}

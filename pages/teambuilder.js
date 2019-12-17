@@ -9,24 +9,6 @@ import PokemonGrid from "../components/PokemonGrid";
 import LoadingSpinner from "../components/LoadingSpinner";
 import TeamBar from "../components/TeamBar";
 
-const Message = styled.p`
-  position: absolute;
-  bottom: 0;
-  margin: 0;
-  text-align: center;
-  font-size: 20px;
-  color: white;
-  width: 100%;
-  background-color: red;
-  transition: opacity 3s ease-in-out;
-  -webkit-transition: opacity 3s ease-in-out;
-  -moz-transition: opacity 3s ease-in-out;
-  -ms-transition: opacity 3s ease-in-out;
-  -o-transition: opacity 3s ease-in-out;
-  transition: opacity 3s ease-in-out;
-  opacity: 1;
-`;
-
 const useTeamBuilder = () => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user);
@@ -61,10 +43,12 @@ const TeamBuilder = () => {
   }, []);
   if (!isLoaded) return <LoadingSpinner />;
   return (
-    <Layout>
-      <TeamBar />
-      <PokemonGrid/>
-    </Layout>
+    <>
+      <Layout>
+        <TeamBar />
+        <PokemonGrid />
+      </Layout>
+    </>
   );
 };
 

@@ -33,8 +33,19 @@ const useAddToTeamBtn = () => {
 export default function AddToTeamBtn(props) {
   const { poke } = props;
   const { user, currentTeam, updateTeam } = useAddToTeamBtn();
-  const [isAdded, setIsAdded] = useState(currentTeam.findIndex(teamMember => teamMember._id === poke._id) !== -1 ? true : false);
+  const [isAdded, setIsAdded] = useState(
+    currentTeam.findIndex(teamMember => teamMember._id === poke._id) !== -1
+      ? true
+      : false
+  );
   const classes = useStyles();
+  useEffect(() => {
+    setIsAdded(
+      currentTeam.findIndex(teamMember => teamMember._id === poke._id) !== -1
+        ? true
+        : false
+    );
+  });
   /**
    * What happens are clicking the add or trash button
    * @param {object} pokemon single pokemon data
@@ -42,7 +53,7 @@ export default function AddToTeamBtn(props) {
   const handleClick = async pokemon => {
     // if the pokemon has not been added and the team is not full
     if (!isAdded && currentTeam.length < 6) {
-      const updatedTeam = [...currentTeam, pokemon]
+      const updatedTeam = [...currentTeam, pokemon];
       await addToTeamApi(updatedTeam, user.teamId);
       updateTeam(updatedTeam);
       setIsAdded(!isAdded);
@@ -58,7 +69,7 @@ export default function AddToTeamBtn(props) {
     }
     // Add message that the team is already capped
     else {
-      console.log('Your team already has six pokemon');
+      console.log("Your team already has six pokemon");
     }
   };
 
