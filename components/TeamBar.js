@@ -67,11 +67,16 @@ const useTeamBar = () => {
       type: "UPDATE-POKEMON-TEAM",
       data: team
     });
-  return { user, currentTeam, updateTeam };
+  const setPokemon = poke =>
+    dispatch({
+      type: "SET-POKEMON",
+      data: poke
+    });
+  return { user, currentTeam, updateTeam, setPokemon };
 };
 
 export default function TeamBar() {
-  const { user, currentTeam, updateTeam } = useTeamBar();
+  const { user, currentTeam, updateTeam, setPokemon } = useTeamBar();
   const [team, setTeam] = useState(currentTeam);
   useEffect(() => {
     setTeam(currentTeam);
@@ -113,7 +118,7 @@ export default function TeamBar() {
     return document.body;
   };
 
-  const stickyStyle = { zIndex: 1, background: "white", height: "102px" };
+  const stickyStyle = { zIndex: 1, background: "#fafafa", height: "102px" };
   return (
     <Sticky stickyStyle={stickyStyle}>
       <TeamBarContainer>
@@ -135,7 +140,7 @@ export default function TeamBar() {
         >
           {team.map((poke, index) => {
             return (
-              <Draggable key={index}>
+              <Draggable onClick={() => setPokemon(poke)} key={index}>
                 <img src={poke.spriteUrl} />
               </Draggable>
             );

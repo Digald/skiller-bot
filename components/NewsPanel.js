@@ -28,6 +28,22 @@ export default function SimpleExpansionPanel() {
           id="panel1a-header"
         >
           <Typography className={classes.heading}>
+            Go brew some teams! - Dec. 17, 2019
+          </Typography>
+        </ExpansionPanelSummary>
+        <ExpansionPanelDetails>
+          <Typography>
+            There have been a few minor updates to the site such as the help page so you can see all the available Skiller-bot commands. More importantly, the team builder page is finally ready. To get started just type !teambuilder in Discord. You will be sent a DM from Skiller-bot with a custom link. Just follow that link and you're all set to start organizing your 6 team members.
+          </Typography>
+        </ExpansionPanelDetails>
+      </ExpansionPanel>
+      <ExpansionPanel>
+        <ExpansionPanelSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
+          <Typography className={classes.heading}>
             Battles Coming Soon! - Nov. 30, 2019
           </Typography>
         </ExpansionPanelSummary>

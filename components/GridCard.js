@@ -15,10 +15,12 @@ const PokeCard = styled.button`
   justify-items: center;
   font-size: 14px;
   font-weight: bold;
+  .pokemonImg {
+    height: 120px;
+    width: 120px;
+  }
   &:hover {
     .pokemonImg {
-      max-width: 120px;
-      height: 120px;
       border-radius: 50%;
       background: radial-gradient(#d2ffb8, #ffffff);
     }

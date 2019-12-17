@@ -3,14 +3,19 @@ const smugs = require("./smugs");
 const help = require("./help");
 const mypic = require("./mypic");
 const reddit = require("./redditPost");
+const donate = require('./donate');
 const pokemonUpdate = require("./pokemon-update");
 const pokemonSpawn = require('./pokemon-spawn');
 const pokemonTeamBuild = require('./pokemon-teambuild');
+
 
 module.exports = (msg, client) => {
   const userMsg = msg.content.toLowerCase();
   // basic command switch statment
   switch (userMsg) {
+    case "!donate":
+      donate(msg);
+      break;
     case "!help":
       help(msg);
       break;
