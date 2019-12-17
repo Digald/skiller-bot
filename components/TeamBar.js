@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import Sticky from "react-sticky-el";
 import { Container, Draggable } from "react-smooth-dnd";
 import styled from "styled-components";
 import { addToTeamApi } from "../lib/api";
@@ -7,11 +8,10 @@ import { addToTeamApi } from "../lib/api";
 const TeamBarContainer = styled.div`
   display: flex;
   justify-content: center;
-  background-color: grey;
   position: relative;
   margin: 0;
   height: 100%;
-  width: 100%;
+  width: 100vw;
   .smooth-dnd-container {
     margin: 0;
     display: flex;
@@ -22,8 +22,38 @@ const TeamBarContainer = styled.div`
   @media (max-width: 600px) {
     flex-direction: column;
     align-items: center;
+    overflow-x: scroll;
+    ::-webkit-scrollbar-track {
+      -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+      box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+      background-color: #f5f5f5;
+    }
+
+    ::-webkit-scrollbar {
+      width: 20px;
+      background-color: #f5f5f5;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background-color: #f90;
+      background-image: -webkit-linear-gradient(
+        45deg,
+        rgba(255, 255, 255, 0.2) 25%,
+        transparent 25%,
+        transparent 50%,
+        rgba(255, 255, 255, 0.2) 50%,
+        rgba(255, 255, 255, 0.2) 75%,
+        transparent 75%,
+        transparent
+      );
+    }
     .smooth-dnd-container {
-      flex-direction: column;
+      margin: 0 0 0 60%;
+    }
+    @media (max-width: 350px) {
+      .smooth-dnd-container {
+        margin: 0 0 0 100%;
+      }
     }
   }
 `;
@@ -58,7 +88,7 @@ export default function TeamBar() {
   const [team, setTeam] = useState(currentTeam);
   const [width, height] = useWindowSize();
   const orientation = width > 600 ? "horizontal" : "vertical";
-  // console.log(orientation);
+  console.log(orientation);
   useEffect(() => {
     setTeam(currentTeam);
   });
@@ -93,25 +123,25 @@ export default function TeamBar() {
   function getChildPayload(index) {
     return currentTeam[index];
   }
-
   return (
-    <TeamBarContainer>
-      <div>First To Battle</div>
-      <Container
-        removeOnDropOut={true}
-        getChildPayload={getChildPayload}
-        onDrop={onDrop}
-        orientation={"horizontal"}
-      >
-        {team.map((poke, index) => {
-          return (
-            <Draggable key={index}>
-              <img src={poke.spriteUrl} />
-            </Draggable>
-          );
-        })}
-      </Container>
-      <div>Last</div>
-    </TeamBarContainer>
+    <Sticky>
+      <TeamBarContainer>
+        <Container
+          removeOnDropOut={true}
+          getChildPayload={getChildPayload}
+          autoScrollEnabled={true}
+          onDrop={onDrop}
+          orientation={"horizontal"}
+        >
+          {team.map((poke, index) => {
+            return (
+              <Draggable key={index}>
+                <img src={poke.spriteUrl} />
+              </Draggable>
+            );
+          })}
+        </Container>
+      </TeamBarContainer>
+    </Sticky>
   );
 }
