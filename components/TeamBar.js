@@ -12,7 +12,6 @@ const TeamBarContainer = styled.div`
   display: flex;
   justify-content: center;
   margin: 0;
-  /* background-color: #00bcd4; */
   .icon-container {
     display: flex;
     justify-content: space-evenly;
@@ -28,6 +27,8 @@ const TeamBarContainer = styled.div`
     justify-content: start;
     align-items: center;
     overflow-x: scroll;
+    -webkit-overflow-scrolling: touch;
+    -webkit-box-flex: 1;
     ::-webkit-scrollbar-track {
       -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
       box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
