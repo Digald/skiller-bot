@@ -1,42 +1,55 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserApi } from "../lib/api";
 import { useRouter } from "next/router";
+import styled from "styled-components";
+import { getUserApi } from "../lib/api";
 import { withRedux } from "../lib/redux";
 import Layout from "../components/Layout";
 import PokemonGrid from "../components/PokemonGrid";
 import LoadingSpinner from "../components/LoadingSpinner";
+import TeamBar from "../components/TeamBar";
 
-const useCollection = () => {
+const useTeamBuilder = () => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user);
+  const currentTeam = useSelector(state => state.currentTeam);
   const setUser = user => {
     dispatch({
       type: "SET-USER",
       data: user
     });
   };
-  return { user, setUser };
+  const updateTeam = team => {
+    dispatch({
+      type: "UPDATE-POKEMON-TEAM",
+      data: team
+    });
+  };
+  return { user, setUser, updateTeam, currentTeam };
 };
 
-const Collection = () => {
-  const { user, setUser } = useCollection();
+const TeamBuilder = () => {
+  const { user, setUser, updateTeam } = useTeamBuilder();
   const { query } = useRouter();
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
-      const json = await getUserApi(query, "user");
+      const json = await getUserApi(query, "user-with-teamid");
       setUser(json);
+      updateTeam(json.team);
       setIsLoaded(true);
     };
     fetchData();
   }, []);
   if (!isLoaded) return <LoadingSpinner />;
   return (
-    <Layout>
-      <PokemonGrid />
-    </Layout>
+    <>
+      <Layout>
+        <TeamBar />
+        <PokemonGrid />
+      </Layout>
+    </>
   );
 };
 
-export default withRedux(Collection);
+export default withRedux(TeamBuilder);

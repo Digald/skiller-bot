@@ -5,11 +5,17 @@ const initialState = {
   user: {},
   users: [],
   singlePoke: {},
-  isModalToggled: false
+  isModalToggled: false,
+  currentTeam: []
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case "UPDATE-POKEMON-TEAM":
+      return {
+        ...state,
+        currentTeam: action.data
+      };
     case "SET-USER":
       return {
         ...state,
