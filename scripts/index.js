@@ -3,11 +3,11 @@ const smugs = require("./smugs");
 const help = require("./help");
 const mypic = require("./mypic");
 const reddit = require("./redditPost");
-const donate = require('./donate');
+const donate = require("./donate");
 const pokemonUpdate = require("./pokemon-update");
-const pokemonSpawn = require('./pokemon-spawn');
-const pokemonTeamBuild = require('./pokemon-teambuild');
-
+const pokemonSpawn = require("./pokemon-spawn");
+const pokemonTeamBuild = require("./pokemon-teambuild");
+const pokemonBattle = require('./pokemon-battle');
 
 module.exports = (msg, client) => {
   const userMsg = msg.content.toLowerCase();
@@ -50,5 +50,9 @@ module.exports = (msg, client) => {
         reddit(msg);
       }
       break;
+    case "!battle":
+      if (userMsg.split(" ")[1]) {
+        pokemonBattle(msg, client);
+      }
   }
 };
