@@ -3,8 +3,10 @@ const Schema = mongoose.Schema;
 
 const battleSchema = new Schema(
   {
-    challenger: String,
-    challenged: String,
+    challengerId: String,
+    challengerName: String,
+    challengedId: String,
+    challengedName: String,
     inviteTime: Number
   },
   { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }

@@ -9,12 +9,48 @@ module.exports = async (msg, client) => {
   const username = msg.author.username;
 
   // Check to see if user has an active battle instance already
-  const battle = await db.Battle.find({challenger: userId}).exec();
-  console.log(battle);
+  const existingBattleInstance = await db.Battle.findOne({
+    challengerId: userId
+  }).exec();
 
-  const invitationMessage = `${username} has invited ${challenged} to battle. To accept this battle from ${username}, type "!accept"`;
+  // If battle instance already exists, terminate battle requeset
+  if (existingBattleInstance) {
+    if (Date.now() - existingBattleInstance.inviteTime < 60000) {
+      return msg.reply(
+        "Resolve your current battle request before starting a new one."
+      );
+    }
+    // If the battle instance expired, delete it and continue
+    await db.Battle.deleteOne({ _id: existingBattleInstance._id });
+  }
+
+  // Make sure that player cannot challenge themselves
+  const challengedId = challenged.match(/\d+/gm)[0];
+  // ***PRODUCTION***
+  // if (challengedId === userId) {
+  //   return msg.reply("You can't battle yourself");
+  // }
+  // ***DEVELOPMENT****
+
+  // Save battle instance to db
+  const recordBattleRequest = await db.Battle.create({
+    challengerId: userId,
+    challengerName: username,
+    challengedName: '',
+    challengedId,
+    inviteTime: Date.now()
+  });
+
+  if (!recordBattleRequest) {
+    return msg.reply(
+      "Something went wrong with creating your battle request. Make sure you typed in the command and challenger's name correctly."
+    );
+  }
+  const invitationMessage = `${username} has invited ${challenged} to battle. To accept this battle from ${username}, type "!accept" within 1 minute to start.`;
 
   // Send initial invitation message
+  // ***PRODUCTION***
   // client.channels.get("441820156197339136").send(embed);
+  // ***DEVELOPMENT***
   client.users.get("129038630953025536").send(invitationMessage);
 };
