@@ -7,7 +7,6 @@ import TouchAppIcon from "@material-ui/icons/TouchApp";
 import DoubleArrowIcon from "@material-ui/icons/DoubleArrow";
 import Tooltip from "@material-ui/core/Tooltip";
 import { addToTeamApi } from "../lib/api";
-import PokemonGrid from "./PokemonGrid";
 
 const TeamBarContainer = styled.div`
   display: flex;
@@ -39,7 +38,7 @@ const TeamBarContainer = styled.div`
     }
 
     ::-webkit-scrollbar {
-      width: 20px !important;
+      width: 20px;
       background-color: #f5f5f5;
     }
 
@@ -169,6 +168,7 @@ export default function TeamBar() {
         <Container
           getGhostParent={getGhostParent}
           removeOnDropOut={true}
+          dragBeginDelay={0}
           getChildPayload={getChildPayload}
           autoScrollEnabled={true}
           onDrop={onDrop}
