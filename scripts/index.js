@@ -8,6 +8,7 @@ const pokemonUpdate = require("./pokemon-update");
 const pokemonSpawn = require("./pokemon-spawn");
 const pokemonTeamBuild = require("./pokemon-teambuild");
 const pokemonBattle = require('./pokemon-battle');
+const pokemonAccept = require('./pokemon-accept');
 
 module.exports = (msg, client) => {
   const userMsg = msg.content.toLowerCase();
@@ -33,6 +34,9 @@ module.exports = (msg, client) => {
       break;
     case "!teambuilder":
       pokemonTeamBuild(msg, client);
+      break;
+    case "!accept":
+      pokemonAccept(msg, client);
       break;
     case "<@414591805707780107>":
       msg.reply("Sup?");
