@@ -26,4 +26,14 @@ module.exports = async (msg, client) => {
   );
 
   // Continue with battle
+  // Get all users and grab their pokemon teams
+  const { team: team1 } = await db.User.findOne({
+    discordId: invitedPlayer.challengerId
+  });
+  const { team: team2 } = await db.User.findOne({
+    discordId: invitedPlayer.challengedId
+  });
+
+  console.log(team1);
+  console.log(team2);
 };
