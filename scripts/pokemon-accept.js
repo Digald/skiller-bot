@@ -63,6 +63,7 @@ module.exports = async (msg, client) => {
         ? player2currPokemon
         : player1currPokemon
     );
+    console.log('loser--------')
     console.log(loser);
   };
 
