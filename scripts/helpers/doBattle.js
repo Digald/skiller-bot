@@ -2,14 +2,13 @@
  * One pokemon attacking the other in combat
  * @param {object} attackingPoke
  * @param {object} defendingPoke
- * @return {object} The pokemon that lost the battle with no remaining hp
+ * @return {object} The pokemon winner and loser
  */
 module.exports = (attackingPoke, defendingPoke) => {
+  let tempObjectHolder = {};
   let currAttackingPoke = attackingPoke;
   let currDefendingPoke = defendingPoke;
-  let isDoingBattle = true;
-
-  while (isDoingBattle) {
+  while (true) {
     // figure out if the attacking pokemon is physical or special
     const attackStat =
       currAttackingPoke.atk > currAttackingPoke.spatk ? "atk" : "spatk";
@@ -25,8 +24,10 @@ module.exports = (attackingPoke, defendingPoke) => {
     const type1Modifiers = currAttackingPoke.types[0].damageTo
       .filter(
         x =>
-          x.pokeType === currDefendingPokeType1 || x.pokeType === currDefendingPokeType2
-      ).reduce((total, num) => total.mod * num.mod);
+          x.pokeType === currDefendingPokeType1 ||
+          x.pokeType === currDefendingPokeType2
+      )
+      .reduce((total, num) => total.mod * num.mod);
 
     // If the attacker has a second type, do it all again
     let type2Modifiers = 1;
@@ -41,27 +42,33 @@ module.exports = (attackingPoke, defendingPoke) => {
     }
 
     // Finally get the total type total
-    const totalTypeModifier = (typeof type1Modifiers === 'object' ? type1Modifiers.mod : type1Modifiers) * type2Modifiers;
+    const totalTypeModifier =
+      (typeof type1Modifiers === "object"
+        ? type1Modifiers.mod
+        : type1Modifiers) *
+      (typeof type2Modifiers === "object"
+        ? type2Modifiers.mod
+        : type2Modifiers);
+
     // Calculate damage with all of the modifiers
     const damage =
       (currAttackingPoke[attackStat] /
-        (attackStat === "atk" ? currDefendingPoke.def : currDefendingPoke.spdef)) *
-      0.5 *
-      currAttackingPoke[attackStat] *
-      0.1 *
-      totalTypeModifier;
+        (attackStat === "atk"
+          ? currDefendingPoke.def
+          : currDefendingPoke.spdef)) *
+        0.5 *
+        currAttackingPoke[attackStat] *
+        0.1 *
+        totalTypeModifier +
+      1;
     // Subtract that damage from the health of the defending pokemon
-    const remainingHp = currDefendingPoke.hp - damage;
-    console.log(currDefendingPoke.hp);
-    console.log(damage);
-    console.log(remainingHp);
-    console.log('-----------')
-    if (remainingHp <= 0) {
-      isDoingBattle = false;
-      return currDefendingPoke;
+    currDefendingPoke.hp = currDefendingPoke.hp.toFixed(0) - damage.toFixed(0);
+    if (currDefendingPoke.hp <= 0) {
+      return { loser: currDefendingPoke, winner: currAttackingPoke };
     } else {
+      tempObjectHolder = currAttackingPoke;
       currAttackingPoke = currDefendingPoke;
-      currDefendingPoke = currAttackingPoke;
+      currDefendingPoke = tempObjectHolder;
     }
   }
 };

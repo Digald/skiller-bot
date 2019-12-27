@@ -45,27 +45,50 @@ module.exports = async (msg, client) => {
    * Initiate the battle parameters with this function
    */
   const battleStart = () => {
-    // Decide who will be attacking first
-    let pokemonAttackingFirst = {};
-    if (player1currPokemon.speed === player2currPokemon.speed) {
-      pokemonAttackingFirst =
-        Math.random() >= 0.5 ? player1currPokemon : player2currPokemon;
-    } else {
-      pokemonAttackingFirst =
-        player1currPokemon.speed > player2currPokemon
-          ? player1currPokemon
-          : player2currPokemon;
+    while (true) {
+      // Check to see if there is a winner or loser
+      if (player1Index >= 6) {
+        return invitedPlayer.challengerName;
+      } else if (player2Index >= 6) {
+        return invitedPlayer.challengedName;
+      }
+
+      // Decide who will be attacking first
+      let pokemonAttackingFirst = {};
+      if (player1currPokemon.speed === player2currPokemon.speed) {
+        pokemonAttackingFirst =
+          Math.random() >= 0.5 ? player1currPokemon : player2currPokemon;
+      } else {
+        pokemonAttackingFirst =
+          player1currPokemon.speed > player2currPokemon
+            ? player1currPokemon
+            : player2currPokemon;
+      }
+      // Run the battle and see who the loser is
+      const results = doBattle(
+        pokemonAttackingFirst,
+        pokemonAttackingFirst._id === player1currPokemon._id
+          ? player2currPokemon
+          : player1currPokemon
+      );
+      // console.log("result--------");
+      // console.log(results);
+
+      // Find out who lost and add a point to the player to bring out the next pokemon
+      if (results.loser._id === player1currPokemon._id) {
+        player1Index++;
+        player1currPokemon = team1[player1Index];
+        player2currPokemon = results.winner;
+      } else if (results.loser._id === player2currPokemon._id) {
+        player2Index++;
+        player1currPokemon = results.winner;
+        player2currPokemon = team2[player2Index];
+      } else {
+        console.log("Something went wrong when selecting the next pokemon");
+      }
     }
-    // Run the battle and see who the loser is
-    const loser = doBattle(
-      pokemonAttackingFirst,
-      pokemonAttackingFirst._id === player1currPokemon._id
-        ? player2currPokemon
-        : player1currPokemon
-    );
-    console.log('loser--------')
-    console.log(loser);
   };
 
-  battleStart();
+  const battleWinner = battleStart();
+  console.log(battleWinner);
 };
