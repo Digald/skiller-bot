@@ -1,3 +1,5 @@
+const { RichEmbed } = require("discord.js");
+const mergeImg = require("merge-img");
 const logger = require("./logger");
 const db = require("../models");
 const doBattle = require("./helpers/doBattle");
@@ -40,7 +42,7 @@ module.exports = async (msg, client) => {
   let player2Index = 0;
   let player1currPokemon = team1[player1Index];
   let player2currPokemon = team2[player2Index];
-
+  let battleList = [];
   /**
    * Initiate the battle parameters with this function
    */
@@ -71,8 +73,7 @@ module.exports = async (msg, client) => {
           ? player2currPokemon
           : player1currPokemon
       );
-      // console.log("result--------");
-      // console.log(results);
+      battleList.push(results);
 
       // Find out who lost and add a point to the player to bring out the next pokemon
       if (results.loser._id === player1currPokemon._id) {
@@ -86,9 +87,50 @@ module.exports = async (msg, client) => {
       } else {
         console.log("Something went wrong when selecting the next pokemon");
       }
-    }
+
+      // construct image for battle results
+      const constructTeamImage = (playerIndex, team, name) => {
+        const playerTeamCount = [];
+        for (let i = 0; i < team.length; i++) {
+          if (playerIndex - 1 > i) {
+            playerTeamCount.push("./public/battle-assets/defeated.png");
+          } else {
+            playerTeamCount.push("./public/battle-assets/pokeball.png");
+          }
+        }
+        mergeImg(playerTeamCount).then(img =>
+          img.write(`./public/battle-recap/${invitedPlayer._id}${name}.png`)
+        );
+      };
+      constructTeamImage(player1Index, team1, invitedPlayer.challengerName);
+      constructTeamImage(player2Index, team2, invitedPlayer.challengedName);
+      mergeImg([
+        `./public/battle-recap/${invitedPlayer._id}${invitedPlayer.challengerName}.png`,
+        "./public/battle-assets/fight-pokemon.png",
+        `./public/battle-recap/${invitedPlayer._id}${invitedPlayer.challengedName}.png`
+      ]).then(img => img.write("out.png"));
+    } // end while loop
   };
 
-  const battleWinner = battleStart();
-  console.log(battleWinner);
+  // battleList.forEach((battle, index) => {
+  //   mergeImg([
+  //     battle.winner.spriteUrl,
+  //     "https://img.icons8.com/color/96/000000/fight-pokemon.png",
+  //     battle.loser.spriteUrl
+  //   ]).then(img => {
+  //     img.write(`./public/battle-recap/${invitedPlayer._id}${index}.png`, () =>
+  //       console.log("done")
+  //     );
+  //   });
+  // });
+
+  // Create embed to post from the result
+  // const embed = new RichEmbed()
+  //   .setTitle(`${player1currPokemon.name} vs ${player2currPokemon.name}`)
+  //   .setDescription(`${results.winner.name} ${results.winner.hp}`);
+  // // ***PRODUCTION***
+  // // client.channels.get("441820156197339136").send(embed);
+  // // ***DEVELOPMENT***
+  // client.users.get("129038630953025536").send(embed);
+  console.log(battleStart());
 };
