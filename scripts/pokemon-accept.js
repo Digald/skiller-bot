@@ -1,4 +1,7 @@
 const { RichEmbed } = require("discord.js");
+const mergeImages = require("merge-images");
+const { Canvas, Image } = require("canvas");
+Canvas.Image = Image;
 const mergeImg = require("merge-img");
 const logger = require("./logger");
 const db = require("../models");
@@ -46,12 +49,13 @@ module.exports = async (msg, client) => {
   /**
    * Initiate the battle parameters with this function
    */
-  const battleStart = () => {
+  let count = 0;
+  const battleStart = async () => {
     while (true) {
       // Check to see if there is a winner or loser
-      if (player1Index >= 6) {
+      if (player1Index >= 5) {
         return invitedPlayer.challengerName;
-      } else if (player2Index >= 6) {
+      } else if (player2Index >= 5) {
         return invitedPlayer.challengedName;
       }
 
@@ -76,11 +80,17 @@ module.exports = async (msg, client) => {
       battleList.push(results);
 
       // Find out who lost and add a point to the player to bring out the next pokemon
+      let challenger = { pokemonImg: "", lost: false };
+      let challenged = { pokemonImg: "", lost: false };
       if (results.loser._id === player1currPokemon._id) {
+        challenger = { pokemonImg: results.loser.spriteUrl, lost: true };
+        challenged = { pokemonImg: results.winner.spriteUrl, lost: false };
         player1Index++;
         player1currPokemon = team1[player1Index];
         player2currPokemon = results.winner;
       } else if (results.loser._id === player2currPokemon._id) {
+        challenger = { pokemonImg: results.winner.spriteUrl, lost: false };
+        challenged = { pokemonImg: results.loser.spriteUrl, lost: true };
         player2Index++;
         player1currPokemon = results.winner;
         player2currPokemon = team2[player2Index];
@@ -89,40 +99,49 @@ module.exports = async (msg, client) => {
       }
 
       // construct image for battle results
-      const constructTeamImage = (playerIndex, team, name) => {
-        const playerTeamCount = [];
-        for (let i = 0; i < team.length; i++) {
-          if (playerIndex - 1 > i) {
-            playerTeamCount.push("./public/battle-assets/defeated.png");
-          } else {
-            playerTeamCount.push("./public/battle-assets/pokeball.png");
-          }
-        }
-        mergeImg(playerTeamCount).then(img =>
-          img.write(`./public/battle-recap/${invitedPlayer._id}${name}.png`)
+      console.log(player1Index);
+      console.log(player2Index);
+      // Lay the red x over the loser of the round
+      mergeImages(
+        [results.loser.spriteUrl, `./public/battle-assets/defeated.png`],
+        { Canvas: Canvas }
+      ).then(async b64 => {
+        let image = b64.replace(/^data:image\/png;base64,/, "");
+        require("fs").writeFileSync(
+          `./public/battle-recap/${invitedPlayer._id}.png`,
+          image,
+          "base64",
+          err => err
         );
-      };
-      constructTeamImage(player1Index, team1, invitedPlayer.challengerName);
-      constructTeamImage(player2Index, team2, invitedPlayer.challengedName);
-      mergeImg([
-        `./public/battle-recap/${invitedPlayer._id}${invitedPlayer.challengerName}.png`,
-        "./public/battle-assets/fight-pokemon.png",
-        `./public/battle-recap/${invitedPlayer._id}${invitedPlayer.challengedName}.png`
-      ]).then(img => img.write("out.png"));
+        // Now that the image has been generated, glue the images together
+        const leftOutput = await mergeImg(
+          [
+            challenger.lost
+              ? `./public/battle-recap/${invitedPlayer._id}.png`
+              : challenger.pokemonImg,
+            `./public/battle-assets/teamStatus${player1Index}.png`
+          ],
+          { direction: true }
+        );
+        const rightOutput = await mergeImg(
+          [
+            challenged.lost
+              ? `./public/battle-recap/${invitedPlayer._id}.png`
+              : challenged.pokemonImg,
+            `./public/battle-assets/teamStatus${player2Index}.png`
+          ],
+          { direction: true }
+        );
+        const finalEmbedImage = await mergeImg([
+          leftOutput,
+          "./public/battle-assets/battle-pokemon.png",
+          rightOutput
+        ]);
+        finalEmbedImage.write(`./public/battle-recap/out${count}.png`);
+        count++
+      });
     } // end while loop
   };
-
-  // battleList.forEach((battle, index) => {
-  //   mergeImg([
-  //     battle.winner.spriteUrl,
-  //     "https://img.icons8.com/color/96/000000/fight-pokemon.png",
-  //     battle.loser.spriteUrl
-  //   ]).then(img => {
-  //     img.write(`./public/battle-recap/${invitedPlayer._id}${index}.png`, () =>
-  //       console.log("done")
-  //     );
-  //   });
-  // });
 
   // Create embed to post from the result
   // const embed = new RichEmbed()
