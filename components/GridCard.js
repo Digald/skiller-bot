@@ -100,7 +100,7 @@ const GridCard = ({ poke }) => {
         }
       />
       {poke.shiny ? (
-        <ShinyIcon src="https://i.ibb.co/8j61Qpb/shining.png" />
+        <ShinyIcon src="/icons/shining.png" />
       ) : (
         ""
       )}

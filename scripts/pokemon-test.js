@@ -54,7 +54,7 @@ module.exports = (client) => {
     if (shinyChance === 0) {
       sprite = sprites.front_shiny;
       shiny = true;
-      thumb = "https://i.ibb.co/8j61Qpb/shining.png";
+      thumb = "/icons/shining.png";
     } else {
       sprite = sprites.front_default;
       thumb = "";

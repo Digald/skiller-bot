@@ -6,7 +6,7 @@ const ColorThief = require("colorthief");
 
 module.exports = async (msg, client, getPokemon) => {
   // Set up embed for users
-  const shinyThumb = "https://i.ibb.co/8j61Qpb/shining.png";
+  const shinyThumb = "/icons/shining.png";
   const setEmbed = async (name, sprite, thumb, userId, evolvedDetails) => {
     const pokeColor = await ColorThief.getColor(sprite).then(color => color);
     const embed = await new RichEmbed()
