@@ -64,6 +64,7 @@ module.exports = (attackingPoke, defendingPoke) => {
     // Subtract that damage from the health of the defending pokemon
     currDefendingPoke.hp = currDefendingPoke.hp.toFixed(0) - damage.toFixed(0);
     if (currDefendingPoke.hp <= 0) {
+      console.log(currAttackingPoke.hp);
       return { loser: currDefendingPoke, winner: currAttackingPoke };
     } else {
       tempObjectHolder = currAttackingPoke;

@@ -52,14 +52,14 @@ module.exports = async (msg, client) => {
   const battleStart = async () => {
     let count = 0;
     while (true) {
-      // Check to see if there is a winner or loser
+      // 1) Check to see if there is a winner or loser
       if (player1Index >= 6) {
         return invitedPlayer.challengerName;
       } else if (player2Index >= 6) {
         return invitedPlayer.challengedName;
       }
 
-      // Decide who will be attacking first
+      // 2) Decide who will be attacking first
       let pokemonAttackingFirst = {};
       if (player1currPokemon.speed === player2currPokemon.speed) {
         pokemonAttackingFirst =
@@ -70,7 +70,7 @@ module.exports = async (msg, client) => {
             ? player1currPokemon
             : player2currPokemon;
       }
-      // Run the battle and see who the loser is
+      // 3) Run the battle and see who the loser is
       const results = doBattle(
         pokemonAttackingFirst,
         pokemonAttackingFirst._id === player1currPokemon._id
@@ -79,16 +79,16 @@ module.exports = async (msg, client) => {
       );
       battleList.push(results);
 
-      // Find out who lost and add a point to the player to bring out the next pokemon
-      let challenger = {};
-      let challenged = {};
+      // 4) Find out who lost and add a point to the player to bring out the next pokemon
+      let challengerResults = {};
+      let challengedResults = {};
       if (results.loser._id === player1currPokemon._id) {
-        challenger = {
+        challengerResults = {
           pokemonName: results.loser.name,
           pokemonImg: results.loser.spriteUrl,
           lost: true
         };
-        challenged = {
+        challengedResults = {
           pokemonName: results.winner.name,
           pokemonImg: results.winner.spriteUrl,
           lost: false
@@ -97,12 +97,12 @@ module.exports = async (msg, client) => {
         player1currPokemon = team1[player1Index];
         player2currPokemon = results.winner;
       } else if (results.loser._id === player2currPokemon._id) {
-        challenger = {
+        challengerResults = {
           pokemonName: results.winner.name,
           pokemonImg: results.winner.spriteUrl,
           lost: false
         };
-        challenged = {
+        challengedResults = {
           pokemonName: results.loser.name,
           pokemonImg: results.loser.spriteUrl,
           lost: true
@@ -114,10 +114,10 @@ module.exports = async (msg, client) => {
         console.log("Something went wrong when selecting the next pokemon");
       }
 
-      // construct image for battle results
+      // 5) construct image for battle results
       // Lay the red x over the loser of the round
       const b64 = await mergeImages(
-        [results.loser.spriteUrl, `./public/battle-assets/defeated.png`],
+        [`./public/battle-assets/defeated.png`, results.loser.spriteUrl],
         { Canvas: Canvas }
       );
       const b64Image = b64.replace(/^data:image\/png;base64,/, "");
@@ -130,51 +130,56 @@ module.exports = async (msg, client) => {
       // Now that the image has been generated, glue the images together
       const leftOutput = await mergeImg(
         [
-          challenger.lost
+          challengerResults.lost
             ? `./public/battle-recap/${invitedPlayer._id}.png`
-            : challenger.pokemonImg,
+            : challengerResults.pokemonImg,
           `./public/battle-assets/teamStatus${player1Index}.png`
         ],
         { direction: true }
       );
       const rightOutput = await mergeImg(
         [
-          challenged.lost
+          challengedResults.lost
             ? `./public/battle-recap/${invitedPlayer._id}.png`
-            : challenged.pokemonImg,
+            : challengedResults.pokemonImg,
           `./public/battle-assets/teamStatus${player2Index}.png`
         ],
         { direction: true }
       );
 
-      // Main embed image that will be displayed to the user
+      // 6) Main embed image that will be displayed to the user
       const finalEmbedImage = await mergeImg([
         leftOutput,
         "./public/battle-assets/battle-pokemon.png",
         rightOutput
       ]);
+      const embedCallback = (results, challengerResults, challengedResults) => {
+        // Create embed to post from the result
+        const embed = new RichEmbed()
+          .setTitle(
+            `${invitedPlayer.challengerName} vs ${invitedPlayer.challengedName}`
+          )
+          .attachFiles([
+            `./public/battle-recap/${invitedPlayer._id}out.png`,
+            "./public/battle-assets/fight-pokemon.png"
+          ])
+          .setDescription(
+            challengerResults.lost
+              ? `${invitedPlayer.challengedName}'s ${challengedResults.name} KOed ${invitedPlayer.challengerName}'s ${challengerResults.name} with ${results.winner.hp} remaining hp.`
+              : "TBD"
+          )
+          .setImage(`attachment://${invitedPlayer._id}out.png`)
+          .setThumbnail("attachment://fight-pokemon.png")
+          .setTimestamp();
+        // ***PRODUCTION***
+        // client.channels.get("441820156197339136").send(embed);
+        // ***DEVELOPMENT***
+        client.users.get("129038630953025536").send(embed);
+        count++;
+      };
       await finalEmbedImage.write(
         `./public/battle-recap/${invitedPlayer._id}out.png`,
-        () => {
-          // Create embed to post from the result
-          const embed = new RichEmbed()
-            .setTitle(
-              `${invitedPlayer.challengerName} vs ${invitedPlayer.challengedName}`
-            )
-            .attachFiles([
-              `./public/battle-recap/${invitedPlayer._id}out.png`,
-              "./public/battle-assets/fight-pokemon.png"
-            ])
-            .setDescription(challenger.lost ? `${invitedPlayer.challengedName}'s ${challenged.name} KOed ${invitedPlayer.challengerName}'s ${challenger.name} with ${results.winner.hp} remaining hp.` : 'TBD')
-            .setImage(`attachment://${invitedPlayer._id}out.png`)
-            .setThumbnail("attachment://fight-pokemon.png")
-            .setTimestamp();
-          // ***PRODUCTION***
-          // client.channels.get("441820156197339136").send(embed);
-          // ***DEVELOPMENT***
-          client.users.get("129038630953025536").send(embed);
-          count++;
-        }
+        embedCallback(results, challengerResults, challengedResults)
       ); // end write callback
     } // end while loop
   };
