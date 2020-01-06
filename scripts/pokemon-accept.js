@@ -1,11 +1,13 @@
-const { RichEmbed } = require("discord.js");
 const mergeImages = require("merge-images");
 const { Canvas, Image } = require("canvas");
-Canvas.Image = Image;
+const fs = require("fs");
 const mergeImg = require("merge-img");
-const logger = require("./logger");
+
 const db = require("../models");
+const logger = require("./logger");
 const doBattle = require("./helpers/doBattle");
+const buildBattleEmbed = require("./helpers/buildBattleEmbed");
+Canvas.Image = Image;
 
 module.exports = async (msg, client) => {
   logger(msg);
@@ -45,12 +47,10 @@ module.exports = async (msg, client) => {
   let player2Index = 0;
   let player1currPokemon = team1[player1Index];
   let player2currPokemon = team2[player2Index];
-  let battleList = [];
   /**
    * Initiate the battle parameters with this function
    */
   const battleStart = async () => {
-    let count = 0;
     while (true) {
       // 1) Check to see if there is a winner or loser
       if (player1Index >= 6) {
@@ -71,44 +71,43 @@ module.exports = async (msg, client) => {
             : player2currPokemon;
       }
       // 3) Run the battle and see who the loser is
-      const results = doBattle(
+      const battleResults = doBattle(
         pokemonAttackingFirst,
         pokemonAttackingFirst._id === player1currPokemon._id
           ? player2currPokemon
           : player1currPokemon
       );
-      battleList.push(results);
 
       // 4) Find out who lost and add a point to the player to bring out the next pokemon
       let challengerResults = {};
       let challengedResults = {};
-      if (results.loser._id === player1currPokemon._id) {
+      if (battleResults.loser._id === player1currPokemon._id) {
         challengerResults = {
-          pokemonName: results.loser.name,
-          pokemonImg: results.loser.spriteUrl,
+          pokemonName: battleResults.loser.name,
+          pokemonImg: battleResults.loser.spriteUrl,
           lost: true
         };
         challengedResults = {
-          pokemonName: results.winner.name,
-          pokemonImg: results.winner.spriteUrl,
+          pokemonName: battleResults.winner.name,
+          pokemonImg: battleResults.winner.spriteUrl,
           lost: false
         };
         player1Index += 1;
         player1currPokemon = team1[player1Index];
-        player2currPokemon = results.winner;
-      } else if (results.loser._id === player2currPokemon._id) {
+        player2currPokemon = battleResults.winner;
+      } else if (battleResults.loser._id === player2currPokemon._id) {
         challengerResults = {
-          pokemonName: results.winner.name,
-          pokemonImg: results.winner.spriteUrl,
+          pokemonName: battleResults.winner.name,
+          pokemonImg: battleResults.winner.spriteUrl,
           lost: false
         };
         challengedResults = {
-          pokemonName: results.loser.name,
-          pokemonImg: results.loser.spriteUrl,
+          pokemonName: battleResults.loser.name,
+          pokemonImg: battleResults.loser.spriteUrl,
           lost: true
         };
         player2Index += 1;
-        player1currPokemon = results.winner;
+        player1currPokemon = battleResults.winner;
         player2currPokemon = team2[player2Index];
       } else {
         console.log("Something went wrong when selecting the next pokemon");
@@ -117,11 +116,11 @@ module.exports = async (msg, client) => {
       // 5) construct image for battle results
       // Lay the red x over the loser of the round
       const b64 = await mergeImages(
-        [`./public/battle-assets/defeated.png`, results.loser.spriteUrl],
+        [`./public/battle-assets/defeated.png`, battleResults.loser.spriteUrl],
         { Canvas: Canvas }
       );
       const b64Image = b64.replace(/^data:image\/png;base64,/, "");
-      await require("fs").writeFileSync(
+      await fs.writeFileSync(
         `./public/battle-recap/${invitedPlayer._id}.png`,
         b64Image,
         "base64",
@@ -153,35 +152,34 @@ module.exports = async (msg, client) => {
         "./public/battle-assets/battle-pokemon.png",
         rightOutput
       ]);
-      const embedCallback = (results, challengerResults, challengedResults) => {
-        // Create embed to post from the result
-        const embed = new RichEmbed()
-          .setTitle(
-            `${invitedPlayer.challengerName} vs ${invitedPlayer.challengedName}`
-          )
-          .attachFiles([
-            `./public/battle-recap/${invitedPlayer._id}out.png`,
-            "./public/battle-assets/fight-pokemon.png"
-          ])
-          .setDescription(
-            challengerResults.lost
-              ? `${invitedPlayer.challengedName}'s ${challengedResults.name} KOed ${invitedPlayer.challengerName}'s ${challengerResults.name} with ${results.winner.hp} remaining hp.`
-              : "TBD"
-          )
-          .setImage(`attachment://${invitedPlayer._id}out.png`)
-          .setThumbnail("attachment://fight-pokemon.png")
-          .setTimestamp();
-        // ***PRODUCTION***
-        // client.channels.get("441820156197339136").send(embed);
-        // ***DEVELOPMENT***
-        client.users.get("129038630953025536").send(embed);
-        count++;
+
+      const finalImagePromise = (...args) => {
+        return new Promise((resolve, reject) => {
+          finalEmbedImage.write(...args, () => resolve("done")); // end write callback
+        });
       };
-      await finalEmbedImage.write(
-        `./public/battle-recap/${invitedPlayer._id}out.png`,
-        embedCallback(results, challengerResults, challengedResults)
-      ); // end write callback
+      await finalImagePromise(
+        `./public/battle-recap/${invitedPlayer._id}out.png`
+      );
+      buildBattleEmbed(
+        invitedPlayer,
+        battleResults,
+        challengerResults,
+        challengedResults,
+        client
+      );
     } // end while loop
+    console.log("ALL DONE");
   };
-  console.log(battleStart());
+  const winner = await battleStart();
+  console.log(winner);
+  if (winner) {
+    db.Battle.deleteOne({ _id: invitedPlayer._id }).then(data => {
+      console.log(data);
+      console.log('delete images next');
+      // Delete generated images at the end of embed send
+      fs.unlinkSync(`./public/battle-recap/${invitedPlayer._id}out.png`);
+      fs.unlinkSync(`./public/battle-recap/${invitedPlayer._id}.png`);
+    });
+  }
 };

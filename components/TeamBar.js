@@ -104,7 +104,7 @@ export default function TeamBar() {
       updateTeam([...team]);
       return;
     }
-    console.log("dropped outside of space, removing");
+    // Dropped outside of space and removing pokemon
     team.splice(removedIndex, 1);
     setTeam([...team]);
     await addToTeamApi(team, user.teamId);
