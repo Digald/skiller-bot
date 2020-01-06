@@ -26,12 +26,8 @@ module.exports = async (msg, client) => {
     await db.Battle.deleteOne({ _id: invitedPlayer._id });
     return msg.reply("Your previous battle invite has expired.");
   }
-
-  // Record their username into the db
-  await db.Battle.updateOne(
-    { _id: invitedPlayer._id },
-    { challengedName: username }
-  );
+  // Set the challenged person's name
+  invitedPlayer.challengedName = username;
 
   // Continue with battle
   // Get all users and grab their pokemon teams
@@ -51,6 +47,7 @@ module.exports = async (msg, client) => {
    * Initiate the battle parameters with this function
    */
   const battleStart = async () => {
+    let count = 1;
     while (true) {
       // 1) Check to see if there is a winner or loser
       if (player1Index >= 6) {
@@ -166,20 +163,19 @@ module.exports = async (msg, client) => {
         battleResults,
         challengerResults,
         challengedResults,
+        count,
         client
       );
+      count += 1;
     } // end while loop
-    console.log("ALL DONE");
   };
   const winner = await battleStart();
-  console.log(winner);
   if (winner) {
     db.Battle.deleteOne({ _id: invitedPlayer._id }).then(data => {
-      console.log(data);
-      console.log('delete images next');
       // Delete generated images at the end of embed send
       fs.unlinkSync(`./public/battle-recap/${invitedPlayer._id}out.png`);
-      fs.unlinkSync(`./public/battle-recap/${invitedPlayer._id}.png`);
+      return fs.unlinkSync(`./public/battle-recap/${invitedPlayer._id}.png`);
     });
   }
+  return;
 };
