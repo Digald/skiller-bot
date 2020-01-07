@@ -69,7 +69,7 @@ export default function AddToTeamBtn(props) {
     }
     // Add message that the team is already capped
     else {
-      console.log("Your team already has six pokemon");
+      // Your team already has six Pokemon
     }
   };
 

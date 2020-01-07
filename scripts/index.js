@@ -3,14 +3,20 @@ const smugs = require("./smugs");
 const help = require("./help");
 const mypic = require("./mypic");
 const reddit = require("./redditPost");
-const donate = require('./donate');
+const donate = require("./donate");
 const pokemonUpdate = require("./pokemon-update");
-const pokemonSpawn = require('./pokemon-spawn');
-const pokemonTeamBuild = require('./pokemon-teambuild');
-
+const pokemonSpawn = require("./pokemon-spawn");
+const pokemonTeamBuild = require("./pokemon-teambuild");
+const pokemonBattle = require('./pokemon-battle');
+const pokemonAccept = require('./pokemon-accept');
 
 module.exports = (msg, client) => {
   const userMsg = msg.content.toLowerCase();
+  // ***PRODUCTION***
+  // ***DEVELOPMENT***
+  // if (msg.author.id !== "129038630953025536") {
+  //   return;
+  // }
   // basic command switch statment
   switch (userMsg) {
     case "!donate":
@@ -34,6 +40,9 @@ module.exports = (msg, client) => {
     case "!teambuilder":
       pokemonTeamBuild(msg, client);
       break;
+    case "!accept":
+      pokemonAccept(msg, client);
+      break;
     case "<@414591805707780107>":
       msg.reply("Sup?");
       break;
@@ -50,5 +59,9 @@ module.exports = (msg, client) => {
         reddit(msg);
       }
       break;
+    case "!battle":
+      if (userMsg.split(" ")[1]) {
+        pokemonBattle(msg, client);
+      }
   }
 };

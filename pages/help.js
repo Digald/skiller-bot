@@ -68,15 +68,22 @@ const Help = () => {
       "!updateme",
       "",
       "Gives skiller-bot your most updated Discord profile pic.",
-      "Text confirmation message.",
+      "Confirmation message in channel.",
       "You must already be a recorded player to use this command."
     ),
     createData(
       "!teambuilder",
       "",
       "Get a private message from the bot with a unique password and url. Use that url to edit your current pokemon team.",
-      "Private message, url.",
+      "Private message, link.",
       "You must already be a recorded player to use this command."
+    ), 
+    createData(
+      "!battle {@discordUser}",
+      "!battle @Mark",
+      "Send a battle request to the specified player.",
+      "Confirmation message in channel.",
+      "You must already be a recorded player and have a team to use this command."
     )
   ];
   return (

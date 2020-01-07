@@ -56,7 +56,7 @@ export default function IconSection() {
     <IconSummary>
       <div className="align-section">
         {shiny ? (
-          <img src="https://i.ibb.co/8j61Qpb/shining.png" />
+          <img src="/icons/shining.png" />
         ) : (
           <p>NORMAL</p>
         )}

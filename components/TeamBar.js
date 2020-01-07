@@ -120,7 +120,7 @@ export default function TeamBar() {
       updateTeam([...team]);
       return;
     }
-    // Pokemon was dropped outside of zone and will be removed
+    // Dropped outside of space and removing pokemon
     team.splice(removedIndex, 1);
     setTeam([...team]);
     await addToTeamApi(team, user.teamId);
