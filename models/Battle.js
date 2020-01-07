@@ -5,8 +5,8 @@ const battleSchema = new Schema(
   {
     challengerId: String,
     challengerName: String,
+    challengerIcon: String,
     challengedId: String,
-    challengedName: String,
     inviteTime: Number
   },
   { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }

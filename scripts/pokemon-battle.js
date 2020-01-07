@@ -7,6 +7,7 @@ module.exports = async (msg, client) => {
   const challenged = msg.content.split(" ")[1];
   const userId = msg.author.id;
   const username = msg.author.username;
+  const userIcon = msg.author.avatarURL;
 
   // Check to see if user has an active battle instance already
   const existingBattleInstance = await db.Battle.findOne({
@@ -28,7 +29,7 @@ module.exports = async (msg, client) => {
   const challengedId = challenged.match(/\d+/gm)[0];
   // ***PRODUCTION***
   // if (challengedId === userId) {
-  //   return msg.reply("You can't battle yourself");
+  //   return msg.reply("You can't battle yourself.");
   // }
   // ***DEVELOPMENT****
 
@@ -36,7 +37,7 @@ module.exports = async (msg, client) => {
   const recordBattleRequest = await db.Battle.create({
     challengerId: userId,
     challengerName: username,
-    challengedName: '',
+    challengerIcon: userIcon,
     challengedId,
     inviteTime: Date.now()
   });

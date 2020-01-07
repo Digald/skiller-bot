@@ -58,10 +58,11 @@ module.exports = (attackingPoke, defendingPoke) => {
           : currDefendingPoke.spdef)) *
         0.5 *
         currAttackingPoke[attackStat] *
-        0.1 *
+        0.2 *
         totalTypeModifier +
       1;
     // Subtract that damage from the health of the defending pokemon
+    currAttackingPoke.damage = damage.toFixed(0);
     currDefendingPoke.hp = currDefendingPoke.hp.toFixed(0) - damage.toFixed(0);
     if (currDefendingPoke.hp <= 0) {
       return { loser: currDefendingPoke, winner: currAttackingPoke };

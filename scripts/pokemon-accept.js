@@ -13,6 +13,7 @@ module.exports = async (msg, client) => {
   logger(msg);
   const userId = msg.author.id;
   const username = msg.author.username;
+  const userIcon = msg.author.avatarUrl;
 
   // Find the accepting player in the db
   const invitedPlayer = await db.Battle.findOne({
@@ -26,8 +27,20 @@ module.exports = async (msg, client) => {
     await db.Battle.deleteOne({ _id: invitedPlayer._id });
     return msg.reply("Your previous battle invite has expired.");
   }
-  // Set the challenged person's name
+  // Set the challenged person's name and icon
   invitedPlayer.challengedName = username;
+  invitedPlayer.challengedIcon = userIcon;
+
+  // Contruct versus image
+  const determineIcon = image =>
+    !image ? "./public/battle-recap/discord-logo.png" : image;
+  const imgArr = [
+    determineIcon(invitedPlayer.challengerIcon),
+    determineIcon(invitedPlayer.challengedIcon)
+  ];
+  mergeImg(imgArr).then(img => {
+    img.write(`./public/battle-recap/${invitedPlayer._id}versus.png`);
+  });
 
   // Continue with battle
   // Get all users and grab their pokemon teams
@@ -173,8 +186,9 @@ module.exports = async (msg, client) => {
   if (winner) {
     db.Battle.deleteOne({ _id: invitedPlayer._id }).then(data => {
       // Delete generated images at the end of embed send
+      fs.unlinkSync(`./public/battle-recap/${invitedPlayer._id}.png`);
       fs.unlinkSync(`./public/battle-recap/${invitedPlayer._id}out.png`);
-      return fs.unlinkSync(`./public/battle-recap/${invitedPlayer._id}.png`);
+      return fs.unlinkSync(`./public/battle-recap/${invitedPlayer._id}versus.png`);
     });
   }
   return;
