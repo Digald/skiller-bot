@@ -9,6 +9,12 @@ module.exports = async (msg, client) => {
   const username = msg.author.username;
   const userIcon = msg.author.avatarURL;
 
+  // Check to see if the player is an existing player
+  const existingPlayer = await db.User.findOne({ discordId: userId });
+  if (!existingPlayer || existingPlayer.team.length < 1) {
+    return msg.reply("You are not eligible to battle.");
+  }
+
   // Check to see if user has an active battle instance already
   const existingBattleInstance = await db.Battle.findOne({
     challengerId: userId
@@ -28,9 +34,9 @@ module.exports = async (msg, client) => {
   // Make sure that player cannot challenge themselves
   const challengedId = challenged.match(/\d+/gm)[0];
   // ***PRODUCTION***
-  // if (challengedId === userId) {
-  //   return msg.reply("You can't battle yourself.");
-  // }
+  if (challengedId === userId) {
+    return msg.reply("You can't battle yourself.");
+  }
   // ***DEVELOPMENT****
 
   // Save battle instance to db
@@ -51,7 +57,7 @@ module.exports = async (msg, client) => {
 
   // Send initial invitation message
   // ***PRODUCTION***
-  // client.channels.get("441820156197339136").send(embed);
+  // client.channels.get("441820156197339136").send(invitationMessage);
   // ***DEVELOPMENT***
   client.users.get("129038630953025536").send(invitationMessage);
 };

@@ -15,6 +15,12 @@ module.exports = async (msg, client) => {
   const username = msg.author.username;
   const userIcon = msg.author.avatarUrl;
 
+  // Check to see if accepting player is an existing player
+  const existingPlayer = await db.User.findOne({ discordId: userId });
+  if (!existingPlayer || existingPlayer.team.length < 1) {
+    return msg.reply("You are not eligible to battle.");
+  }
+
   // Find the accepting player in the db
   const invitedPlayer = await db.Battle.findOne({
     challengedId: userId

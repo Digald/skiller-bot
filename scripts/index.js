@@ -12,6 +12,11 @@ const pokemonAccept = require('./pokemon-accept');
 
 module.exports = (msg, client) => {
   const userMsg = msg.content.toLowerCase();
+  // ***PRODUCTION***
+  // ***DEVELOPMENT***
+  // if (msg.author.id !== "129038630953025536") {
+  //   return;
+  // }
   // basic command switch statment
   switch (userMsg) {
     case "!donate":

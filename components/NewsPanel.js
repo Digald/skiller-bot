@@ -28,6 +28,22 @@ export default function SimpleExpansionPanel() {
           id="panel1a-header"
         >
           <Typography className={classes.heading}>
+            PvP Battles are live - Dec. 6, 2019
+          </Typography>
+        </ExpansionPanelSummary>
+        <ExpansionPanelDetails>
+          <Typography>
+            Type !help to look at the available commands for battles. I highly suggest you mute the Pokemon channel because of battle spam.
+          </Typography>
+        </ExpansionPanelDetails>
+      </ExpansionPanel>
+      <ExpansionPanel>
+        <ExpansionPanelSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
+          <Typography className={classes.heading}>
             Go brew some teams! - Dec. 17, 2019
           </Typography>
         </ExpansionPanelSummary>
@@ -55,30 +71,6 @@ export default function SimpleExpansionPanel() {
             NPC challenges may also be in the works so that even if another
             player isn't around on Discord, you can put your team up against
             popular characters from your favorite Pokemon games.
-          </Typography>
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
-      <ExpansionPanel>
-        <ExpansionPanelSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel2a-content"
-          id="panel2a-header"
-        >
-          <Typography className={classes.heading}>
-            Future Updates? - Nov. 30, 2019
-          </Typography>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
-          <Typography>
-            Besides sending your hard-earned pocket animals to fight to the
-            death in PvP and NPC battles, there's one last major update I wanted
-            to implment. Trading. Trading won't be in the game for reasons,
-            sorry. Anyway, the update will be Pokemon Safari. This feature will
-            allow players to collect additonal Pokemon that may be more specific
-            to their needs and wants. This will incentevise players to hang
-            around Discord when participating since it requires cooperation to
-            obtain the most benefits. Currently, Safari is just a concept and
-            may change depending on how much time I have for development.
           </Typography>
         </ExpansionPanelDetails>
       </ExpansionPanel>
