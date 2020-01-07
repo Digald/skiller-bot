@@ -19,15 +19,17 @@ const TeamBarContainer = styled.div`
   }
   .smooth-dnd-container {
     border: 1px dashed black;
-    min-height: 102px;
-    min-width: 102px;
-    margin: 0;
+    padding: 0;
+  }
+  .team-sprite {
+    max-width: 96px;
+    max-height: 96px;
   }
   @media (max-width: 600px) {
     justify-content: start;
     align-items: center;
     overflow-x: scroll;
-    -webkit-overflow-scrolling: touch;
+    -webkit-overflow-scrolling: auto;
     -webkit-box-flex: 1;
     ::-webkit-scrollbar-track {
       -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
@@ -53,10 +55,23 @@ const TeamBarContainer = styled.div`
         transparent
       );
     }
+    .icon-container {
+      margin-left: 5%;
+    }
     .smooth-dnd-container {
+      margin-bottom: 40px;
       border: none;
     }
+    /* .team-sprite {
+      max-height: 75px;
+      max-width: 75px;
+    } */
   }
+`;
+
+const TeamCount = styled.p`
+  margin: 0;
+  font-weight: bold;
 `;
 
 const useTeamBar = () => {
@@ -79,6 +94,7 @@ const useTeamBar = () => {
 export default function TeamBar() {
   const { user, currentTeam, updateTeam, setPokemon } = useTeamBar();
   const [team, setTeam] = useState(currentTeam);
+  const [width, setWidth] = useState(window.innerWidth);
   useEffect(() => {
     setTeam(currentTeam);
   });
@@ -125,7 +141,18 @@ export default function TeamBar() {
     return document.body;
   };
 
-  const stickyStyle = { zIndex: 1, background: "#fafafa", height: "102px" };
+  window.onresize = function(){
+    console.log('sup')
+  }
+
+  const stickyStyle = {
+    zIndex: 1,
+    background: "#ffae00",
+    height: `${width <= 600 && team.length > 0 ? "160px" : "102px"}`
+  };
+  window.onresize = function(){
+    setWidth(window.innerWidth);
+  }
   return (
     <Sticky stickyStyle={stickyStyle}>
       <TeamBarContainer>
@@ -136,11 +163,12 @@ export default function TeamBar() {
           <Tooltip title="Order Pokemon left to right" aria-label="order">
             <DoubleArrowIcon fontSize="large" color="primary" />
           </Tooltip>
+          <TeamCount>{team.length}/6</TeamCount>
         </div>
         <Container
           getGhostParent={getGhostParent}
-          dragBeginDelay={0}
           removeOnDropOut={true}
+          dragBeginDelay={0}
           getChildPayload={getChildPayload}
           autoScrollEnabled={true}
           onDrop={onDrop}
@@ -149,7 +177,16 @@ export default function TeamBar() {
           {team.map((poke, index) => {
             return (
               <Draggable onClick={() => setPokemon(poke)} key={index}>
-                <img src={poke.spriteUrl} />
+                <img
+                  className="team-sprite"
+                  src={
+                    poke.spriteUrl
+                      ? poke.spriteUrl
+                      : poke.shiny
+                      ? `https://www.serebii.net/Shiny/SM/${poke.pokeId}.png`
+                      : `https://www.serebii.net/sunmoon/pokemon/${poke.pokeId}.png`
+                  }
+                />
               </Draggable>
             );
           })}

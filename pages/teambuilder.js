@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
-import styled from "styled-components";
 import { getUserApi } from "../lib/api";
 import { withRedux } from "../lib/redux";
 import Layout from "../components/Layout";
