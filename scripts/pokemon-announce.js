@@ -31,7 +31,7 @@ module.exports = client => {
       .setDescription("!catch to add to your collection")
       .setColor(pokeColor);
     // ***PRODUCTION***
-    client.channels.get("441820156197339136").send(embed);
+    // client.channels.get("441820156197339136").send(embed);
     // ***DEVELOPMENT***
     // client.users.get("129038630953025536").send(embed);
   }
