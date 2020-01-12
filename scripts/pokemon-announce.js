@@ -36,7 +36,7 @@ module.exports = client => {
     // client.users.get("129038630953025536").send(embed);
   }
   // ***PRODUCTION***
-  announce();
-  setInterval(announce, 28800 * 1000);
+  // announce();
+  // setInterval(announce, 28800 * 1000);
   // ***DEVELOPMENT***
 };
