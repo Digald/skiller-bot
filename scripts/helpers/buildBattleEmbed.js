@@ -26,9 +26,9 @@ module.exports = (
   // Create embed to post from the result
   const embed = new RichEmbed()
     .attachFiles([
-      `./public/battle-recap/${invitedPlayer._id}out.png`,
-      `./public/battle-recap/${invitedPlayer._id}versus.png`,
-      "./public/battle-assets/fight-pokemon.png"
+      `${process.cwd()}/public/battle-recap/${invitedPlayer._id}out.png`,
+      `${process.cwd()}/public/battle-recap/${invitedPlayer._id}versus.png`,
+      `${process.cwd()}/public/battle-assets/fight-pokemon.png`
     ])
     .setColor("#00ff00")
     .setAuthor(

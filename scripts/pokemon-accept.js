@@ -39,13 +39,13 @@ module.exports = async (msg, client) => {
 
   // Contruct versus image
   const determineIcon = image =>
-    !image ? "./public/battle-recap/discord-logo.png" : image;
+    !image ? `${process.cwd()}/public/battle-recap/discord-logo.png` : image;
   const imgArr = [
     determineIcon(invitedPlayer.challengerIcon),
     determineIcon(invitedPlayer.challengedIcon)
   ];
   mergeImg(imgArr).then(img => {
-    img.write(`./public/battle-recap/${invitedPlayer._id}versus.png`);
+    img.write(`${process.cwd()}/public/battle-recap/${invitedPlayer._id}versus.png`);
   });
 
   // Continue with battle
@@ -132,12 +132,12 @@ module.exports = async (msg, client) => {
       // 5) construct image for battle results
       // Lay the red x over the loser of the round
       const b64 = await mergeImages(
-        [`./public/battle-assets/defeated.png`, battleResults.loser.spriteUrl],
+        [`${process.cwd()}/public/battle-assets/defeated.png`, battleResults.loser.spriteUrl],
         { Canvas: Canvas }
       );
       const b64Image = b64.replace(/^data:image\/png;base64,/, "");
       await fs.writeFileSync(
-        `./public/battle-recap/${invitedPlayer._id}.png`,
+        `${process.cwd()}/public/battle-recap/${invitedPlayer._id}.png`,
         b64Image,
         "base64",
         err => err
@@ -146,18 +146,18 @@ module.exports = async (msg, client) => {
       const leftOutput = await mergeImg(
         [
           challengerResults.lost
-            ? `./public/battle-recap/${invitedPlayer._id}.png`
+            ? `${process.cwd()}/public/battle-recap/${invitedPlayer._id}.png`
             : challengerResults.pokemonImg,
-          `./public/battle-assets/teamStatus${player1Index}.png`
+          `${process.cwd()}/public/battle-assets/teamStatus${player1Index}.png`
         ],
         { direction: true }
       );
       const rightOutput = await mergeImg(
         [
           challengedResults.lost
-            ? `./public/battle-recap/${invitedPlayer._id}.png`
+            ? `${process.cwd()}/public/battle-recap/${invitedPlayer._id}.png`
             : challengedResults.pokemonImg,
-          `./public/battle-assets/teamStatus${player2Index}.png`
+          `${process.cwd()}/public/battle-assets/teamStatus${player2Index}.png`
         ],
         { direction: true }
       );
@@ -165,7 +165,7 @@ module.exports = async (msg, client) => {
       // 6) Main embed image that will be displayed to the user
       const finalEmbedImage = await mergeImg([
         leftOutput,
-        "./public/battle-assets/battle-pokemon.png",
+        `${process.cwd()}/public/battle-assets/battle-pokemon.png`,
         rightOutput
       ]);
 
@@ -175,7 +175,7 @@ module.exports = async (msg, client) => {
         });
       };
       await finalImagePromise(
-        `./public/battle-recap/${invitedPlayer._id}out.png`
+        `${process.cwd()}/public/battle-recap/${invitedPlayer._id}out.png`
       );
       buildBattleEmbed(
         invitedPlayer,
@@ -192,9 +192,9 @@ module.exports = async (msg, client) => {
   if (winner) {
     db.Battle.deleteOne({ _id: invitedPlayer._id }).then(data => {
       // Delete generated images at the end of embed send
-      fs.unlinkSync(`./public/battle-recap/${invitedPlayer._id}.png`);
-      fs.unlinkSync(`./public/battle-recap/${invitedPlayer._id}out.png`);
-      return fs.unlinkSync(`./public/battle-recap/${invitedPlayer._id}versus.png`);
+      fs.unlinkSync(`${process.cwd()}/public/battle-recap/${invitedPlayer._id}.png`);
+      fs.unlinkSync(`${process.cwd()}/public/battle-recap/${invitedPlayer._id}out.png`);
+      return fs.unlinkSync(`${process.cwd()}/public/battle-recap/${invitedPlayer._id}versus.png`);
     });
   }
   return;
