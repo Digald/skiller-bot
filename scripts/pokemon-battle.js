@@ -34,9 +34,9 @@ module.exports = async (msg, client) => {
   // Make sure that player cannot challenge themselves
   const challengedId = challenged.match(/\d+/gm)[0];
   // ***PRODUCTION***
-  // if (challengedId === userId) {
-  //   return msg.reply("You can't battle yourself.");
-  // }
+  if (challengedId === userId) {
+    return msg.reply("You can't battle yourself.");
+  }
   // ***DEVELOPMENT****
 
   // Save battle instance to db
@@ -57,7 +57,7 @@ module.exports = async (msg, client) => {
 
   // Send initial invitation message
   // ***PRODUCTION***
-  // client.channels.get("441820156197339136").send(invitationMessage);
+  client.channels.get("441820156197339136").send(invitationMessage);
   // ***DEVELOPMENT***
-  client.users.get("129038630953025536").send(invitationMessage);
+  // client.users.get("129038630953025536").send(invitationMessage);
 };
