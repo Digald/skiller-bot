@@ -20,14 +20,18 @@ module.exports = (
   count,
   client
 ) => {
-  const challengerLostMessage = `${invitedPlayer.challengedName}'s ${challengedResults.pokemonName} KOed ${invitedPlayer.challengerName}'s ${challengerResults.pokemonName} with ${battleResults.winner.hp} remaining hp.`;
+  // Battle Messages *************************************
+  const challengerLostMessage = `${invitedPlayer.challengedName}'s ${challengedResults.pokemonName} KOed ${invitedPlayer.challengerName}'s ${challengerResults.pokemonName}!`;
   const challengerWonMessage = `${invitedPlayer.challengerName}'s ${challengerResults.pokemonName} KOed ${invitedPlayer.challengedName}'s ${challengedResults.pokemonName} with ${battleResults.winner.hp} remaining hp.`;
-  const breakdownMessage = `Remaining hp for ${battleResults.winner.name}: ${battleResults.winner.hp}\n${battleResults.loser.name} damage per hit: ${battleResults.loser.damage}\n${battleResults.winner.name} damage per hit: ${battleResults.winner.damage}`;
-  // Create embed to post from the result
+  const breakdownMessage = `${battleResults.winner.name}'s hp: ${battleResults.winner.hp}\n${battleResults.loser.name} damage on-hit: ${battleResults.loser.damage}\n${battleResults.winner.name} damage on-hit: ${battleResults.winner.damage}`;
+
+  // Determine what player Icon to show ********************************
+  let winnerIcon = "";
+  challengerResults.lost ? winnerIcon = invitedPlayer.challengedIcon : winnerIcon = invitedPlayer.challengerIcon;
+  // Create embed to post from the result ********************************
   const embed = new RichEmbed()
     .attachFiles([
       `${process.cwd()}/public/battle-recap/${invitedPlayer._id}out.png`,
-      `${process.cwd()}/public/battle-recap/${invitedPlayer._id}versus.png`,
       `${process.cwd()}/public/battle-assets/fight-pokemon.png`
     ])
     .setColor("#00ff00")
@@ -41,12 +45,11 @@ module.exports = (
     )
     .addField("Breakdown", breakdownMessage)
     .setImage(`attachment://${invitedPlayer._id}out.png`)
-    .setThumbnail(`attachment://${invitedPlayer._id}versus.png`)
+    .setThumbnail(winnerIcon) //winner of fight
     .setTimestamp();
-  // .setFooter(`Round #${count}`);
   // ***PRODUCTION***
-  client.channels.get("441820156197339136").send(embed);
+  // client.channels.get("667075999535464461").send(embed);
   // ***DEVELOPMENT***
-  // client.users.get("129038630953025536").send(embed);
+  client.users.get("129038630953025536").send(embed);
   return;
 };
