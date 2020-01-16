@@ -48,8 +48,8 @@ module.exports = (
     .setThumbnail(winnerIcon) //winner of fight
     .setTimestamp();
   // ***PRODUCTION***
-  // client.channels.get("667075999535464461").send(embed);
+  client.channels.get("667075999535464461").send(embed);
   // ***DEVELOPMENT***
-  client.users.get("129038630953025536").send(embed);
+  // client.users.get("129038630953025536").send(embed);
   return;
 };
