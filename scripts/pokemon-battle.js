@@ -57,7 +57,7 @@ module.exports = async (msg, client) => {
 
   // Send initial invitation message
   // ***PRODUCTION***
-  client.channels.get("441820156197339136").send(invitationMessage);
+  client.channels.get("667075999535464461").send(invitationMessage);
   // ***DEVELOPMENT***
   // client.users.get("129038630953025536").send(invitationMessage);
 };

@@ -13,7 +13,7 @@ module.exports = async (msg, client) => {
   logger(msg);
   const userId = msg.author.id;
   const username = msg.author.username;
-  const userIcon = msg.author.avatarUrl;
+  const userIcon = msg.author.avatar;
 
   // Check to see if accepting player is an existing player
   const existingPlayer = await db.User.findOne({ discordId: userId });
@@ -35,18 +35,7 @@ module.exports = async (msg, client) => {
   }
   // Set the challenged person's name and icon
   invitedPlayer.challengedName = username;
-  invitedPlayer.challengedIcon = userIcon;
-
-  // Contruct versus image
-  const determineIcon = image =>
-    !image ? `${process.cwd()}/public/battle-recap/discord-logo.png` : image;
-  const imgArr = [
-    determineIcon(invitedPlayer.challengerIcon),
-    determineIcon(invitedPlayer.challengedIcon)
-  ];
-  mergeImg(imgArr).then(img => {
-    img.write(`${process.cwd()}/public/battle-recap/${invitedPlayer._id}versus.png`);
-  });
+  invitedPlayer.challengedIcon = `https://cdn.discordapp.com/avatars/129038630953025536/${userIcon}.png?size=2048`;
 
   // Continue with battle
   // Get all users and grab their pokemon teams
@@ -193,8 +182,7 @@ module.exports = async (msg, client) => {
     db.Battle.deleteOne({ _id: invitedPlayer._id }).then(data => {
       // Delete generated images at the end of embed send
       fs.unlinkSync(`${process.cwd()}/public/battle-recap/${invitedPlayer._id}.png`);
-      fs.unlinkSync(`${process.cwd()}/public/battle-recap/${invitedPlayer._id}out.png`);
-      return fs.unlinkSync(`${process.cwd()}/public/battle-recap/${invitedPlayer._id}versus.png`);
+      return fs.unlinkSync(`${process.cwd()}/public/battle-recap/${invitedPlayer._id}out.png`);
     });
   }
   return;
